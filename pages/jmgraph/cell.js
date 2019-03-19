@@ -30,10 +30,10 @@ function refreshBall(g) {
 
   for (var i = 0; i < count; i++) {
     var radius = Math.random() * 10 + 4;
-    var styletmp = g.util.clone(style);
+    //var styletmp = g.util.clone(style);
 
     var p = createPosition(radius, 0, g);
-    var b = new cell(g, p.x, p.y, radius, styletmp);
+    var b = new cell(g, p.x, p.y, radius, style);
     b.vx = Math.random() - Math.random();
     b.vy = Math.random() - Math.random();
     exports.balls.push(b);
