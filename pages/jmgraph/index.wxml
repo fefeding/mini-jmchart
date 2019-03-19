@@ -1,0 +1,7 @@
+
+<radio-group class="radio-group" bindchange="radioChange" style="font-size:12px;">
+  <label class="radio" wx:for="{{shapes}}" wx:key="name" >
+    <radio value="{{item.name}}" checked="{{item.checked}}"/>{{item.value}}
+  </label>
+</radio-group>
+<canvas style="width: 100%; height: {{canvasHeight}}px;background:#000;" canvas-id="firstCanvas" bindtouchstart="canvastouchstart" bindtouchmove="canvastouchmove" bindtouchend="canvastouchend" bindtouchcancel="canvastouchcancel"></canvas>

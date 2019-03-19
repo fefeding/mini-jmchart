@@ -1,0 +1,25 @@
+<!--index.wxml-->
+<view class="page-body container">
+    <!--wxml-->
+    <view class="container">
+    <!-- 如果只是展示用户头像昵称，可以使用 <open-data /> 组件 -->
+    <open-data type="userAvatarUrl" class="userinfo-avatar"></open-data>
+    <!--<open-data type="userNickName"></open-data>-->
+    <!--<live-pusher url="rtmp://www.jm47.com/live/1" mode="RTC" autopush bindstatechange="statechange" style="width: 100px; height: 100px;" />
+    <live-player src="http://www.jm47.com:8000/live/27.flv" mode="RTC" bindstatechange="statechange" binderror="error" autoplay style="width: 300px; height: 225px;" />-->
+    </view>
+<view class="page-section tc">
+    <view class="btn-area">
+    <!-- 需要使用 button 来授权登录 -->
+     <button wx:if="{{canIUse}}" style="display:{{getUserInfoButtonDisplay}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button>      
+      <view wx:else>请升级微信版本</view>
+      <!-- <button wx:if="{{canIPlay}}" type="primary" loading="{{mylive_loading}}" class="weui-btn" plain=""
+        disabled="{{mylive_disabled}}" bindtap="startLive"> 我要直播 </button>
+      <button wx:if="{{canIView}}" type="primary" disabled="{{mylive_disabled}}" loading="{{mylivelist_loading}}" class="weui-btn" plain="true" bindtap="bindViewLive"> 查看直播 </button>
+-->
+      <button bindtap="bindGojmGraph" type="primary">jmGraph</button>
+      <text href="https://github.com/jiamao/jmgraph">https://github.com/jiamao/jmgraph</text>
+      <button bindtap="bindGoVideo" class="hide" type="primary">video</button>
+    </view>
+</view>
+</view>

@@ -1,0 +1,10 @@
+
+.live-item {
+  margin: 10px;
+}
+.live-item:hover{
+  background-color: #ccc;
+}
+.live-item text{
+  color: #000;
+}

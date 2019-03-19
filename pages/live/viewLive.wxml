@@ -1,0 +1,21 @@
+
+<template name="liveItem">
+  <navigator url="/pages/live/play?liveid={{liveid}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+    <view class="weui-cell__hd">
+        <image src="{{wx_header}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
+    </view>
+    <view class="weui-cell__bd">{{wx_name||nickname}}</view>
+    <view class="weui-cell__ft weui-cell__ft_in-access">{{last_time}}</view>
+  </navigator>
+</template>
+<view class="page">
+<view class="page__bd">
+  <view class="weui-cells weui-cells_after-title">
+    <block wx:for="{{liveList}}" wx:key="liveid" wx:for-index="index" wx:for-item="item">
+      <template is="liveItem" data="{{...item}}"/>
+      <!--<image style="width: 16px; height: 16px; background-color: #eeeeee;" mode="scaleToFill" src="{{item.wx_header}}"></image>
+      <text> {{item.wx_name}} </text>-->
+    </block>
+  </view>
+</view>
+</view>

@@ -1,0 +1,6 @@
+<!--pages/video/play.wxml http://www.jmdraw.com/video/server/video.ashx-->
+<view class="section tc">
+  <video id="myVideo" src="https://www.jmdraw.com/video/server/video.ashx"
+   poster 
+   controls></video>
+</view>
