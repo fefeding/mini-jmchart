@@ -1,5 +1,8 @@
 // pages/jmgraph/index.js
 //https://github.com/jiamao/jmgraph
+
+import jmGraph from "../../miniprogram_npm/jmgraph/dist/jmgraph.js";
+
 Page({
 
   /**
@@ -30,7 +33,7 @@ Page({
    */
   onReady: function () {
 
-    let jmGraph = require('../../utils/jmgraph');
+    //let jmGraph = require('../../utils/jmgraph');
 
     var self = this;
     var wxInfo = wx.getSystemInfoSync();//获取系统信息
@@ -87,6 +90,7 @@ Page({
     //切换示例
     this.graphShape = require(s);
     this.graphShape.init(this.graph);
+    this.graph.needUpdate = true;
   },
 
   /**

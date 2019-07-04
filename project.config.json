@@ -11,6 +11,8 @@
 	"libVersion": "2.1.1",
 	"appid": "wx0ee68cb48a2a96f8",
 	"projectname": "jmchart",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
