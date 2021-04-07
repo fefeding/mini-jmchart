@@ -1,4 +1,6 @@
 
+import { jmList } from './jmList.js';
+
 /**
  * 画图基础对象
  * 当前库的工具类
@@ -6,40 +8,54 @@
  * @class jmUtils
  * @static
  */
-class jmUtils {
+export default class jmUtils {
     /**
      * 复制一个对象
      * 
      * @method clone
      * @static
      * @param {object} source 被复制的对象
+     * @param {object} target 可选，如果指定就表示复制给这个对象，如果为boolean它就是deep参数
      * @param {boolean} deep 是否深度复制，如果为true,数组内的每个对象都会被复制
      * @return {object} 参数source的拷贝对象
      */
-    static clone(source, deep = false) {
+    static clone(source, target, deep = false) {
+        if(typeof target === 'boolean') {
+            deep = target;
+            target = undefined;
+        }
+
         if(source && typeof source === 'object') {
+            target = target || {};
+
             //如果为当前泛型，则直接new
-            if(this.isType(source, this.list)) {
-                return new this.list(source);
+            if(this.isType(source, jmList)) {
+                return new jmList(source);
             }
             else if(Array.isArray(source)) {
                 //如果是深度复，则拷贝每个对象
                 if(deep) {
                     let dest = [];
                     for(let i=0; i<source.length; i++) {
-                        dest.push(this.clone(source[i]));
+                        dest.push(this.clone(source[i], deep));
                     }
                     return dest;
                 }
                 return source.slice(0);
             }
-            let target = {};
             target.constructor = source.constructor;
             for(let k in source) {
-                target[k] = this.clone(source[k]);
+                // 如果不是对象和空，则采用target的属性
+                if(typeof target[k] === 'object' || typeof target[k] === 'undefined') {                    
+                    target[k] = this.clone(source[k], target[k], deep);
+                }
             }
             return target;
         }
+        else if(typeof target != 'undefined') {
+            return target;
+        }
+
         return source;
     }
 
@@ -51,6 +67,7 @@ class jmUtils {
      * @param {element} html元素对象
      * @param {string} name 事件名称
      * @param {function} fun 事件委托
+     * @returns {name, fun, target} 返回当前绑定
      */
     static bindEvent(target, name, fun, opt) {
         if(name &&  name.indexOf && name.indexOf(' ') != -1) {
@@ -58,18 +75,18 @@ class jmUtils {
             for(let i=0;i<ns.length;i++) {
                 this.bindEvent(target, ns[i], fun, opt);
             }
-            return;
         }
         if(target.attachEvent) {
-            return target.attachEvent("on"+name, fun, opt);
+            target.attachEvent("on"+name, fun, opt);
         }    
         else if(target.addEventListener) {
             target.addEventListener(name, fun, opt);
-            return true;
         }
-        else {
-            return false;
-        }
+        return {
+            name,
+            target,
+            fun
+        };
     }
 
     /**
@@ -157,6 +174,7 @@ class jmUtils {
             if(scale.x) ox = ox / scale.x;
             if(scale.y) oy = oy / scale.y;
         }
+
         return {
             pageX: px,
             pageY: py,
@@ -171,7 +189,8 @@ class jmUtils {
             screenY: evt.screenY,
             x: ox,
             y: oy,
-            isTouch: isTouch
+            isTouch: isTouch,
+            touches
         };
     }
 
@@ -265,7 +284,8 @@ class jmUtils {
                 return 1;
             }
         }
-        pt = this.clone(pt);
+
+        //pt = this.clone(pt);
         while (redo) {
             redo = false;
             inside = false;
@@ -306,6 +326,66 @@ class jmUtils {
 
         return inside ? 2:0;
     }
+
+    /**
+     * @method judge 判断点是否在多边形中
+     * @param {point} dot {{x,y}} 需要判断的点
+     * @param {array} coordinates {{x,y}[]} 多边形点坐标的数组，为保证图形能够闭合，起点和终点必须相等。
+     *        比如三角形需要四个点表示，第一个点和最后一个点必须相同。 
+     * @param  {number} 是否为实心 1= 是
+     * @returns {boolean} 结果 true=在形状内
+     */
+    /*static judge(dot,coordinates,noneZeroMode) {
+        // 默认启动none zero mode
+        noneZeroMode=noneZeroMode||1;
+        var x = dot.x,y=dot.y;
+        var crossNum = 0;
+        // 点在线段的左侧数目
+        var leftCount = 0;
+        // 点在线段的右侧数目
+        var rightCount = 0;
+        for(var i=0;i<coordinates.length-1;i++){
+            var start = coordinates[i];
+            var end = coordinates[i+1];
+                
+            // 起点、终点斜率不存在的情况
+            if(start.x===end.x) {
+                // 因为射线向右水平，此处说明不相交
+                if(x>start.x) continue;
+                
+                // 从左侧贯穿
+                if((end.y>start.y&&y>=start.y && y<=end.y)){
+                    leftCount++;
+                    crossNum++;
+                }
+                // 从右侧贯穿
+                if((end.y<start.y&&y>=end.y && y<=start.y)) {
+                    rightCount++;
+                    crossNum++;
+                }
+                continue;
+            }
+            // 斜率存在的情况，计算斜率
+            var k=(end.y-start.y)/(end.x-start.x);
+            // 交点的x坐标
+            var x0 = (y-start.y)/k+start.x;
+            // 因为射线向右水平，此处说明不相交
+            if(x>x0) continue;
+                
+            if((end.x>start.x&&x0>=start.x && x0<=end.x)){
+                crossNum++;
+                if(k>=0) leftCount++;
+                else rightCount++;
+            }
+            if((end.x<start.x&&x0>=end.x && x0<=start.x)) {
+                crossNum++;
+                if(k>=0) rightCount++;
+                else leftCount++;
+            }
+        }
+        
+        return noneZeroMode===1?leftCount-rightCount!==0:crossNum%2===1;
+    }*/
 
     /**
      * 检查边界，子对象是否超出父容器边界
@@ -509,6 +589,72 @@ class jmUtils {
     }
 
     /**
+     * 16进制颜色转为r g b a 对象 {r, g , b, a}
+     * @param {string}} hex 16进度的颜色
+     */
+    static hexToRGBA(hex) {
+        hex = this.trim(hex);        
+
+        //当为7位时，表示需要转为带透明度的rgba
+        if(hex[0] == '#') {
+            const color = {
+                a: 1
+            };
+            if(hex.length >= 8) {
+                color.a = hex.substr(1,2);
+                color.g = hex.substr(5,2);
+                color.b = hex.substr(7,2);
+                color.r = hex.substr(3,2);
+                //透明度
+                color.a = (this.hexToNumber(color.a) / 255).toFixed(4);
+
+                color.r = this.hexToNumber(color.r||0);
+                color.g = this.hexToNumber(color.g||0);
+                color.b = this.hexToNumber(color.b||0);
+                return color; 
+            }
+            // #cccccc || #ccc
+            else if(hex.length === 7 || hex.length === 4) {
+                // #ccc这种情况，把每个位复制一份
+                if(hex.length === 4) {
+                    color.g = hex.substr(2, 1);
+                    color.g = color.g + color.g;
+                    color.b = hex.substr(3, 1);
+                    color.b = color.b + color.b;
+                    color.r = hex.substr(1, 1);
+                    color.r = color.r + color.r;
+                }
+                else {
+                    color.g = hex.substr(3, 2);//除#号外的第二位
+                    color.b = hex.substr(5, 2);
+                    color.r = hex.substr(1, 2);
+                }
+
+                color.r = this.hexToNumber(color.r||0);
+                color.g = this.hexToNumber(color.g||0);
+                color.b = this.hexToNumber(color.b||0);
+                
+                return color; 
+            }
+            //如果是5位的话，# 则第2位表示A，后面依次是r,g,b
+            else if(hex.length === 5) {
+                color.a = hex.substr(1,1);
+                color.g = hex.substr(3,1);//除#号外的第二位
+                color.b = hex.substr(4,1);
+                color.r = hex.substr(2,1);
+
+                color.r = this.hexToNumber(color.r||0);
+                color.g = this.hexToNumber(color.g||0);
+                color.b = this.hexToNumber(color.b||0);
+                //透明度
+                color.a = (this.hexToNumber(color.a) / 255).toFixed(4);
+                return color; 
+            }
+        }  
+        return hex;     
+    }
+
+    /**
      * 转换颜色格式，如果输入r,g,b则转为hex格式,如果为hex则转为r,g,b格式
      *
      * @method toColor
@@ -517,36 +663,18 @@ class jmUtils {
      * @return {string} 颜色字符串
      */
     static toColor(r, g, b, a) {    
-        if(typeof r == 'string' && r) {
-            r = this.trim(r);
-            //当为7位时，表示需要转为带透明度的rgba
-            if(r[0] == '#') {
-                if(r.length >= 8) {
-                    a = r.substr(1,2);
-                    g = r.substr(5,2);
-                    b = r.substr(7,2);
-                    r = r.substr(3,2);
-                    //透明度
-                    a = (this.hexToNumber(a) / 255).toFixed(4);
+        if(typeof r === 'string' && r) {
+            r = this.trim(r); 
+            // 正常的颜色表达，不需要转换
+            if(r[0] === '#' && (r.length === 4 || r.length === 7)) return r;
 
-                    r = this.hexToNumber(r||0);
-                    g = this.hexToNumber(g||0);
-                    b = this.hexToNumber(b||0);
-                }
-                //如果是5位的话，# 则第2位表示A，后面依次是r,g,b
-                else if(r.length === 5) {
-                    a = r.substr(1,1);
-                    g = r.substr(3,1);//除#号外的第二位
-                    b = r.substr(4,1);
-                    r = r.substr(2,1);
-
-                    r = this.hexToNumber(r||0);
-                    g = this.hexToNumber(g||0);
-                    b = this.hexToNumber(b||0);
-                    //透明度
-                    a = (this.hexToNumber(a) / 255).toFixed(4);
-                }
-            }        
+            const color = this.hexToRGBA(r);
+            if(typeof color === 'string') return color;
+            
+            r = color.r || r;
+            g = color.g || g;
+            b = color.b || b;
+            a = color.a || a;
         }
         if(typeof r != 'undefined' && typeof g != 'undefined' && typeof b != 'undefined') {
             if(typeof a != 'undefined') {            

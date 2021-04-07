@@ -1,7 +1,7 @@
 // pages/jmgraph/index.js
 //https://github.com/jiamao/jmgraph
 
-import jmGraph from "../../miniprogram_npm/jmgraph/dist/jmgraph.js";
+import jmGraph from "jmgraph";
 
 Page({
 
@@ -40,6 +40,7 @@ Page({
     this.setData({
       canvasHeight: wxInfo.windowHeight - 50
     }, function(){
+      debugger
       var g = jmGraph.create('firstCanvas', {
         style: {
           fill: '#000'

@@ -1,9 +1,9 @@
 
-import {jmUtils} from "../common/jmUtils.js";
-import {jmList} from "../common/jmList.js";
-import {jmGradient} from "../models/jmGradient.js";
-import {jmShadow} from "../models/jmShadow.js";
-import {jmProperty} from "../common/jmProperty.js";
+import {jmUtils} from "./jmUtils.js";
+import {jmList} from "./jmList.js";
+import {jmGradient} from "./jmGradient.js";
+import {jmShadow} from "./jmShadow.js";
+import {jmProperty} from "./jmProperty.js";
 
 /**
  * 控件基础对象
@@ -12,18 +12,24 @@ import {jmProperty} from "../common/jmProperty.js";
  * @class jmControl
  * @extends jmProperty
  */	
-class jmControl extends jmProperty {	
+export default class jmControl extends jmProperty {	
 
 	constructor(params, t) {
 		params = params||{};
 		super();
 		this.__pro('type', t || new.target.name);
 		this.style = params && params.style ? params.style : {};
-		this.position = params.position || {x:0,y:0};
+		//this.position = params.position || {x:0,y:0};
 		this.width = params.width || 0;
 		this.height = params.height  || 0;
+
+		if(params.position) {
+			this.position = params.position;
+		}
+
 		this.graph = params.graph || null;
 		this.zIndex = params.zIndex || 0;
+		this.interactive = typeof params.interactive == 'undefined'? true : params.interactive;
 
 		//样式名称，也当做白名单使用		
 		this.jmStyleMap = {
@@ -51,7 +57,9 @@ class jmControl extends jmProperty {
 
 		this.initializing();	
 		
-		this.on = this.bind;		
+		this.on = this.bind;
+		
+		this.options = params;
 	}
 
 	//# region 定义属性
@@ -113,8 +121,23 @@ class jmControl extends jmProperty {
 	set visible(v) {
 		this.needUpdate = true;
 		return this.__pro('visible', v);
-	}
+	}	
 
+	/**
+	 * 当前控件是否是交互式的，如果是则会响应鼠标或touch事件。
+	 * 如果false则不会主动响应，但冒泡的事件依然会得到回调
+	 * @property interactive
+	 * @default false
+	 * @type {boolean}
+	 */
+	get interactive() {
+		let s = this.__pro('interactive');
+		return s;
+	}
+	set interactive(v) {
+		return this.__pro('interactive', v);
+	}
+		
 	/**
 	 * 当前控件的子控件集合
 	 * @property children
@@ -128,19 +151,6 @@ class jmControl extends jmProperty {
 	set children(v) {
 		this.needUpdate = true;
 		return this.__pro('children', v);
-	}
-
-	/**
-	 * 当前位置左上角
-	 * @property position
-	 * @type {point}
-	 */
-	get position() {
-		return this.__pro('position');
-	}
-	set position(v) {
-		this.needUpdate = true;
-		return this.__pro('position', v);
 	}
 
 	/**
@@ -222,10 +232,10 @@ class jmControl extends jmProperty {
 	 */
 	initializing() {
 
-		var self = this;
+		const self = this;
 		//定义子元素集合
 		this.children = this.children || new jmList();
-		var oadd = this.children.add;
+		const oadd = this.children.add;
 		//当把对象添加到当前控件中时，设定其父节点
 		this.children.add = function(obj) {
 			if(typeof obj === 'object') {
@@ -262,8 +272,9 @@ class jmControl extends jmProperty {
 		/**
 		 * 根据控件zIndex排序，越大的越高
 		 */
+		//const osort = this.children.sort;
 		this.children.sort = function() {
-			var levelItems = {};
+			const levelItems = {};
 			//提取zindex大于0的元素
 			//为了保证0的层级不改变，只能把大于0的提出来。
 			this.each(function(i, obj) {
@@ -273,17 +284,21 @@ class jmControl extends jmProperty {
 					zindex = Number(obj.style.zIndex);
 					if(isNaN(zindex)) zindex=obj.style.zIndex||0;
 				}
-				if(zindex) {
-					let items = levelItems[zindex] || (levelItems[zindex] = []);
-					items.push(obj);					
-				}
+				let items = levelItems[zindex] || (levelItems[zindex] = []);
+				items.push(obj);
 			});
+
+			this.splice(0, this.length);
 			
 			for(let index in levelItems) {
-				oadd.call(this,levelItems[index]);
+				oadd.call(this, levelItems[index]);
 			}
-
-			self.needUpdate = true;
+			/*
+			osort.call(this, (c1, c2) => {
+				let zindex1 = c1.zIndex || c1.style.zIndex || 0;
+				let zindex2 = c2.zIndex || c2.style.zIndex || 0;
+				return zindex1 - zindex2;
+			});*/
 		}
 		this.children.clear = function() {
 			this.each(function(i,obj) {
@@ -326,6 +341,9 @@ class jmControl extends jmProperty {
 		style = style || this.style;
 		if(!style) return;
 
+		// 当前根据屏幕放大倍数，如果有倍数，则需要对线宽等同比放大
+		let scale = this.graph.devicePixelRatio;
+
 		/**
 		 * 样式设定
 		 * 
@@ -364,6 +382,26 @@ class jmControl extends jmProperty {
 					//颜色转换
 					if(t == 'string' && ['fillStyle', 'strokeStyle', 'shadowColor'].indexOf(mpname) > -1) {
 						style = jmUtils.toColor(style);
+					}
+
+					// 按比例需要放大的样式
+					if(scale && style) {
+						switch(mpname) {
+							case 'lineWidth': {
+								style *= scale;
+								break;
+							}
+							// 字体放大
+							case 'fontSize':
+							case 'font': {
+								const ms = style.toString().match(/[\d\.]+/);
+								if(ms && ms.length) {
+									const size = Number(ms[0]) * scale;
+									style = style.toString().replace(ms[0], size);
+								}
+								break;
+							}
+						}
 					}					
 					this.context[mpname] = style;
 				}	
@@ -386,7 +424,8 @@ class jmControl extends jmProperty {
 							break;
 						}
 						//旋转
-						case 'rotation' : {								
+						case 'rotation' : {	
+							if(!style.angle) break;							
 							//旋 转先移位偏移量
 							let tranX = 0;
 							let tranY = 0;
@@ -419,11 +458,6 @@ class jmControl extends jmProperty {
 							}								
 							break;
 						}
-						//位移
-						case 'translate' : {
-							this.context.translate(style.x,style.y);			
-							break;
-						}
 						//鼠标指针
 						case 'cursor' : {
 							this.cursor = style;
@@ -436,10 +470,10 @@ class jmControl extends jmProperty {
 
 		//一些特殊属性要先设置，否则会导致顺序不对出现错误的效果
 		if(this.translate) {
-			__setStyle({translate: this.translate}, 'translate');
+			__setStyle(this.translate, 'translate');
 		}
 		if(this.transform) {
-			__setStyle({transform: this.transform}, 'transform');
+			__setStyle(this.transform, 'transform');
 		}
 		//设置样式
 		for(let k in style) {
@@ -534,25 +568,25 @@ class jmControl extends jmProperty {
 	 * @method getLocation
 	 * @return {object} 当前控件位置参数，包括中心点坐标，右上角坐标，宽高
 	 */
-	getLocation(reset) {
+	getLocation(clone=true) {
 		//如果已经计算过则直接返回
 		//在开画之前会清空此对象
 		//if(reset !== true && this.location) return this.location;
 
 		let local = this.location = {left: 0,top: 0,width: 0,height: 0};
-		local.position = typeof this.position == 'function'? this.position(): this.position;	
-		local.center = this.center && typeof this.center === 'function'?this.center(): this.center;//中心
-		local.start = this.start && typeof this.start === 'function'?this.start(): this.start;//起点
-		local.end = this.end && typeof this.end === 'function'?this.end(): this.end;//起点
+		local.position = typeof this.position == 'function'? this.position(): jmUtils.clone(this.position);	
+		local.center = this.center && typeof this.center === 'function'?this.center(): jmUtils.clone(this.center);//中心
+		local.start = this.start && typeof this.start === 'function'?this.start(): jmUtils.clone(this.start);//起点
+		local.end = this.end && typeof this.end === 'function'?this.end(): jmUtils.clone(this.end);//起点
 		local.radius = this.radius;//半径
 		local.width = this.width;
 		local.height = this.height;
 
-		let margin = this.style.margin || {};
-		margin.left = margin.left || 0;
-		margin.top = margin.top || 0;
-		margin.right = margin.right || 0;
-		margin.bottom = margin.bottom || 0;
+		let margin = jmUtils.clone(this.style.margin, {});
+		margin.left = (margin.left || 0) * this.graph.devicePixelRatio;
+		margin.top = (margin.top || 0) * this.graph.devicePixelRatio;
+		margin.right = (margin.right || 0) * this.graph.devicePixelRatio;
+		margin.bottom = (margin.bottom || 0) * this.graph.devicePixelRatio;
 		
 		//如果没有指定位置，但指定了margin。则位置取margin偏移量
 		if(local.position) {
@@ -663,26 +697,27 @@ class jmControl extends jmProperty {
 		if(local.position) {
 			local.left += x;
 			local.top += y;
-			local.position.x = local.left;
-			local.position.y = local.top;
+			// 由于local是clone出来的对象，为了保留位移，则要修改原属性
+			this.position.x = local.left;
+			this.position.y = local.top;
 			offseted = true;
 		}
 
 		if(local.center) {		
-			local.center.x = local.center.x + x;
-			local.center.y = local.center.y + y;
+			this.center.x = local.center.x + x;
+			this.center.y = local.center.y + y;
 			offseted = true;
 		}
 
 		if(local.start && typeof local.start == 'object') {	
-			local.start.x = local.start.x + x;
-			local.start.y = local.start.y + y;
+			this.start.x = local.start.x + x;
+			this.start.y = local.start.y + y;
 			offseted = true;
 		}
 
 		if(local.end && typeof local.end == 'object') {		
-			local.end.x = local.end.x + x;
-			local.end.y = local.end.y + y;
+			this.end.x = local.end.x + x;
+			this.end.y = local.end.y + y;
 			offseted = true;
 		}
 
@@ -841,9 +876,10 @@ class jmControl extends jmProperty {
 			}
 			
 			this.context.save();
+
+			this.emit('beginDraw', this);
 			
 			this.setStyle();//设定样式
-			this.emit('beginDraw', this);
 
 			if(needDraw && this.beginDraw) this.beginDraw();
 			if(needDraw && this.draw) this.draw();	
@@ -883,7 +919,14 @@ class jmControl extends jmProperty {
 	 * @param {string} name 事件名称
 	 * @param {function} handle 事件委托
 	 */
-	bind(name, handle) {		
+	bind(name, handle) {	
+		if(name && name.indexOf(' ') > -1) {
+			name = name.split(' ');
+			for(let n of name) {
+				n && this.bind(n, handle);
+			}
+			return;
+		}	
 		/**
 		 * 添加事件的集合
 		 *
@@ -894,7 +937,7 @@ class jmControl extends jmProperty {
 			if(!this.__events) this.__events = {};
 			return this.__events[name] = events;
 		}
-		let eventCollection = this.getEvent(name) || _setEvent.call(this,name, new jmList());
+		let eventCollection = this.getEvent(name) || _setEvent.call(this, name, new jmList());
 		if(!eventCollection.contain(handle)) {
 			eventCollection.add(handle);
 		}
@@ -908,6 +951,13 @@ class jmControl extends jmProperty {
 	 * @param {function} handle 从控件中移除事件的委托
 	 */
 	unbind(name, handle) {	
+		if(name && name.indexOf(' ') > -1) {
+			name = name.split(' ');
+			for(let n of name) {
+				n && this.unbind(n, handle);
+			}
+			return;
+		}	
 		let eventCollection = this.getEvent(name) ;		
 		if(eventCollection) {
 			if(handle) eventCollection.remove(handle);
@@ -964,10 +1014,13 @@ class jmControl extends jmProperty {
 		if(this.type == 'jmGraph') {
 			//获取dom位置
 			let position = this.getPosition();
-			if(p.pageX > position.right || p.pageX < position.left) {
+			// 由于高清屏会有放大坐标，所以这里用pagex就只能用真实的canvas大小
+			const right = position.left + (this.canvas.clientWidth || this.canvas.offsetWidth || this.canvas.width);
+			const bottom = position.top + (this.canvas.clientHeight || this.canvas.offsetHeight || this.canvas.height);
+			if(p.pageX > right || p.pageX < position.left) {
 				return false;
 			}
-			if(p.pageY > position.bottom || p.pageY < position.top) {
+			if(p.pageY > bottom || p.pageY < position.top) {
 				return false;
 			}	
 			return true;
@@ -1049,23 +1102,36 @@ class jmControl extends jmProperty {
 		if(this.visible === false) return ;//如果不显示则不响应事件	
 		if(!args.position) {		
 			let graph = this.graph;
+
+			let srcElement = args.srcElement || args.target;			
+			
 			let position = jmUtils.getEventPosition(args, graph.scaleSize);//初始化事件位置		
 
-			let srcElement = args.srcElement || args.target;
+			// 如果有指定scale高清处理，需要对坐标处理
+			// 因为是对canvas放大N倍，再把style指定为当前大小，所以坐标需要放大N    && srcElement === graph.canvas      
+			if(graph.devicePixelRatio > 0) {
+				position.x = position.offsetX = position.x * devicePixelRatio;
+				position.y = position.offsetY = position.y * devicePixelRatio;
+			}
+		
 			args = {
 				position: position,
 				button: args.button == 0||position.isTouch?1:args.button,
 				keyCode: args.keyCode || args.charCode || args.which,
 				ctrlKey: args.ctrlKey,
 				cancel : false,
+				event: args, // 原生事件
 				srcElement : srcElement
 			};		
 		}
 		args.path = args.path||[]; //事件冒泡路径
+
 		//先执行子元素事件，如果事件没有被阻断，则向上冒泡
 		//var stoped = false;
 		if(this.children) {
 			this.children.each(function(j, el) {	
+				// 如果同级已有命中，则不再需要处理兄弟节点
+				if(args.target) return false;
 				//未被阻止才执行			
 				if(args.cancel !== true) {
 					//如果被阻止冒泡，
@@ -1074,8 +1140,7 @@ class jmControl extends jmProperty {
 				}
 			}, true);//按逆序处理
 		}
-		//if(stoped) return false;
-
+		
 		//获取当前对象的父元素绝对位置
 		//生成当前坐标对应的父级元素的相对位置
 		let abounds = this.parent && this.parent.absoluteBounds?this.parent.absoluteBounds : this.absoluteBounds;
@@ -1083,34 +1148,75 @@ class jmControl extends jmProperty {
 		//args = jmUtils.clone(args);//参数副本
 		args.position.x = args.position.offsetX - abounds.left;
 		args.position.y = args.position.offsetY - abounds.top;
+
+		// 相对当前控件的坐标点
+		/*if(this.absoluteBounds) {
+			args.curPosition = {
+				x: args.position.offsetX - this.absoluteBounds.left,
+				y: args.position.offsetY - this.absoluteBounds.top
+			};
+		}
+		else {
+			args.curPosition = args.position;
+		}*/
+
+		// 是否在当前控件内操作
+		const inpos = this.interactive !== false && this.checkPoint(args.position);
 		
 		//事件发生在边界内或健盘事件发生在画布中才触发
-		if(this.checkPoint(args.position)) {
+		// 如果有target 表示当前事件已被命中其它节点，则不再需要判断这里
+		if(inpos && !args.target) {
 			//如果没有指定触发对象，则认为当前为第一触发对象
 			if(!args.target) {
 				args.target = this;
 			}
 			
-			args.path.push(this);
+			this.runEventAndPopEvent(name, args);
 
-			if(args.cancel !== true) {
-				//如果返回true则阻断冒泡
-				this.runEventHandle(name, args);//执行事件		
-			}
-			if(!this.focused && name == 'mousemove') {
+			if(!this.focused && (name === 'mousemove' || name === 'touchmove')) {
 				this.focused = true;//表明当前焦点在此控件中
-				this.raiseEvent('mouseover',args);
+				this.raiseEvent(name === 'mousemove'? 'mouseover': 'touchover',args);
 			}	
 		}
 		else {
 			//如果焦点不在，且原焦点在，则触发mouseleave事件
-			if(this.focused && name == 'mousemove') {
+			if(this.interactive !== false && !inpos &&
+				this.focused && 
+				(name === 'mousemove' || name === 'touchmove')) {
+
 				this.focused = false;//表明当前焦点离开
-				this.runEventHandle('mouseleave', args);//执行事件	
+				this.runEventHandle(name === 'mousemove'? 'mouseleave' : 'touchleave', args);//执行事件	
 			}	
 		}
 			
 		return args.cancel == false;//如果被阻止则返回false,否则返回true
+	}
+
+	/**
+	 * 执行事件，并进行冒泡
+	 * @param {string} name 事件名称 
+	 * @param {object} args 事件参数
+	 */
+	runEventAndPopEvent(name, args) {	
+
+		if(args.cancel !== true) {
+			// 添加到触发路径
+			args.path.push(this);
+
+			//如果返回true则阻断冒泡
+			this.runEventHandle(name, args);//执行事件
+
+			// 向父节点冒泡事件		
+			if(args.cancel !== true && this.parent && this.parent.runEventAndPopEvent) {
+				// 相对位置需要改为父节点的
+				if(args.position) {
+					let bounds = this.parent.getBounds();
+					args.position.x += bounds.left;
+					args.position.y += bounds.top;
+				}
+				this.parent.runEventAndPopEvent(name, args);
+			}		
+		}
 	}
 
 	/**
@@ -1257,9 +1363,9 @@ class jmControl extends jmProperty {
 				if(evt.button == 0 || evt.button == 1) {
 					this.__mvMonitor.mouseDown = true;
 					//this.cursor('move');
-					var parentbounds = this.parent.absoluteBounds || this.parent.getAbsoluteBounds();	
-					this.__mvMonitor.curposition.x = evt.position.x + parentbounds.left;
-					this.__mvMonitor.curposition.y = evt.position.y + parentbounds.top;
+					//var parentbounds = this.parent.absoluteBounds || this.parent.getAbsoluteBounds();	
+					this.__mvMonitor.curposition.x = evt.position.offsetX;//evt.position.x + parentbounds.left;
+					this.__mvMonitor.curposition.y = evt.position.offsetY;//evt.position.y + parentbounds.top;
 					//触发控件移动事件
 					this.emit('movestart',{position:this.__mvMonitor.curposition});
 					
@@ -1277,8 +1383,7 @@ class jmControl extends jmProperty {
 			this.bind('mousedown',this.__mvMonitor.md);
 			graph.bind('touchmove',this.__mvMonitor.mv);
 			graph.bind('touchend',this.__mvMonitor.mu);
-			this.bind('touchstart',this.__mvMonitor.md);	
-				
+			this.bind('touchstart',this.__mvMonitor.md);
 		}
 		else {			
 			graph.unbind('mousemove',this.__mvMonitor.mv);

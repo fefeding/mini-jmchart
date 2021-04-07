@@ -8,11 +8,12 @@ import {jmControl} from "./jmControl.js";
  * @param {object} params 路径参数 points=所有描点
  */
 
-class jmPath extends jmControl {	
+export default class jmPath extends jmControl {	
 
 	constructor(params, t='jmPath') {
 		super(params, t);		
-		this.points = params && params.points ? params.points : [];		
+		this.points = params && params.points ? params.points : [];	
+		
 	}
 	
 	/**

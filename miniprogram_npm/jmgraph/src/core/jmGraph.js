@@ -1,21 +1,11 @@
-import {jmUtils} from "./common/jmUtils.js";
-import {jmShadow} from "./models/jmShadow.js";
-import {jmGradient} from "./models/jmGradient.js";
-import {jmEvents} from "./common/jmEvents.js";
-import {jmControl} from "./shapes/jmControl.js";
-import {jmPath} from "./shapes/jmPath.js";
-import {jmArc} from "./shapes/jmArc.js";
-import {jmArraw} from "./shapes/jmArraw.js";
-import {jmBezier} from "./shapes/jmBezier.js";
-import {jmCircle} from "./shapes/jmCircle.js";
-import {jmHArc} from "./shapes/jmHArc.js";
-import {jmLine} from "./shapes/jmLine.js";
-import {jmPrismatic} from "./shapes/jmPrismatic.js";
-import {jmRect} from "./shapes/jmRect.js";
-import {jmArrawLine} from "./controls/jmArrawLine.js";
-import {jmImage} from "./controls/jmImage.js";
-import {jmLabel} from "./controls/jmLabel.js";
-import {jmResize} from "./controls/jmResize.js";
+import {jmUtils} from "./jmUtils.js";
+import {jmList} from "./jmList.js";
+import {jmProperty} from './jmProperty.js';
+import {jmShadow} from "./jmShadow.js";
+import {jmGradient} from "./jmGradient.js";
+import {jmEvents} from "./jmEvents.js";
+import {jmControl} from "./jmControl.js";
+import {jmPath} from "./jmPath.js";
 
 /**
  * jmGraph画图类库
@@ -28,7 +18,7 @@ import {jmResize} from "./controls/jmResize.js";
  * @param {object} option 参数：{width:宽,height:高}
  * @param {function} callback 初始化后的回调
  */
-class jmGraph extends jmControl {
+export default class jmGraph extends jmControl {
 
 	constructor(canvas, option, callback) {
 		if(typeof option == 'function') {
@@ -37,17 +27,14 @@ class jmGraph extends jmControl {
 		}
 	
 		option = option || {};
-
-		//不是用new实例化的话，返回一个promise
-		if(new.target !== jmGraph) {
-			return new Promise(function(resolve, reject){				
-				var g = new jmGraph(canvas, option, callback);
-				if(resolve) resolve(g);				
-			});
-		}
+		
+		option.interactive = true;
+		
 		super(option, 'jmGraph');
 
 		this.option = option || {};
+		
+		this.devicePixelRatio = 1; // 根据屏幕的缩放倍数
 
 		/**
 		 * 工具类
@@ -68,46 +55,38 @@ class jmGraph extends jmControl {
 			else if(canvas.length) {
 				canvas = canvas[0];
 			}
+
 			if(canvas.tagName != 'CANVAS') {
+				this.container = canvas;
 				let cn = document.createElement('canvas');
 				canvas.appendChild(cn);
 				cn.width = canvas.offsetWidth||canvas.clientWidth;
 				cn.height = canvas.offsetHeight||canvas.clientHeight;
 				canvas = cn;
 			}	
+			else {
+				this.container = canvas.parentElement;
+			}
 
 			this.context = canvas.getContext('2d');
 		}
 		this.canvas = canvas;
-		this.init(callback);
+		this.__init(callback);
 	}
 
 	/**
 	 * 初始化画布
 	 * @method init
 	 */
-	init(callback) {
+	__init(callback) {
 		/**
 		 * 当前所有图形类型
 		 * @property shapes
 		 * @type {object}
 		 */
-		this.shapes = {
+		this.shapes = Object.assign({
 			"path": jmPath,
-			"arc": jmArc,
-			"arraw": jmArraw,
-			"bezier": jmBezier,
-			"circle": jmCircle,
-			"harc": jmHArc,
-			"line": jmLine,
-			"prismatic": jmPrismatic,
-			"rect": jmRect,
-			"arrawline": jmArrawLine,
-			"image": jmImage,
-			"img": jmImage,
-			"label": jmLabel,
-			"resize": jmResize
-		};
+		}, this.option.shapes);
 		
 		/**
 		 * 画控件前初始化
@@ -126,10 +105,37 @@ class jmGraph extends jmControl {
 		if(this.option.width > 0) this.width = this.option.width;
 		if(this.option.height > 0) this.height = this.option.height;	
 
+		this.resize();
+
 		//绑定事件
 		this.eventHandler = new jmEvents(this, this.canvas.canvas || this.canvas);	
 
+		//如果指定了自动刷新
+		if(this.option.autoRefresh) {
+			this.autoRefresh();
+		}
+
 		if(callback) callback(this);		
+	}
+
+	//  重置canvas大小，并判断高清屏，画图先放大二倍
+	resize(w, h) {
+
+		const scale = typeof window != 'undefined' && window.devicePixelRatio > 1? window.devicePixelRatio : 1;
+		if (scale > 1) {
+		  this.__normalSize = this.__normalSize || { width: 0, height: 0};
+		  w = w || this.__normalSize.width || this.width, h = h || this.__normalSize.height || this.height;
+
+		  if(w) this.__normalSize.width = w;
+		  if(h) this.__normalSize.height = h;
+
+		  this.canvas.style.width = w + "px";
+		  this.canvas.style.height = h + "px";
+		  this.canvas.height = h * scale;
+		  this.canvas.width = w *scale;
+		  this.context.scale(scale, scale);
+		  this.devicePixelRatio = scale;
+		}
 	}
 
 	/**
@@ -143,7 +149,10 @@ class jmGraph extends jmControl {
 	}
 	set width(v) {
 		this.needUpdate = true;
-		if(this.canvas) this.canvas.width = v;		
+		if(this.canvas) {
+			this.canvas.width = v;	
+			this.resize(v);
+		}	
 		return v;
 	}
 
@@ -158,7 +167,10 @@ class jmGraph extends jmControl {
 	}
 	set height(v) {
 		this.needUpdate = true;
-		if(this.canvas) this.canvas.height = v;
+		if(this.canvas) {
+			this.canvas.height = v;
+			this.resize(0, v);
+		}
 		return v;
 	}
 
@@ -208,7 +220,13 @@ class jmGraph extends jmControl {
 	 * @return {object} 已实例化控件的对象
 	 */
 	createShape(name, args) {
-		let shape = this.shapes[name];
+		let shape;
+		if(typeof name === 'function') {
+			shape = name;
+		}
+		else {
+			shape = this.shapes[name];
+		}
 		if(shape) {
 			if(!args) args = {};
 			args.graph = this;
@@ -464,21 +482,37 @@ class jmGraph extends jmControl {
 	 * @param {function} callback 执行回调
 	 */
 	autoRefresh(callback) {
-		var self = this;
+		if(this.___isAutoRefreshing) return;
+		const self = this;
+		this.___isAutoRefreshing = true;
 		function update() {
+			if(self.destoryed) {
+				self.___isAutoRefreshing = false;
+				return;// 已销毁
+			}
 			if(self.needUpdate) self.redraw();
 			requestAnimationFrame(update);
 			if(callback) callback();
 		}
-		update();
+		requestAnimationFrame(update);
 		return this;
+	}
+
+	// 销毁当前对象
+	destory() {
+		this.eventHandler.destory();
+		this.destoryed = true;// 标记已销毁
 	}
 }
 
-//创建实例
-const createJmGraph = (...args) => {
-	return new jmGraph(...args);
-}
-
-export { jmGraph, createJmGraph as create };
-export default jmGraph;
+export { 
+	jmGraph, 
+	jmUtils,
+	jmList,
+	jmProperty,
+	jmShadow,
+	jmGradient,
+	jmEvents,
+	jmControl,
+	jmPath,
+ };

@@ -52,6 +52,7 @@ yarn add jmgraph
   var g = new jmGraph(container, {
     width: 800,
     height: 600,
+    autoRefresh: true, // 是否自动刷新变化
     style: {
       fill: '#000'
     }
@@ -151,6 +152,8 @@ line.bind('mouseover',function(evt) {
 });
 ```
 
+> 如果要某个控件不响用操作事件，设置其`interactive`为`false`即可。
+
 #### 事件一览
 | 名称 | 说明 | 回调参数
 | :- | :- | :- | 
@@ -220,7 +223,7 @@ var arraw = g.createShape('arraw', {
 ```
 
 #### 贝塞尔曲线
-`bezier`可以指定无隐个控制点，绘制复杂的曲线。
+`bezier`可以指定无数个控制点，绘制复杂的曲线。
 具体请参考示例。
 [在线示例](http://jiamao.github.io/jmgraph/example/controls/bezier.html)
 
@@ -374,10 +377,9 @@ class jmTest extends jmPath {
         return this.__pro('center', v);
     }
     /**
-    * 中心点
-    * point格式：{x:0,y:0,m:true}
-    * @property center
-    * @type {point}
+    * 半径
+    * @property radius
+    * @type {number}
     */
     get radius() {
         return this.__pro('radius');
@@ -452,7 +454,7 @@ class jmTest extends jmPath {
 
     var self = this;
 
-    var g = jmGraph.create('firstCanvas', {
+    var g = jmGraph.create('mycanvas', {
         style: {
           fill: '#000'
         },

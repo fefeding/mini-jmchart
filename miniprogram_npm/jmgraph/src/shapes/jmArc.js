@@ -1,4 +1,4 @@
-import {jmPath} from "./jmPath.js";
+import {jmPath} from "../core/jmPath.js";
 /**
  * 圆弧图型 继承自jmPath
  *
@@ -6,7 +6,7 @@ import {jmPath} from "./jmPath.js";
  * @extends jmPath
  * @param {object} params center=当前圆弧中心,radius=圆弧半径,start=圆弧起始角度,end=圆弧结束角度,anticlockwise=  false  顺时针，true 逆时针
  */
-class jmArc extends jmPath {
+export default class jmArc extends jmPath {
 
 	constructor(params, t='jmArc') {
 		if(!params) params = {};
@@ -19,6 +19,8 @@ class jmArc extends jmPath {
 		this.endAngle = params.end || params.endAngle || Math.PI * 2;		
 
 		this.anticlockwise = params.anticlockwise  || 0;
+
+		this.isFan = !!params.isFan;
 	}	
 
 	/**
@@ -127,6 +129,8 @@ class jmArc extends jmPath {
 			end = p2 - end;
 		}
 		if(start > end) step = -step;
+
+		if(this.isFan) this.points.push(location.center);// 如果是扇形，则从中心开始画
 		
 		//椭圆方程x=a*cos(r) ,y=b*sin(r)	
 		for(let r=start;;r += step) {	

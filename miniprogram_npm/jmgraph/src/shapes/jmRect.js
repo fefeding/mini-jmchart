@@ -1,4 +1,4 @@
-import {jmPath} from "./jmPath.js";
+import {jmPath} from "../core/jmPath.js";
 /**
  * 画矩形
  *
@@ -6,7 +6,7 @@ import {jmPath} from "./jmPath.js";
  * @extends jmPath
  * @param {object} params 参数 position=矩形左上角顶点坐标,width=宽，height=高,radius=边角弧度
  */ 
-class jmRect extends jmPath {		
+export default class jmRect extends jmPath {		
 
 	constructor(params, t='jmRect') {
 		params = params||{};
@@ -26,6 +26,19 @@ class jmRect extends jmPath {
 	set radius(v) {
 		this.needUpdate = true;
 		return this.__pro('radius', v);
+	}	
+
+	/**
+	 * 当前位置左上角
+	 * @property position
+	 * @type {point}
+	 */
+	get position() {
+		return this.__pro('position');
+	}
+	set position(v) {
+		this.needUpdate = true;
+		return this.__pro('position', v);
 	}
 
 	/**

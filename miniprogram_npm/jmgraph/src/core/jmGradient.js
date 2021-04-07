@@ -1,5 +1,5 @@
-import {jmUtils} from "../common/jmUtils.js";
-import {jmList} from "../common/jmList.js";
+import {jmUtils} from "./jmUtils.js";
+import {jmList} from "./jmList.js";
 
 /**
  * 渐变类
@@ -7,7 +7,7 @@ import {jmList} from "../common/jmList.js";
  * @class jmGradient
  * @param {object} op 渐变参数,type:[linear= 线性渐变,radial=放射性渐变] 
  */
-class jmGradient {
+export default class jmGradient {
 	constructor(opt) {
 		this.stops = new jmList();
 
@@ -33,8 +33,8 @@ class jmGradient {
 	 */
 	addStop(offset, color) {
 		this.stops.add({
-			offset:offset,
-			color:color
+			offset: Number(offset),
+			color: color
 		});
 	}
 
@@ -68,16 +68,16 @@ class jmGradient {
 		//let offsetLine = 1;//渐变长度或半径
 		//处理百分比参数
 		if(jmUtils.checkPercent(x1)) {
-			x1 = jmUtils.percentToNumber(x1) * (location.width || d);
+			x1 = jmUtils.percentToNumber(x1) * (bounds.width || d);
 		}
 		if(jmUtils.checkPercent(x2)) {
-			x2 = jmUtils.percentToNumber(x2) * (location.width || d);
+			x2 = jmUtils.percentToNumber(x2) * (bounds.width || d);
 		}
 		if(jmUtils.checkPercent(y1)) {
-			y1 = jmUtils.percentToNumber(y1) * (location.height || d);
+			y1 = jmUtils.percentToNumber(y1) * (bounds.height || d);
 		}
 		if(jmUtils.checkPercent(y2)) {
-			y2 = jmUtils.percentToNumber(y2) * (location.height || d);
+			y2 = jmUtils.percentToNumber(y2) * (bounds.height || d);
 		}	
 
 		let sx1 = Number(x1) + bounds.left;
@@ -85,10 +85,7 @@ class jmGradient {
 		let sx2 = Number(x2) + bounds.left;
 		let sy2 = Number(y2) + bounds.top;
 		if(this.type === 'linear') {		
-			gradient = context.createLinearGradient(sx1, sy1, sx2, sy2);	
-			//let x = Math.abs(x2-x1);
-			//let y = Math.abs(y2-y1);
-			//offsetLine = Math.sqrt(x*x + y*y);
+			gradient = context.createLinearGradient(sx1, sy1, sx2, sy2);
 		}
 		else if(this.type === 'radial') {
 			let r1 = this.r1||0;
@@ -132,48 +129,52 @@ class jmGradient {
 	 */
 	fromString(s) {
 		if(!s) return;
-		let ms = s.match(/(linear|radial)-gradient\s*\(\s*([^,]+[^\)]+)\)/i);
+		let ms = s.match(/(linear|radial)-gradient\s*\(\s*([^,]+)\s*,\s*((.|\s)+)\)/i);
 		if(!ms || ms.length < 3) return;
-		this.type = ms[1].toLowerCase();
-		let pars = ms[2].split(',');
-		if(pars.length) {
-			let ps = jmUtils.trim(pars[0]).split(/\s+/);
-			//线性渐变
-			if(this.type == 'linear') {
-				if(ps.length <= 2) {
-					this.x2 = ps[0];
-					this.y2 = ps[1]||0;
-				}
-				else {
-					this.x1 = ps[0];
-					this.y1 = ps[1];
-					this.x2 = ps[2];
-					this.y2 = ps[3];
-				}
+		this.type = ms[1].toLowerCase();		
+		
+		const ps = jmUtils.trim(ms[2]).split(/\s+/);
+		//线性渐变
+		if(this.type == 'linear') {
+			if(ps.length <= 2) {
+				this.x2 = ps[0];
+				this.y2 = ps[1]||0;
 			}
-			//径向渐变
 			else {
-				if(ps.length <= 3) {
-					this.x2 = ps[0];
-					this.y2 = ps[1]||0;
-					this.r2 = ps[2]||0;
-				}
-				else {
-					this.x1 = ps[0];
-					this.y1 = ps[1];
-					this.r1 = ps[2];
-					this.x2 = ps[3];
-					this.y2 = ps[3];
-					this.r2 = ps[3];
-				}
+				this.x1 = ps[0];
+				this.y1 = ps[1];
+				this.x2 = ps[2];
+				this.y2 = ps[3];
 			}
-			//解析颜色偏移
-			//color step
-			if(pars.length > 1) {
-				for(let i=1;i<pars.length;i++) {
-					let cs = jmUtils.trim(pars[i]).split(/\s+/);
-					if(cs.length) {
-						this.addStop(cs[1]||0, cs[0]);
+		}
+		//径向渐变
+		else {
+			if(ps.length <= 3) {
+				this.x2 = ps[0];
+				this.y2 = ps[1]||0;
+				this.r2 = ps[2]||0;
+			}
+			else {
+				this.x1 = ps[0];
+				this.y1 = ps[1];
+				this.r1 = ps[2];
+				this.x2 = ps[3];
+				this.y2 = ps[3];
+				this.r2 = ps[3];
+			}
+		}
+		//解析颜色偏移
+		//color step
+		const pars = ms[3].match(/((rgb(a)?\s*\([\d,\.\s]+\))|(#[a-zA-Z\d]+))\s+([\d\.]+)/ig);
+		if(pars && pars.length) {
+			for(let i=1;i<pars.length;i++) {
+				const par = jmUtils.trim(pars[i]);
+				const spindex = par.lastIndexOf(' ');
+				if(spindex > -1) {			
+					const offset = Number(par.substr(spindex + 1));		
+					const color = jmUtils.trim(par.substr(0, spindex));
+					if(!isNaN(offset) && color) {
+						this.addStop(offset, color);
 					}
 				}
 			}

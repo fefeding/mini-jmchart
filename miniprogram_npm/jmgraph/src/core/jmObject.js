@@ -1,13 +1,15 @@
 
 import {jmList} from "./jmList.js";
 
+const ANICOUNTER = Symbol('jmchart#animate#counter');
+
 /**
  *  所有jm对象的基础对象
  * 
  * @class jmObject
  * @for jmGraph
  */
-class jmObject {
+export default class jmObject {
 	//id;
 	constructor(g) {
 		if(g && g.type == 'jmGraph') {

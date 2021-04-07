@@ -1,5 +1,5 @@
-import {jmPath} from "./jmPath.js";
-import {jmUtils} from "../common/jmUtils.js";
+import {jmPath} from "../core/jmPath.js";
+import {jmUtils} from "../core/jmUtils.js";
 /**
  * 画箭头,继承自jmPath
  *
@@ -7,7 +7,7 @@ import {jmUtils} from "../common/jmUtils.js";
  * @extends jmPath
  * @param {object} 生成箭头所需的参数
  */
-class jmArraw extends jmPath {	
+export default class jmArraw extends jmPath {	
 
 	constructor(params, t='jmArraw') {
 		super(params, t);

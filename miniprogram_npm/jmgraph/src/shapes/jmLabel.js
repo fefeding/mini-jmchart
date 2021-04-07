@@ -1,4 +1,4 @@
-import {jmControl} from "../shapes/jmControl.js";
+import {jmControl} from "../core/jmControl.js";
 /**
  * 显示文字控件
  *
@@ -6,7 +6,7 @@ import {jmControl} from "../shapes/jmControl.js";
  * @extends jmControl
  * @param {object} params params参数:style=样式，value=显示的文字
  */
-class jmLabel extends jmControl {
+export default class jmLabel extends jmControl {
 
 	constructor(params, t) {
 		params = params || {};
@@ -51,6 +51,19 @@ class jmLabel extends jmControl {
 	set center(v) {
 		this.needUpdate = true;
 		return this.__pro('center', v);
+	}	
+
+	/**
+	 * 当前位置左上角
+	 * @property position
+	 * @type {point}
+	 */
+	get position() {
+		return this.__pro('position');
+	}
+	set position(v) {
+		this.needUpdate = true;
+		return this.__pro('position', v);
 	}
 
 	/**
@@ -100,9 +113,12 @@ class jmLabel extends jmControl {
 	 */
 	testSize() {
 		if(this.__size) return this.__size;
-		this.style.font = this.style.fontSize + 'px ' + this.style.fontFamily;
+		
 		this.context.save();
-		this.setStyle();
+		// 修改字体，用来计算
+		this.setStyle({
+			font: this.style.font || (this.style.fontSize + 'px ' + this.style.fontFamily)
+		});
 		//计算宽度
 		this.__size = this.context.measureText?
 							this.context.measureText(this.text):
@@ -154,7 +170,7 @@ class jmLabel extends jmControl {
 		}
 
 		let txt = this.text;
-		if(txt) {
+		if(typeof txt !== 'undefined') {
 			if(this.style.fill && this.context.fillText) {
 				if(this.style.maxWidth) {
 					this.context.fillText(txt,x,y,this.style.maxWidth);
