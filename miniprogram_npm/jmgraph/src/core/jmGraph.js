@@ -139,6 +139,20 @@ export default class jmGraph extends jmControl {
 	}
 
 	/**
+	 * 内部坐标转为页面坐标，这里主要是有devicePixelRatio倍数问题
+	 * @param {x, y} point 内部坐标
+	 */
+	pointToPixes(point) {
+		if(this.devicePixelRatio && this.devicePixelRatio !== 1) {
+			point = Object.assign({}, point, {
+				x: point.x / this.devicePixelRatio,
+				y: point.y / this.devicePixelRatio
+			});
+		}
+		return point;
+	}
+
+	/**
 	 * 宽度
 	 * @property width
 	 * @type {number}
@@ -215,17 +229,13 @@ export default class jmGraph extends jmControl {
 	 * 简单直观创建对象
 	 *
 	 * @method createShape 
-	 * @param {string} name 注册控件的名称
+	 * @param {string} shape 注册控件的名称 也可以直接是控件类型
 	 * @param {object} args 实例化控件的参数
 	 * @return {object} 已实例化控件的对象
 	 */
-	createShape(name, args) {
-		let shape;
-		if(typeof name === 'function') {
-			shape = name;
-		}
-		else {
-			shape = this.shapes[name];
+	createShape(shape, args) {
+		if(typeof shape === 'string') {
+			shape = this.shapes[shape];
 		}
 		if(shape) {
 			if(!args) args = {};

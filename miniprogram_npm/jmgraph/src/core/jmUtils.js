@@ -17,12 +17,25 @@ export default class jmUtils {
      * @param {object} source 被复制的对象
      * @param {object} target 可选，如果指定就表示复制给这个对象，如果为boolean它就是deep参数
      * @param {boolean} deep 是否深度复制，如果为true,数组内的每个对象都会被复制
+     * @param {function} copyHandler 复制对象回调，如果返回undefined，就走后面的逻辑，否则到这里中止
      * @return {object} 参数source的拷贝对象
      */
-    static clone(source, target, deep = false) {
+    static clone(source, target, deep = false, copyHandler = null, deepIndex = 0) {
+        // 如果有指定回调，则用回调处理，否则走后面的复制逻辑
+        if(typeof copyHandler === 'function') {
+            const obj = copyHandler(source, deep, deepIndex);
+            if(obj) return obj;
+        }
+        deepIndex++; // 每执行一次，需要判断最大拷贝深度        
+
         if(typeof target === 'boolean') {
             deep = target;
             target = undefined;
+        }
+
+        // 超过100拷贝深度，直接返回
+        if(deepIndex > 100) {
+            return target;
         }
 
         if(source && typeof source === 'object') {
@@ -37,17 +50,20 @@ export default class jmUtils {
                 if(deep) {
                     let dest = [];
                     for(let i=0; i<source.length; i++) {
-                        dest.push(this.clone(source[i], deep));
+                        dest.push(this.clone(source[i], target[i], deep, copyHandler, deepIndex));
                     }
                     return dest;
                 }
                 return source.slice(0);
             }
-            target.constructor = source.constructor;
+           
+            if(source.__proto__) target.__proto__ = source.__proto__;
+            
             for(let k in source) {
+                if(k === 'constructor') continue;
                 // 如果不是对象和空，则采用target的属性
                 if(typeof target[k] === 'object' || typeof target[k] === 'undefined') {                    
-                    target[k] = this.clone(source[k], target[k], deep);
+                    target[k] = this.clone(source[k], target[k], deep, copyHandler, deepIndex);
                 }
             }
             return target;
@@ -330,7 +346,7 @@ export default class jmUtils {
     /**
      * @method judge 判断点是否在多边形中
      * @param {point} dot {{x,y}} 需要判断的点
-     * @param {array} coordinates {{x,y}[]} 多边形点坐标的数组，为保证图形能够闭合，起点和终点必须相等。
+     * @param {array} coordinates {{x,y}} 多边形点坐标的数组，为保证图形能够闭合，起点和终点必须相等。
      *        比如三角形需要四个点表示，第一个点和最后一个点必须相同。 
      * @param  {number} 是否为实心 1= 是
      * @returns {boolean} 结果 true=在形状内

@@ -1,6 +1,8 @@
 (function(_g){(function(f){if(typeof exports==='object'&&typeof module!=='undefined'){module.exports=f()}else if(typeof define==='function'&&define.amd){define([],f.bind(_g))}else{f()}})(function(define,module,exports){var _m =(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,10 +12,10 @@ Object.defineProperty(exports, "jmArc", {
     return _jmArc.jmArc;
   }
 });
-Object.defineProperty(exports, "jmArraw", {
+Object.defineProperty(exports, "jmArrow", {
   enumerable: true,
   get: function get() {
-    return _jmArraw.jmArraw;
+    return _jmArrow.jmArrow;
   }
 });
 Object.defineProperty(exports, "jmBezier", {
@@ -52,10 +54,10 @@ Object.defineProperty(exports, "jmRect", {
     return _jmRect.jmRect;
   }
 });
-Object.defineProperty(exports, "jmArrawLine", {
+Object.defineProperty(exports, "jmArrowLine", {
   enumerable: true,
   get: function get() {
-    return _jmArrawLine.jmArrawLine;
+    return _jmArrowLine.jmArrowLine;
   }
 });
 Object.defineProperty(exports, "jmImage", {
@@ -76,11 +78,47 @@ Object.defineProperty(exports, "jmResize", {
     return _jmResize.jmResize;
   }
 });
+Object.defineProperty(exports, "jmUtils", {
+  enumerable: true,
+  get: function get() {
+    return _jmGraph.jmUtils;
+  }
+});
+Object.defineProperty(exports, "jmList", {
+  enumerable: true,
+  get: function get() {
+    return _jmGraph.jmList;
+  }
+});
+Object.defineProperty(exports, "jmShadow", {
+  enumerable: true,
+  get: function get() {
+    return _jmGraph.jmShadow;
+  }
+});
+Object.defineProperty(exports, "jmGradient", {
+  enumerable: true,
+  get: function get() {
+    return _jmGraph.jmGradient;
+  }
+});
+Object.defineProperty(exports, "jmControl", {
+  enumerable: true,
+  get: function get() {
+    return _jmGraph.jmControl;
+  }
+});
+Object.defineProperty(exports, "jmPath", {
+  enumerable: true,
+  get: function get() {
+    return _jmGraph.jmPath;
+  }
+});
 exports.create = exports.jmGraph = exports["default"] = void 0;
 
 var _jmArc = require("./src/shapes/jmArc.js");
 
-var _jmArraw = require("./src/shapes/jmArraw.js");
+var _jmArrow = require("./src/shapes/jmArrow.js");
 
 var _jmBezier = require("./src/shapes/jmBezier.js");
 
@@ -94,7 +132,7 @@ var _jmPrismatic = require("./src/shapes/jmPrismatic.js");
 
 var _jmRect = require("./src/shapes/jmRect.js");
 
-var _jmArrawLine = require("./src/shapes/jmArrawLine.js");
+var _jmArrowLine = require("./src/shapes/jmArrowLine.js");
 
 var _jmImage = require("./src/shapes/jmImage.js");
 
@@ -102,13 +140,9 @@ var _jmLabel = require("./src/shapes/jmLabel.js");
 
 var _jmResize = require("./src/shapes/jmResize.js");
 
-var _jmGraph = _interopRequireDefault(require("./src/core/jmGraph.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _jmGraph = require("./src/core/jmGraph.js");
 
 function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -118,24 +152,24 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 var shapes = {
   "arc": _jmArc.jmArc,
-  "arraw": _jmArraw.jmArraw,
+  "arrow": _jmArrow.jmArrow,
   "bezier": _jmBezier.jmBezier,
   "circle": _jmCircle.jmCircle,
   "harc": _jmHArc.jmHArc,
   "line": _jmLine.jmLine,
   "prismatic": _jmPrismatic.jmPrismatic,
   "rect": _jmRect.jmRect,
-  "arrawline": _jmArrawLine.jmArrawLine,
+  "Arrowline": _jmArrowLine.jmArrowLine,
   "image": _jmImage.jmImage,
   "img": _jmImage.jmImage,
   "label": _jmLabel.jmLabel,
@@ -152,8 +186,12 @@ var jmGraph = /*#__PURE__*/function (_jmGraphCore) {
 
     _classCallCheck(this, jmGraph);
 
-    //不是用new实例化的话，返回一个promise
-    if ((this instanceof jmGraph ? this.constructor : void 0) !== jmGraph) {
+    var targetType = this instanceof jmGraph ? this.constructor : void 0; // 合并shapes
+
+    option = Object.assign({}, option);
+    option.shapes = Object.assign(shapes, option.shapes || {}); //不是用new实例化的话，返回一个promise
+
+    if (!targetType || !(targetType.prototype instanceof _jmGraph.jmGraph)) {
       return _possibleConstructorReturn(_this, new Promise(function (resolve, reject) {
         var g = new jmGraph(canvas, option, callback);
         if (resolve) resolve(g);
@@ -163,16 +201,13 @@ var jmGraph = /*#__PURE__*/function (_jmGraphCore) {
     if (typeof option == 'function') {
       callback = option;
       option = {};
-    } // 合并shapes
+    }
 
-
-    option = Object.assign({}, option);
-    option.shapes = Object.assign(shapes, option.shapes || {});
     return _super.call(this, canvas, option, callback);
   }
 
   return jmGraph;
-}(_jmGraph["default"]); //创建实例
+}(_jmGraph.jmGraph); //创建实例
 
 
 exports.jmGraph = exports["default"] = jmGraph;
@@ -187,7 +222,7 @@ var createJmGraph = function createJmGraph() {
 
 exports.create = createJmGraph;
 
-},{"./src/core/jmGraph.js":5,"./src/shapes/jmArc.js":12,"./src/shapes/jmArraw.js":13,"./src/shapes/jmArrawLine.js":14,"./src/shapes/jmBezier.js":15,"./src/shapes/jmCircle.js":16,"./src/shapes/jmHArc.js":17,"./src/shapes/jmImage.js":18,"./src/shapes/jmLabel.js":19,"./src/shapes/jmLine.js":20,"./src/shapes/jmPrismatic.js":21,"./src/shapes/jmRect.js":22,"./src/shapes/jmResize.js":23}],2:[function(require,module,exports){
+},{"./src/core/jmGraph.js":5,"./src/shapes/jmArc.js":12,"./src/shapes/jmArrow.js":13,"./src/shapes/jmArrowLine.js":14,"./src/shapes/jmBezier.js":15,"./src/shapes/jmCircle.js":16,"./src/shapes/jmHArc.js":17,"./src/shapes/jmImage.js":18,"./src/shapes/jmLabel.js":19,"./src/shapes/jmLine.js":20,"./src/shapes/jmPrismatic.js":21,"./src/shapes/jmRect.js":22,"./src/shapes/jmResize.js":23}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -205,7 +240,7 @@ var _jmShadow = require("./jmShadow.js");
 
 var _jmProperty2 = require("./jmProperty.js");
 
-function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
@@ -225,11 +260,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -296,7 +331,7 @@ var jmControl = /*#__PURE__*/function (_jmProperty) {
     _this2.initializing();
 
     _this2.on = _this2.bind;
-    _this2.options = params;
+    _this2.option = params;
     return _this2;
   } //# region 定义属性
 
@@ -309,8 +344,181 @@ var jmControl = /*#__PURE__*/function (_jmProperty) {
 
 
   _createClass(jmControl, [{
-    key: "initializing",
-    //# end region
+    key: "type",
+    get: function get() {
+      return this.__pro('type');
+    }
+    /**
+     * 当前canvas的context
+     * @property context
+     * @type {object}
+     */
+
+  }, {
+    key: "context",
+    get: function get() {
+      var s = this.__pro('context');
+
+      if (s) return s;else if (this.is('jmGraph') && this.canvas) {
+        return this.context = this.canvas.getContext('2d');
+      }
+      var g = this.graph;
+      if (g) return g.context;
+      return g.canvas.getContext('2d');
+    },
+    set: function set(v) {
+      return this.__pro('context', v);
+    }
+    /**
+     * 样式
+     * @property style
+     * @type {object}
+     */
+
+  }, {
+    key: "style",
+    get: function get() {
+      var s = this.__pro('style');
+
+      if (!s) s = this.__pro('style', {});
+      return s;
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('style', v);
+    }
+    /**
+     * 当前控件是否可见
+     * @property visible
+     * @default true
+     * @type {boolean}
+     */
+
+  }, {
+    key: "visible",
+    get: function get() {
+      var s = this.__pro('visible');
+
+      if (typeof s == 'undefined') s = this.__pro('visible', true);
+      return s;
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('visible', v);
+    }
+    /**
+     * 当前控件是否是交互式的，如果是则会响应鼠标或touch事件。
+     * 如果false则不会主动响应，但冒泡的事件依然会得到回调
+     * @property interactive
+     * @default false
+     * @type {boolean}
+     */
+
+  }, {
+    key: "interactive",
+    get: function get() {
+      var s = this.__pro('interactive');
+
+      return s;
+    },
+    set: function set(v) {
+      return this.__pro('interactive', v);
+    }
+    /**
+     * 当前控件的子控件集合
+     * @property children
+     * @type {list}
+     */
+
+  }, {
+    key: "children",
+    get: function get() {
+      var s = this.__pro('children');
+
+      if (!s) s = this.__pro('children', new _jmList.jmList());
+      return s;
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('children', v);
+    }
+    /**
+     * 宽度
+     * @property width
+     * @type {number}
+     */
+
+  }, {
+    key: "width",
+    get: function get() {
+      var s = this.__pro('width');
+
+      if (typeof s == 'undefined') s = this.__pro('width', 0);
+      return s;
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('width', v);
+    }
+    /**
+     * 高度
+     * @property height
+     * @type {number}
+     */
+
+  }, {
+    key: "height",
+    get: function get() {
+      var s = this.__pro('height');
+
+      if (typeof s == 'undefined') s = this.__pro('height', 0);
+      return s;
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('height', v);
+    }
+    /**
+     * 控件层级关系，发生改变时，需要重新调整排序
+     * @property zIndex
+     * @type {number}
+     */
+
+  }, {
+    key: "zIndex",
+    get: function get() {
+      var s = this.__pro('zIndex');
+
+      if (!s) s = this.__pro('zIndex', 0);
+      return s;
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+
+      this.__pro('zIndex', v);
+
+      this.children.sort(); //层级发生改变，需要重新排序
+
+      this.needUpdate = true;
+      return v;
+    }
+    /**
+     * 设置鼠标指针
+     * css鼠标指针标识,例如:pointer,move等
+     * 
+     * @property cursor
+     * @type {string}
+     */
+
+  }, {
+    key: "cursor",
+    get: function get() {
+      var graph = this.graph;
+
+      if (graph) {
+        return graph.css('cursor');
+      }
+    } //# end region
 
     /**
      * 初始化对象，设定样式，初始化子控件对象
@@ -319,6 +527,16 @@ var jmControl = /*#__PURE__*/function (_jmProperty) {
      * @method initializing
      * @for jmControl
      */
+    ,
+    set: function set(cur) {
+      var graph = this.graph;
+
+      if (graph) {
+        graph.css('cursor', cur);
+      }
+    }
+  }, {
+    key: "initializing",
     value: function initializing() {
       var self = this; //定义子元素集合
 
@@ -362,6 +580,7 @@ var jmControl = /*#__PURE__*/function (_jmProperty) {
       /**
        * 根据控件zIndex排序，越大的越高
        */
+      //const osort = this.children.sort;
 
 
       this.children.sort = function () {
@@ -377,22 +596,21 @@ var jmControl = /*#__PURE__*/function (_jmProperty) {
             if (isNaN(zindex)) zindex = obj.style.zIndex || 0;
           }
 
-          if (zindex) {
-            var items = levelItems[zindex] || (levelItems[zindex] = []);
-            items.push(obj);
-          }
+          var items = levelItems[zindex] || (levelItems[zindex] = []);
+          items.push(obj);
         });
+        this.splice(0, this.length);
 
         for (var index in levelItems) {
-          // 先从数组内去掉， 再加到进后
-          for (var i = 0; i < levelItems[index].length; i++) {
-            this.oremove(levelItems[index][i]);
-          }
-
           oadd.call(this, levelItems[index]);
         }
+        /*
+        osort.call(this, (c1, c2) => {
+        	let zindex1 = c1.zIndex || c1.style.zIndex || 0;
+        	let zindex2 = c2.zIndex || c2.style.zIndex || 0;
+        	return zindex1 - zindex2;
+        });*/
 
-        self.needUpdate = true;
       };
 
       this.children.clear = function () {
@@ -438,7 +656,7 @@ var jmControl = /*#__PURE__*/function (_jmProperty) {
     value: function setStyle(style) {
       var _this3 = this;
 
-      style = style || this.style;
+      style = style || _jmUtils.jmUtils.clone(this.style, true);
       if (!style) return; // 当前根据屏幕放大倍数，如果有倍数，则需要对线宽等同比放大
 
       var scale = this.graph.devicePixelRatio;
@@ -456,6 +674,15 @@ var jmControl = /*#__PURE__*/function (_jmProperty) {
       var __setStyle = function __setStyle(style, name, mpkey) {
         //let styleValue = style[mpkey||name]||style;
         if (style) {
+          if (typeof style === 'function') {
+            try {
+              style = style.call(_this3);
+            } catch (e) {
+              console.warn(e);
+              return;
+            }
+          }
+
           var t = _typeof(style);
 
           var mpname = _this3.jmStyleMap[mpkey || name]; //如果为渐变对象
@@ -588,19 +815,17 @@ var jmControl = /*#__PURE__*/function (_jmProperty) {
 
 
       if (this.translate) {
-        __setStyle({
-          translate: this.translate
-        }, 'translate');
+        __setStyle(this.translate, 'translate');
       }
 
       if (this.transform) {
-        __setStyle({
-          transform: this.transform
-        }, 'transform');
+        __setStyle(this.transform, 'transform');
       } //设置样式
 
 
       for (var k in style) {
+        if (k === 'constructor') continue;
+
         var t = _typeof(style[k]); //先处理部分样式，以免每次都需要初始化解析
 
 
@@ -1369,44 +1594,34 @@ var jmControl = /*#__PURE__*/function (_jmProperty) {
 
       args.path = args.path || []; //事件冒泡路径
       //先执行子元素事件，如果事件没有被阻断，则向上冒泡
-      //var stoped = false;
+
+      var stoped = false;
 
       if (this.children) {
         this.children.each(function (j, el) {
-          // 如果同级已有命中，则不再需要处理兄弟节点
-          if (args.target) return false; //未被阻止才执行			
-
+          //未被阻止才执行			
           if (args.cancel !== true) {
             //如果被阻止冒泡，
-            //stoped = el.raiseEvent(name,args) === false?true:stoped;
-            el.raiseEvent(name, args);
+            stoped = el.raiseEvent(name, args) === false ? true : stoped; // 不再响应其它元素
+
+            if (stoped) return false;
           }
         }, true); //按逆序处理
-      } //获取当前对象的父元素绝对位置
-      //生成当前坐标对应的父级元素的相对位置
+      } // 如果已被阻止，不再响应上级事件
 
+
+      if (stoped) return false; //获取当前对象的父元素绝对位置
+      //生成当前坐标对应的父级元素的相对位置
 
       var abounds = this.parent && this.parent.absoluteBounds ? this.parent.absoluteBounds : this.absoluteBounds;
       if (!abounds) return false; //args = jmUtils.clone(args);//参数副本
 
       args.position.x = args.position.offsetX - abounds.left;
-      args.position.y = args.position.offsetY - abounds.top; // 相对当前控件的坐标点
-
-      /*if(this.absoluteBounds) {
-      	args.curPosition = {
-      		x: args.position.offsetX - this.absoluteBounds.left,
-      		y: args.position.offsetY - this.absoluteBounds.top
-      	};
-      }
-      else {
-      	args.curPosition = args.position;
-      }*/
-      // 是否在当前控件内操作
+      args.position.y = args.position.offsetY - abounds.top; // 是否在当前控件内操作
 
       var inpos = this.interactive !== false && this.checkPoint(args.position); //事件发生在边界内或健盘事件发生在画布中才触发
-      // 如果有target 表示当前事件已被命中其它节点，则不再需要判断这里
 
-      if (inpos && !args.target) {
+      if (inpos) {
         //如果没有指定触发对象，则认为当前为第一触发对象
         if (!args.target) {
           args.target = this;
@@ -1428,7 +1643,7 @@ var jmControl = /*#__PURE__*/function (_jmProperty) {
         }
       }
 
-      return args.cancel == false; //如果被阻止则返回false,否则返回true
+      return args.cancel === false; //如果被阻止则返回false,否则返回true
     }
     /**
      * 执行事件，并进行冒泡
@@ -1444,18 +1659,16 @@ var jmControl = /*#__PURE__*/function (_jmProperty) {
         args.path.push(this); //如果返回true则阻断冒泡
 
         this.runEventHandle(name, args); //执行事件
-        // 向父节点冒泡事件		
-
-        if (args.cancel !== true && this.parent && this.parent.runEventAndPopEvent) {
-          // 相对位置需要改为父节点的
-          if (args.position) {
-            var bounds = this.parent.getBounds();
-            args.position.x += bounds.left;
-            args.position.y += bounds.top;
-          }
-
-          this.parent.runEventAndPopEvent(name, args);
-        }
+        // // 向父节点冒泡事件		
+        // if(args.cancel !== true && this.parent && this.parent.runEventAndPopEvent) {
+        // 	// 相对位置需要改为父节点的
+        // 	if(args.position) {
+        // 		let bounds = this.parent.getBounds();
+        // 		args.position.x += bounds.left;
+        // 		args.position.y += bounds.top;
+        // 	}
+        // 	this.parent.runEventAndPopEvent(name, args);
+        // }		
       }
     }
     /**
@@ -1670,189 +1883,6 @@ var jmControl = /*#__PURE__*/function (_jmProperty) {
 
       return this;
     }
-  }, {
-    key: "type",
-    get: function get() {
-      return this.__pro('type');
-    }
-    /**
-     * 当前canvas的context
-     * @property context
-     * @type {object}
-     */
-
-  }, {
-    key: "context",
-    get: function get() {
-      var s = this.__pro('context');
-
-      if (s) return s;else if (this.is('jmGraph') && this.canvas) {
-        return this.context = this.canvas.getContext('2d');
-      }
-      var g = this.graph;
-      if (g) return g.context;
-      return g.canvas.getContext('2d');
-    },
-    set: function set(v) {
-      return this.__pro('context', v);
-    }
-    /**
-     * 样式
-     * @property style
-     * @type {object}
-     */
-
-  }, {
-    key: "style",
-    get: function get() {
-      var s = this.__pro('style');
-
-      if (!s) s = this.__pro('style', {});
-      return s;
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('style', v);
-    }
-    /**
-     * 当前控件是否可见
-     * @property visible
-     * @default true
-     * @type {boolean}
-     */
-
-  }, {
-    key: "visible",
-    get: function get() {
-      var s = this.__pro('visible');
-
-      if (typeof s == 'undefined') s = this.__pro('visible', true);
-      return s;
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('visible', v);
-    }
-    /**
-     * 当前控件是否是交互式的，如果是则会响应鼠标或touch事件。
-     * 如果false则不会主动响应，但冒泡的事件依然会得到回调
-     * @property interactive
-     * @default false
-     * @type {boolean}
-     */
-
-  }, {
-    key: "interactive",
-    get: function get() {
-      var s = this.__pro('interactive');
-
-      return s;
-    },
-    set: function set(v) {
-      return this.__pro('interactive', v);
-    }
-    /**
-     * 当前控件的子控件集合
-     * @property children
-     * @type {list}
-     */
-
-  }, {
-    key: "children",
-    get: function get() {
-      var s = this.__pro('children');
-
-      if (!s) s = this.__pro('children', new _jmList.jmList());
-      return s;
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('children', v);
-    }
-    /**
-     * 宽度
-     * @property width
-     * @type {number}
-     */
-
-  }, {
-    key: "width",
-    get: function get() {
-      var s = this.__pro('width');
-
-      if (typeof s == 'undefined') s = this.__pro('width', 0);
-      return s;
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('width', v);
-    }
-    /**
-     * 高度
-     * @property height
-     * @type {number}
-     */
-
-  }, {
-    key: "height",
-    get: function get() {
-      var s = this.__pro('height');
-
-      if (typeof s == 'undefined') s = this.__pro('height', 0);
-      return s;
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('height', v);
-    }
-    /**
-     * 控件层级关系，发生改变时，需要重新调整排序
-     * @property zIndex
-     * @type {number}
-     */
-
-  }, {
-    key: "zIndex",
-    get: function get() {
-      var s = this.__pro('zIndex');
-
-      if (!s) s = this.__pro('zIndex', 0);
-      return s;
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-
-      this.__pro('zIndex', v);
-
-      this.children.sort(); //层级发生改变，需要重新排序
-
-      this.needUpdate = true;
-      return v;
-    }
-    /**
-     * 设置鼠标指针
-     * css鼠标指针标识,例如:pointer,move等
-     * 
-     * @property cursor
-     * @type {string}
-     */
-
-  }, {
-    key: "cursor",
-    set: function set(cur) {
-      var graph = this.graph;
-
-      if (graph) {
-        graph.css('cursor', cur);
-      }
-    },
-    get: function get() {
-      var graph = this.graph;
-
-      if (graph) {
-        return graph.css('cursor');
-      }
-    }
   }]);
 
   return jmControl;
@@ -1867,7 +1897,7 @@ exports.jmControl = exports["default"] = jmControl;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.jmEvents = exports.default = void 0;
+exports.jmEvents = exports["default"] = void 0;
 
 var _jmUtils = require("./jmUtils.js");
 
@@ -1938,15 +1968,15 @@ var jmEvents = /*#__PURE__*/function () {
       this.container.raiseEvent('touchcancel', evt);
       var t = evt.target || evt.srcElement;
 
-      if (t == target) {
+      if (t == this.target) {
         //if(evt.preventDefault) evt.preventDefault();
         return false;
       }
     }
   }, {
     key: "destory",
-    // 销毁
-    value: function destory() {
+    value: // 销毁
+    function destory() {
       this.mouseHandler.destory();
       this.keyHandler.destory();
     }
@@ -2196,8 +2226,8 @@ var jmGradient = /*#__PURE__*/function () {
     //linear-gradient(direction, color-stop1, color-stop2, ...);
     //radial-gradient(center, shape size, start-color, ..., last-color);
     else if (typeof opt == 'string') {
-        this.fromString(opt);
-      }
+      this.fromString(opt);
+    }
   }
   /**
    * 添加渐变色
@@ -2338,26 +2368,26 @@ var jmGradient = /*#__PURE__*/function () {
         }
       } //径向渐变
       else {
-          if (ps.length <= 3) {
-            this.x2 = ps[0];
-            this.y2 = ps[1] || 0;
-            this.r2 = ps[2] || 0;
-          } else {
-            this.x1 = ps[0];
-            this.y1 = ps[1];
-            this.r1 = ps[2];
-            this.x2 = ps[3];
-            this.y2 = ps[3];
-            this.r2 = ps[3];
-          }
-        } //解析颜色偏移
+        if (ps.length <= 3) {
+          this.x2 = ps[0];
+          this.y2 = ps[1] || 0;
+          this.r2 = ps[2] || 0;
+        } else {
+          this.x1 = ps[0];
+          this.y1 = ps[1];
+          this.r1 = ps[2];
+          this.x2 = ps[3];
+          this.y2 = ps[3];
+          this.r2 = ps[3];
+        }
+      } //解析颜色偏移
       //color step
 
 
       var pars = ms[3].match(/((rgb(a)?\s*\([\d,\.\s]+\))|(#[a-zA-Z\d]+))\s+([\d\.]+)/ig);
 
       if (pars && pars.length) {
-        for (var i = 1; i < pars.length; i++) {
+        for (var i = 0; i < pars.length; i++) {
           var par = _jmUtils.jmUtils.trim(pars[i]);
 
           var spindex = par.lastIndexOf(' ');
@@ -2408,6 +2438,8 @@ exports.jmGradient = exports["default"] = jmGradient;
 
 },{"./jmList.js":6,"./jmUtils.js":11}],5:[function(require,module,exports){
 "use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -2478,8 +2510,6 @@ var _jmControl2 = require("./jmControl.js");
 
 var _jmPath = require("./jmPath.js");
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2494,11 +2524,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -2553,11 +2583,14 @@ var jmGraph = /*#__PURE__*/function (_jmControl) {
       }
 
       if (canvas.tagName != 'CANVAS') {
+        _this.container = canvas;
         var cn = document.createElement('canvas');
         canvas.appendChild(cn);
         cn.width = canvas.offsetWidth || canvas.clientWidth;
         cn.height = canvas.offsetHeight || canvas.clientHeight;
         canvas = cn;
+      } else {
+        _this.container = canvas.parentElement;
       }
 
       _this.context = canvas.getContext('2d');
@@ -2636,21 +2669,83 @@ var jmGraph = /*#__PURE__*/function (_jmControl) {
       }
     }
     /**
+     * 内部坐标转为页面坐标，这里主要是有devicePixelRatio倍数问题
+     * @param {x, y} point 内部坐标
+     */
+
+  }, {
+    key: "pointToPixes",
+    value: function pointToPixes(point) {
+      if (this.devicePixelRatio && this.devicePixelRatio !== 1) {
+        point = Object.assign({}, point, {
+          x: point.x / this.devicePixelRatio,
+          y: point.y / this.devicePixelRatio
+        });
+      }
+
+      return point;
+    }
+    /**
      * 宽度
      * @property width
      * @type {number}
      */
 
   }, {
-    key: "getPosition",
+    key: "width",
+    get: function get() {
+      if (this.canvas) return this.canvas.width;
+      return 0;
+    },
+    set: function set(v) {
+      this.needUpdate = true;
 
+      if (this.canvas) {
+        this.canvas.width = v;
+        this.resize(v);
+      }
+
+      return v;
+    }
+    /**
+     * 高度
+     * @property height
+     * @type {number}
+     */
+
+  }, {
+    key: "height",
+    get: function get() {
+      if (this.canvas) return this.canvas.height;
+      return 0;
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+
+      if (this.canvas) {
+        this.canvas.height = v;
+        this.resize(0, v);
+      }
+
+      return v;
+    }
+    /**
+     * 创建jmGraph的静态对象
+     *
+     * @method create
+     * @return {jmGraph} jmGraph实例对象
+     */
+
+  }, {
+    key: "getPosition",
+    value:
     /**
      * 获取当前画布在浏览器中的绝对定位
      *
      * @method getPosition
      * @return {postion} 返回定位坐标
      */
-    value: function getPosition() {
+    function getPosition() {
       var p = _jmUtils.jmUtils.getElementPosition(this.canvas.canvas || this.canvas);
 
       p.width = this.canvas.width;
@@ -2677,20 +2772,16 @@ var jmGraph = /*#__PURE__*/function (_jmControl) {
      * 简单直观创建对象
      *
      * @method createShape 
-     * @param {string} name 注册控件的名称
+     * @param {string} shape 注册控件的名称 也可以直接是控件类型
      * @param {object} args 实例化控件的参数
      * @return {object} 已实例化控件的对象
      */
 
   }, {
     key: "createShape",
-    value: function createShape(name, args) {
-      var shape;
-
-      if (typeof name === 'function') {
-        shape = name;
-      } else {
-        shape = this.shapes[name];
+    value: function createShape(shape, args) {
+      if (typeof shape === 'string') {
+        shape = this.shapes[shape];
       }
 
       if (shape) {
@@ -3017,51 +3108,6 @@ var jmGraph = /*#__PURE__*/function (_jmControl) {
       this.eventHandler.destory();
       this.destoryed = true; // 标记已销毁
     }
-  }, {
-    key: "width",
-    get: function get() {
-      if (this.canvas) return this.canvas.width;
-      return 0;
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-
-      if (this.canvas) {
-        this.canvas.width = v;
-        this.resize(v);
-      }
-
-      return v;
-    }
-    /**
-     * 高度
-     * @property height
-     * @type {number}
-     */
-
-  }, {
-    key: "height",
-    get: function get() {
-      if (this.canvas) return this.canvas.height;
-      return 0;
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-
-      if (this.canvas) {
-        this.canvas.height = v;
-        this.resize(0, v);
-      }
-
-      return v;
-    }
-    /**
-     * 创建jmGraph的静态对象
-     *
-     * @method create
-     * @return {jmGraph} jmGraph实例对象
-     */
-
   }], [{
     key: "create",
     value: function create() {
@@ -3098,7 +3144,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -3106,7 +3152,7 @@ function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new 
 
 function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _isNativeFunction(fn) { return Function.toString.call(fn).indexOf("[native code]") !== -1; }
 
@@ -3457,14 +3503,14 @@ exports.jmObject = exports["default"] = jmObject;
 },{"./jmList.js":6}],8:[function(require,module,exports){
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.jmPath = exports["default"] = void 0;
 
 var _jmControl2 = require("./jmControl.js");
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -3478,11 +3524,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -3539,14 +3585,14 @@ exports.jmPath = exports["default"] = jmPath;
 },{"./jmControl.js":2}],9:[function(require,module,exports){
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.jmProperty = exports["default"] = void 0;
 
 var _jmObject2 = require("./jmObject.js");
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -3560,11 +3606,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -3793,7 +3839,7 @@ var jmUtils = /*#__PURE__*/function () {
 
   _createClass(jmUtils, null, [{
     key: "clone",
-
+    value:
     /**
      * 复制一个对象
      * 
@@ -3802,14 +3848,30 @@ var jmUtils = /*#__PURE__*/function () {
      * @param {object} source 被复制的对象
      * @param {object} target 可选，如果指定就表示复制给这个对象，如果为boolean它就是deep参数
      * @param {boolean} deep 是否深度复制，如果为true,数组内的每个对象都会被复制
+     * @param {function} copyHandler 复制对象回调，如果返回undefined，就走后面的逻辑，否则到这里中止
      * @return {object} 参数source的拷贝对象
      */
-    value: function clone(source, target) {
+    function clone(source, target) {
       var deep = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+      var copyHandler = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+      var deepIndex = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
+
+      // 如果有指定回调，则用回调处理，否则走后面的复制逻辑
+      if (typeof copyHandler === 'function') {
+        var obj = copyHandler(source, deep, deepIndex);
+        if (obj) return obj;
+      }
+
+      deepIndex++; // 每执行一次，需要判断最大拷贝深度        
 
       if (typeof target === 'boolean') {
         deep = target;
         target = undefined;
+      } // 超过100拷贝深度，直接返回
+
+
+      if (deepIndex > 100) {
+        return target;
       }
 
       if (source && _typeof(source) === 'object') {
@@ -3823,7 +3885,7 @@ var jmUtils = /*#__PURE__*/function () {
             var dest = [];
 
             for (var i = 0; i < source.length; i++) {
-              dest.push(this.clone(source[i], deep));
+              dest.push(this.clone(source[i], target[i], deep, copyHandler, deepIndex));
             }
 
             return dest;
@@ -3832,12 +3894,13 @@ var jmUtils = /*#__PURE__*/function () {
           return source.slice(0);
         }
 
-        target.constructor = source.constructor;
+        if (source.__proto__) target.__proto__ = source.__proto__;
 
         for (var k in source) {
-          // 如果不是对象和空，则采用target的属性
+          if (k === 'constructor') continue; // 如果不是对象和空，则采用target的属性
+
           if (_typeof(target[k]) === 'object' || typeof target[k] === 'undefined') {
-            target[k] = this.clone(source[k], target[k], deep);
+            target[k] = this.clone(source[k], target[k], deep, copyHandler, deepIndex);
           }
         }
 
@@ -3993,7 +4056,8 @@ var jmUtils = /*#__PURE__*/function () {
         screenY: evt.screenY,
         x: ox,
         y: oy,
-        isTouch: isTouch
+        isTouch: isTouch,
+        touches: touches
       };
     }
     /**
@@ -4048,44 +4112,44 @@ var jmUtils = /*#__PURE__*/function () {
         return Math.abs(polygon[0].x - pt.x) <= offset && Math.abs(polygon[0].y - pt.y) <= offset;
       } //一条直线
       else if (n == 2) {
-          //在最左边之外或在最右边之外
-          if (Math.min(polygon[0].x, polygon[1].x) - pt.x > offset || pt.x - Math.max(polygon[0].x, polygon[1].x) > offset) {
-            return 0;
-          } //在最顶部之外或在最底部之外
-
-
-          if (Math.min(polygon[0].y, polygon[1].y) - pt.y > offset || pt.y - Math.max(polygon[0].y, polygon[1].y) > offset) {
-            return 0;
-          } //如果线为平行为纵坐标。
-
-
-          if (polygon[0].x == polygon[1].x) {
-            return Math.abs(polygon[0].x - pt.x) <= offset && (pt.y - polygon[0].y) * (pt.y - polygon[1].y) <= 0 ? 1 : 0;
-          } //如果线为平行为横坐标。
-
-
-          if (polygon[0].y == polygon[1].y) {
-            return Math.abs(polygon[0].y - pt.y) <= offset && (pt.x - polygon[0].x) * (pt.x - polygon[1].x) <= 0 ? 1 : 0;
-          }
-
-          if (Math.abs(polygon[0].x - pt.x) < offset && Math.abs(polygon[0].y - pt.y) < offset) {
-            return 1;
-          }
-
-          if (Math.abs(polygon[1].x - pt.x) < offset && Math.abs(polygon[1].y - pt.y) < offset) {
-            return 1;
-          } //点到直线的距离小于宽度的一半，表示在线上
-
-
-          if (pt.y != polygon[0].y && pt.y != polygon[1].y) {
-            var f = (polygon[1].x - polygon[0].x) / (polygon[1].y - polygon[0].y) * (pt.y - polygon[0].y);
-            var ff = (pt.y - polygon[0].y) / Math.sqrt(f * f + (pt.y - polygon[0].y) * (pt.y - polygon[0].y));
-            var l = ff * (pt.x - polygon[0].x - f);
-            return Math.abs(l) <= offset ? 1 : 0;
-          }
-
+        //在最左边之外或在最右边之外
+        if (Math.min(polygon[0].x, polygon[1].x) - pt.x > offset || pt.x - Math.max(polygon[0].x, polygon[1].x) > offset) {
           return 0;
+        } //在最顶部之外或在最底部之外
+
+
+        if (Math.min(polygon[0].y, polygon[1].y) - pt.y > offset || pt.y - Math.max(polygon[0].y, polygon[1].y) > offset) {
+          return 0;
+        } //如果线为平行为纵坐标。
+
+
+        if (polygon[0].x == polygon[1].x) {
+          return Math.abs(polygon[0].x - pt.x) <= offset && (pt.y - polygon[0].y) * (pt.y - polygon[1].y) <= 0 ? 1 : 0;
+        } //如果线为平行为横坐标。
+
+
+        if (polygon[0].y == polygon[1].y) {
+          return Math.abs(polygon[0].y - pt.y) <= offset && (pt.x - polygon[0].x) * (pt.x - polygon[1].x) <= 0 ? 1 : 0;
         }
+
+        if (Math.abs(polygon[0].x - pt.x) < offset && Math.abs(polygon[0].y - pt.y) < offset) {
+          return 1;
+        }
+
+        if (Math.abs(polygon[1].x - pt.x) < offset && Math.abs(polygon[1].y - pt.y) < offset) {
+          return 1;
+        } //点到直线的距离小于宽度的一半，表示在线上
+
+
+        if (pt.y != polygon[0].y && pt.y != polygon[1].y) {
+          var f = (polygon[1].x - polygon[0].x) / (polygon[1].y - polygon[0].y) * (pt.y - polygon[0].y);
+          var ff = (pt.y - polygon[0].y) / Math.sqrt(f * f + (pt.y - polygon[0].y) * (pt.y - polygon[0].y));
+          var l = ff * (pt.x - polygon[0].x - f);
+          return Math.abs(l) <= offset ? 1 : 0;
+        }
+
+        return 0;
+      }
 
       for (i = 0; i < n; ++i) {
         if (polygon[i].x == pt.x && // 是否在顶点上
@@ -4135,7 +4199,7 @@ var jmUtils = /*#__PURE__*/function () {
     /**
      * @method judge 判断点是否在多边形中
      * @param {point} dot {{x,y}} 需要判断的点
-     * @param {array} coordinates {{x,y}[]} 多边形点坐标的数组，为保证图形能够闭合，起点和终点必须相等。
+     * @param {array} coordinates {{x,y}} 多边形点坐标的数组，为保证图形能够闭合，起点和终点必须相等。
      *        比如三角形需要四个点表示，第一个点和最后一个点必须相同。 
      * @param  {number} 是否为实心 1= 是
      * @returns {boolean} 结果 true=在形状内
@@ -4460,39 +4524,39 @@ var jmUtils = /*#__PURE__*/function () {
           return color;
         } // #cccccc || #ccc
         else if (hex.length === 7 || hex.length === 4) {
-            // #ccc这种情况，把每个位复制一份
-            if (hex.length === 4) {
-              color.g = hex.substr(2, 1);
-              color.g = color.g + color.g;
-              color.b = hex.substr(3, 1);
-              color.b = color.b + color.b;
-              color.r = hex.substr(1, 1);
-              color.r = color.r + color.r;
-            } else {
-              color.g = hex.substr(3, 2); //除#号外的第二位
+          // #ccc这种情况，把每个位复制一份
+          if (hex.length === 4) {
+            color.g = hex.substr(2, 1);
+            color.g = color.g + color.g;
+            color.b = hex.substr(3, 1);
+            color.b = color.b + color.b;
+            color.r = hex.substr(1, 1);
+            color.r = color.r + color.r;
+          } else {
+            color.g = hex.substr(3, 2); //除#号外的第二位
 
-              color.b = hex.substr(5, 2);
-              color.r = hex.substr(1, 2);
-            }
+            color.b = hex.substr(5, 2);
+            color.r = hex.substr(1, 2);
+          }
 
-            color.r = this.hexToNumber(color.r || 0);
-            color.g = this.hexToNumber(color.g || 0);
-            color.b = this.hexToNumber(color.b || 0);
-            return color;
-          } //如果是5位的话，# 则第2位表示A，后面依次是r,g,b
-          else if (hex.length === 5) {
-              color.a = hex.substr(1, 1);
-              color.g = hex.substr(3, 1); //除#号外的第二位
+          color.r = this.hexToNumber(color.r || 0);
+          color.g = this.hexToNumber(color.g || 0);
+          color.b = this.hexToNumber(color.b || 0);
+          return color;
+        } //如果是5位的话，# 则第2位表示A，后面依次是r,g,b
+        else if (hex.length === 5) {
+          color.a = hex.substr(1, 1);
+          color.g = hex.substr(3, 1); //除#号外的第二位
 
-              color.b = hex.substr(4, 1);
-              color.r = hex.substr(2, 1);
-              color.r = this.hexToNumber(color.r || 0);
-              color.g = this.hexToNumber(color.g || 0);
-              color.b = this.hexToNumber(color.b || 0); //透明度
+          color.b = hex.substr(4, 1);
+          color.r = hex.substr(2, 1);
+          color.r = this.hexToNumber(color.r || 0);
+          color.g = this.hexToNumber(color.g || 0);
+          color.b = this.hexToNumber(color.b || 0); //透明度
 
-              color.a = (this.hexToNumber(color.a) / 255).toFixed(4);
-              return color;
-            }
+          color.a = (this.hexToNumber(color.a) / 255).toFixed(4);
+          return color;
+        }
       }
 
       return hex;
@@ -4541,14 +4605,14 @@ exports.jmUtils = exports["default"] = jmUtils;
 },{"./jmList.js":6}],12:[function(require,module,exports){
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.jmArc = exports["default"] = void 0;
 
 var _jmPath2 = require("../core/jmPath.js");
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -4562,11 +4626,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -4611,60 +4675,6 @@ var jmArc = /*#__PURE__*/function (_jmPath) {
 
 
   _createClass(jmArc, [{
-    key: "initPoints",
-
-    /**
-     * 初始化图形点
-     * 
-     * @method initPoint
-     * @private
-     * @for jmArc
-     */
-    value: function initPoints() {
-      var location = this.getLocation(); //获取位置参数
-
-      var mw = 0;
-      var mh = 0;
-      var cx = location.center.x;
-      var cy = location.center.y; //如果设定了半径。则以半径为主	
-
-      if (location.radius) {
-        mw = mh = location.radius;
-      } else {
-        mw = location.width / 2;
-        mh = location.height / 2;
-      }
-
-      var start = this.startAngle;
-      var end = this.endAngle;
-      if (mw == 0 && mh == 0 || start == end) return;
-      var anticlockwise = this.anticlockwise;
-      this.points = [];
-      var step = 1 / Math.max(mw, mh); //如果是逆时针绘制，则角度为负数，并且结束角为2Math.PI-end
-
-      if (anticlockwise) {
-        var p2 = Math.PI * 2;
-        start = p2 - start;
-        end = p2 - end;
-      }
-
-      if (start > end) step = -step;
-      if (this.isFan) this.points.push(location.center); // 如果是扇形，则从中心开始画
-      //椭圆方程x=a*cos(r) ,y=b*sin(r)	
-
-      for (var r = start;; r += step) {
-        if (step > 0 && r > end) r = end;else if (step < 0 && r < end) r = end;
-        var p = {
-          x: Math.cos(r) * mw + cx,
-          y: Math.sin(r) * mh + cy
-        };
-        this.points.push(p);
-        if (r == end) break;
-      }
-
-      return this.points;
-    }
-  }, {
     key: "center",
     get: function get() {
       return this.__pro('center');
@@ -4734,6 +4744,60 @@ var jmArc = /*#__PURE__*/function (_jmPath) {
       this.needUpdate = true;
       return this.__pro('anticlockwise', v);
     }
+    /**
+     * 初始化图形点
+     * 
+     * @method initPoint
+     * @private
+     * @for jmArc
+     */
+
+  }, {
+    key: "initPoints",
+    value: function initPoints() {
+      var location = this.getLocation(); //获取位置参数
+
+      var mw = 0;
+      var mh = 0;
+      var cx = location.center.x;
+      var cy = location.center.y; //如果设定了半径。则以半径为主	
+
+      if (location.radius) {
+        mw = mh = location.radius;
+      } else {
+        mw = location.width / 2;
+        mh = location.height / 2;
+      }
+
+      var start = this.startAngle;
+      var end = this.endAngle;
+      if (mw == 0 && mh == 0 || start == end) return;
+      var anticlockwise = this.anticlockwise;
+      this.points = [];
+      var step = 1 / Math.max(mw, mh); //如果是逆时针绘制，则角度为负数，并且结束角为2Math.PI-end
+
+      if (anticlockwise) {
+        var p2 = Math.PI * 2;
+        start = p2 - start;
+        end = p2 - end;
+      }
+
+      if (start > end) step = -step;
+      if (this.isFan) this.points.push(location.center); // 如果是扇形，则从中心开始画
+      //椭圆方程x=a*cos(r) ,y=b*sin(r)	
+
+      for (var r = start;; r += step) {
+        if (step > 0 && r > end) r = end;else if (step < 0 && r < end) r = end;
+        var p = {
+          x: Math.cos(r) * mw + cx,
+          y: Math.sin(r) * mh + cy
+        };
+        this.points.push(p);
+        if (r == end) break;
+      }
+
+      return this.points;
+    }
   }]);
 
   return jmArc;
@@ -4744,16 +4808,16 @@ exports.jmArc = exports["default"] = jmArc;
 },{"../core/jmPath.js":8}],13:[function(require,module,exports){
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.jmArraw = exports["default"] = void 0;
+exports.jmArrow = exports["default"] = void 0;
 
 var _jmPath2 = require("../core/jmPath.js");
 
 var _jmUtils = require("../core/jmUtils.js");
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -4767,32 +4831,32 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 /**
  * 画箭头,继承自jmPath
  *
- * @class jmArraw
+ * @class jmArrow
  * @extends jmPath
  * @param {object} 生成箭头所需的参数
  */
-var jmArraw = /*#__PURE__*/function (_jmPath) {
-  _inherits(jmArraw, _jmPath);
+var jmArrow = /*#__PURE__*/function (_jmPath) {
+  _inherits(jmArrow, _jmPath);
 
-  var _super = _createSuper(jmArraw);
+  var _super = _createSuper(jmArrow);
 
-  function jmArraw(params) {
+  function jmArrow(params) {
     var _this;
 
-    var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'jmArraw';
+    var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'jmArrow';
 
-    _classCallCheck(this, jmArraw);
+    _classCallCheck(this, jmArrow);
 
     _this = _super.call(this, params, t);
     _this.style.lineJoin = 'miter';
@@ -4814,22 +4878,99 @@ var jmArraw = /*#__PURE__*/function (_jmPath) {
    * 控制起始点
    *
    * @property start
-   * @for jmArraw
+   * @for jmArrow
    * @type {point}
    */
 
 
-  _createClass(jmArraw, [{
-    key: "initPoints",
+  _createClass(jmArrow, [{
+    key: "start",
+    get: function get() {
+      return this.__pro('start');
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('start', v);
+    }
+    /**
+     * 控制结束点
+     *
+     * @property end
+     * @for jmArrow
+     * @type {point} 结束点
+     */
 
+  }, {
+    key: "end",
+    get: function get() {
+      return this.__pro('end');
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('end', v);
+    }
+    /**
+     * 箭头角度
+     *
+     * @property angle
+     * @for jmArrow
+     * @type {number} 箭头角度
+     */
+
+  }, {
+    key: "angle",
+    get: function get() {
+      return this.__pro('angle');
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('angle', v);
+    }
+    /**
+     * 箭头X偏移量
+     *
+     * @property offsetX
+     * @for jmArrow
+     * @type {number}
+     */
+
+  }, {
+    key: "offsetX",
+    get: function get() {
+      return this.__pro('offsetX');
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('offsetX', v);
+    }
+    /**
+     * 箭头Y偏移量
+     *
+     * @property offsetY
+     * @for jmArrow
+     * @type {number}
+     */
+
+  }, {
+    key: "offsetY",
+    get: function get() {
+      return this.__pro('offsetY');
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('offsetY', v);
+    }
     /**
      * 初始化图形点
      * 
      * @method initPoint
      * @private
      * @param {boolean} solid 是否为实心的箭头
-     * @for jmArraw
+     * @for jmArrow
      */
+
+  }, {
+    key: "initPoints",
     value: function initPoints(solid) {
       var rotate = this.angle;
       var start = this.start;
@@ -4881,103 +5022,26 @@ var jmArraw = /*#__PURE__*/function (_jmPath) {
 
       return this.points;
     }
-  }, {
-    key: "start",
-    get: function get() {
-      return this.__pro('start');
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('start', v);
-    }
-    /**
-     * 控制结束点
-     *
-     * @property end
-     * @for jmArraw
-     * @type {point} 结束点
-     */
-
-  }, {
-    key: "end",
-    get: function get() {
-      return this.__pro('end');
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('end', v);
-    }
-    /**
-     * 箭头角度
-     *
-     * @property angle
-     * @for jmArraw
-     * @type {number} 箭头角度
-     */
-
-  }, {
-    key: "angle",
-    get: function get() {
-      return this.__pro('angle');
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('angle', v);
-    }
-    /**
-     * 箭头X偏移量
-     *
-     * @property offsetX
-     * @for jmArraw
-     * @type {number}
-     */
-
-  }, {
-    key: "offsetX",
-    get: function get() {
-      return this.__pro('offsetX');
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('offsetX', v);
-    }
-    /**
-     * 箭头Y偏移量
-     *
-     * @property offsetY
-     * @for jmArraw
-     * @type {number}
-     */
-
-  }, {
-    key: "offsetY",
-    get: function get() {
-      return this.__pro('offsetY');
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('offsetY', v);
-    }
   }]);
 
-  return jmArraw;
+  return jmArrow;
 }(_jmPath2.jmPath);
 
-exports.jmArraw = exports["default"] = jmArraw;
+exports.jmArrow = exports["default"] = jmArrow;
 
 },{"../core/jmPath.js":8,"../core/jmUtils.js":11}],14:[function(require,module,exports){
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.jmArrawLine = exports["default"] = void 0;
+exports.jmArrowLine = exports["default"] = void 0;
 
 var _jmLine2 = require("./jmLine.js");
 
-var _jmArraw = require("./jmArraw.js");
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+var _jmArrow = require("./jmArrow.js");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -4995,30 +5059,30 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 /**
  * 带箭头的直线,继承jmPath
  *
- * @class jmArrawLine
+ * @class jmArrowLine
  * @extends jmLine
  * @param {object} params 生成当前直线的参数对象，(style=当前线条样式,start=直线起始点,end=直线终结点)
  */
-var jmArrawLine = /*#__PURE__*/function (_jmLine) {
-  _inherits(jmArrawLine, _jmLine);
+var jmArrowLine = /*#__PURE__*/function (_jmLine) {
+  _inherits(jmArrowLine, _jmLine);
 
-  var _super = _createSuper(jmArrawLine);
+  var _super = _createSuper(jmArrowLine);
 
-  function jmArrawLine(params, t) {
+  function jmArrowLine(params, t) {
     var _this;
 
-    _classCallCheck(this, jmArrawLine);
+    _classCallCheck(this, jmArrowLine);
 
     params.start = params.start || {
       x: 0,
@@ -5028,9 +5092,9 @@ var jmArrawLine = /*#__PURE__*/function (_jmLine) {
       x: 0,
       y: 0
     };
-    _this = _super.call(this, params, t || 'jmArrawLine');
+    _this = _super.call(this, params, t || 'jmArrowLine');
     _this.style.lineJoin = _this.style.lineJoin || 'miter';
-    _this.arraw = new _jmArraw.jmArraw(params);
+    _this.arrow = new _jmArrow.jmArrow(params);
     return _this;
   }
   /**
@@ -5041,26 +5105,28 @@ var jmArrawLine = /*#__PURE__*/function (_jmLine) {
    */
 
 
-  _createClass(jmArrawLine, [{
+  _createClass(jmArrowLine, [{
     key: "initPoints",
     value: function initPoints() {
-      this.points = _get(_getPrototypeOf(jmArrawLine.prototype), "initPoints", this).call(this);
+      this.points = _get(_getPrototypeOf(jmArrowLine.prototype), "initPoints", this).call(this);
 
-      if (this.arrawVisible !== false) {
-        this.points = this.points.concat(this.arraw.initPoints());
+      if (this.arrowVisible !== false) {
+        this.points = this.points.concat(this.arrow.initPoints());
       }
 
       return this.points;
     }
   }]);
 
-  return jmArrawLine;
+  return jmArrowLine;
 }(_jmLine2.jmLine);
 
-exports.jmArrawLine = exports["default"] = jmArrawLine;
+exports.jmArrowLine = exports["default"] = jmArrowLine;
 
-},{"./jmArraw.js":13,"./jmLine.js":20}],15:[function(require,module,exports){
+},{"./jmArrow.js":13,"./jmLine.js":20}],15:[function(require,module,exports){
 "use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -5068,8 +5134,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.jmBezier = exports["default"] = void 0;
 
 var _jmPath2 = require("../core/jmPath.js");
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -5083,11 +5147,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -5130,14 +5194,23 @@ var jmBezier = /*#__PURE__*/function (_jmPath) {
 
 
   _createClass(jmBezier, [{
-    key: "initPoints",
-
+    key: "cpoints",
+    get: function get() {
+      return this.__pro('cpoints');
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('cpoints', v);
+    }
     /**
      * 初始化图形点
      *
      * @method initPoints
      * @private
      */
+
+  }, {
+    key: "initPoints",
     value: function initPoints() {
       this.points = [];
       var cps = this.cpoints;
@@ -5215,15 +5288,6 @@ var jmBezier = /*#__PURE__*/function (_jmPath) {
         this.getLocation(true); //重置
       }
     }
-  }, {
-    key: "cpoints",
-    get: function get() {
-      return this.__pro('cpoints');
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('cpoints', v);
-    }
   }]);
 
   return jmBezier;
@@ -5234,14 +5298,14 @@ exports.jmBezier = exports["default"] = jmBezier;
 },{"../core/jmPath.js":8}],16:[function(require,module,exports){
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.jmCircle = exports["default"] = void 0;
 
 var _jmArc2 = require("./jmArc.js");
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -5255,11 +5319,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -5350,14 +5414,14 @@ exports.jmCircle = exports["default"] = jmCircle;
 },{"./jmArc.js":12}],17:[function(require,module,exports){
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.jmHArc = exports["default"] = void 0;
 
 var _jmArc2 = require("./jmArc.js");
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -5371,11 +5435,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -5399,8 +5463,8 @@ var jmHArc = /*#__PURE__*/function (_jmArc) {
     _classCallCheck(this, jmHArc);
 
     _this = _super.call(this, params, t);
-    _this.minRadius = params.minRadius || style.minRadius || 0;
-    _this.maxRadius = params.maxRadius || style.maxRadius || 0;
+    _this.minRadius = params.minRadius || _this.style.minRadius || 0;
+    _this.maxRadius = params.maxRadius || _this.style.maxRadius || 0;
     return _this;
   }
   /**
@@ -5413,59 +5477,6 @@ var jmHArc = /*#__PURE__*/function (_jmArc) {
 
 
   _createClass(jmHArc, [{
-    key: "initPoints",
-
-    /**
-     * 初始化图形点
-     *
-     * @method initPoints
-     * @private
-     */
-    value: function initPoints() {
-      var location = this.getLocation(); //如果设定了半径。则以半径为主
-
-      var minr = this.minRadius;
-      var maxr = this.maxRadius;
-      var start = this.startAngle;
-      var end = this.endAngle;
-      var anticlockwise = this.anticlockwise; //如果是逆时针绘制，则角度为负数，并且结束角为2Math.PI-end
-
-      if (anticlockwise) {
-        var p2 = Math.PI * 2;
-        start = p2 - start;
-        end = p2 - end;
-      }
-
-      var step = 0.1;
-      if (start > end) step = -step;
-      var minps = [];
-      var maxps = []; //椭圆方程x=a*cos(r) ,y=b*sin(r)
-
-      for (var r = start;; r += step) {
-        if (step > 0 && r >= end) break;else if (step < 0 && r <= end) break;
-        var cos = Math.cos(r);
-        var sin = Math.sin(r);
-        var p1 = {
-          x: cos * minr + location.center.x,
-          y: sin * minr + location.center.y
-        };
-        var _p = {
-          x: cos * maxr + location.center.x,
-          y: sin * maxr + location.center.y
-        };
-        minps.push(p1);
-        maxps.push(_p);
-      }
-
-      maxps.reverse(); //大圆逆序
-
-      if (!this.style || !this.style.close) {
-        maxps[0].m = true; //开始画大圆时表示为移动
-      }
-
-      this.points = minps.concat(maxps);
-    }
-  }, {
     key: "minRadius",
     get: function get() {
       return this.__pro('minRadius');
@@ -5491,6 +5502,65 @@ var jmHArc = /*#__PURE__*/function (_jmArc) {
       this.needUpdate = true;
       return this.__pro('maxRadius', v);
     }
+    /**
+     * 初始化图形点
+     *
+     * @method initPoints
+     * @private
+     */
+
+  }, {
+    key: "initPoints",
+    value: function initPoints() {
+      var location = this.getLocation(); //如果设定了半径。则以半径为主
+
+      var minr = this.minRadius;
+      var maxr = this.maxRadius;
+      var start = this.startAngle;
+      var end = this.endAngle;
+      var anticlockwise = this.anticlockwise; //如果是逆时针绘制，则角度为负数，并且结束角为2Math.PI-end
+
+      if (anticlockwise) {
+        var p2 = Math.PI * 2;
+        start = p2 - start;
+        end = p2 - end;
+      }
+
+      var step = 0.1;
+      if (start > end) step = -step;
+      var minps = [];
+      var maxps = []; //椭圆方程x=a*cos(r) ,y=b*sin(r)
+
+      for (var r = start;; r += step) {
+        if (step > 0 && r > end) {
+          r = end;
+        } else if (step < 0 && r < end) {
+          r = end;
+        }
+
+        var cos = Math.cos(r);
+        var sin = Math.sin(r);
+        var p1 = {
+          x: cos * minr + location.center.x,
+          y: sin * minr + location.center.y
+        };
+        var _p = {
+          x: cos * maxr + location.center.x,
+          y: sin * maxr + location.center.y
+        };
+        minps.push(p1);
+        maxps.push(_p);
+        if (r === end) break;
+      }
+
+      maxps.reverse(); //大圆逆序
+
+      if (!this.style || !this.style.close) {
+        maxps[0].m = true; //开始画大圆时表示为移动
+      }
+
+      this.points = minps.concat(maxps);
+    }
   }]);
 
   return jmHArc;
@@ -5501,14 +5571,14 @@ exports.jmHArc = exports["default"] = jmHArc;
 },{"./jmArc.js":12}],18:[function(require,module,exports){
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.jmImage = exports["default"] = void 0;
 
 var _jmControl2 = require("../core/jmControl.js");
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -5522,11 +5592,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -5568,14 +5638,70 @@ var jmImage = /*#__PURE__*/function (_jmControl) {
 
 
   _createClass(jmImage, [{
-    key: "draw",
+    key: "sourcePosition",
+    get: function get() {
+      return this.__pro('sourcePosition');
+    },
+    set: function set(v) {
+      return this.__pro('sourcePosition', v);
+    }
+    /**
+     * 被剪切宽度
+     *
+     * @property sourceWidth
+     * @type {number}
+     */
 
+  }, {
+    key: "sourceWidth",
+    get: function get() {
+      return this.__pro('sourceWidth');
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('sourceWidth', v);
+    }
+    /**
+     * 被剪切高度
+     *
+     * @method sourceHeight
+     * @type {number}
+     */
+
+  }, {
+    key: "sourceHeight",
+    get: function get() {
+      return this.__pro('sourceHeight');
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('sourceHeight', v);
+    }
+    /**
+     * 设定要绘制的图像或其它多媒体对象，可以是图片地址，或图片image对象
+     *
+     * @method image
+     * @type {img}
+     */
+
+  }, {
+    key: "image",
+    get: function get() {
+      return this.__pro('image');
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('image', v);
+    }
     /**
      * 重写控件绘制
      * 根据父边界偏移和此控件参数绘制图片
      *
      * @method draw
      */
+
+  }, {
+    key: "draw",
     value: function draw() {
       try {
         var bounds = this.parent && this.parent.absoluteBounds ? this.parent.absoluteBounds : this.absoluteBounds;
@@ -5657,62 +5783,6 @@ var jmImage = /*#__PURE__*/function (_jmControl) {
 
       return this.__img;
     }
-  }, {
-    key: "sourcePosition",
-    get: function get() {
-      return this.__pro('sourcePosition');
-    },
-    set: function set(v) {
-      return this.__pro('sourcePosition', v);
-    }
-    /**
-     * 被剪切宽度
-     *
-     * @property sourceWidth
-     * @type {number}
-     */
-
-  }, {
-    key: "sourceWidth",
-    get: function get() {
-      return this.__pro('sourceWidth');
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('sourceWidth', v);
-    }
-    /**
-     * 被剪切高度
-     *
-     * @method sourceHeight
-     * @type {number}
-     */
-
-  }, {
-    key: "sourceHeight",
-    get: function get() {
-      return this.__pro('sourceHeight');
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('sourceHeight', v);
-    }
-    /**
-     * 设定要绘制的图像或其它多媒体对象，可以是图片地址，或图片image对象
-     *
-     * @method image
-     * @type {img}
-     */
-
-  }, {
-    key: "image",
-    get: function get() {
-      return this.__pro('image');
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('image', v);
-    }
   }]);
 
   return jmImage;
@@ -5723,14 +5793,14 @@ exports.jmImage = exports["default"] = jmImage;
 },{"../core/jmControl.js":2}],19:[function(require,module,exports){
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.jmLabel = exports["default"] = void 0;
 
 var _jmControl2 = require("../core/jmControl.js");
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -5748,11 +5818,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -5795,14 +5865,54 @@ var jmLabel = /*#__PURE__*/function (_jmControl) {
 
 
   _createClass(jmLabel, [{
-    key: "getLocation",
+    key: "text",
+    get: function get() {
+      return this.__pro('text');
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('text', v);
+    }
+    /**
+     * 中心点
+     * point格式：{x:0,y:0,m:true}
+     * @property center
+     * @type {point}
+     */
 
+  }, {
+    key: "center",
+    get: function get() {
+      return this.__pro('center');
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('center', v);
+    }
+    /**
+     * 当前位置左上角
+     * @property position
+     * @type {point}
+     */
+
+  }, {
+    key: "position",
+    get: function get() {
+      return this.__pro('position');
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('position', v);
+    }
     /**
      * 在基础的getLocation上，再加上一个特殊的center处理
      * 
      * @method getLocation
      * @returns {Object}
      */
+
+  }, {
+    key: "getLocation",
     value: function getLocation() {
       var location = _get(_getPrototypeOf(jmLabel.prototype), "getLocation", this).call(this);
 
@@ -5974,46 +6084,6 @@ var jmLabel = /*#__PURE__*/function (_jmControl) {
         }
       }
     }
-  }, {
-    key: "text",
-    get: function get() {
-      return this.__pro('text');
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('text', v);
-    }
-    /**
-     * 中心点
-     * point格式：{x:0,y:0,m:true}
-     * @property center
-     * @type {point}
-     */
-
-  }, {
-    key: "center",
-    get: function get() {
-      return this.__pro('center');
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('center', v);
-    }
-    /**
-     * 当前位置左上角
-     * @property position
-     * @type {point}
-     */
-
-  }, {
-    key: "position",
-    get: function get() {
-      return this.__pro('position');
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('position', v);
-    }
   }]);
 
   return jmLabel;
@@ -6024,14 +6094,14 @@ exports.jmLabel = exports["default"] = jmLabel;
 },{"../core/jmControl.js":2}],20:[function(require,module,exports){
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.jmLine = exports["default"] = void 0;
 
 var _jmPath2 = require("../core/jmPath.js");
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -6045,11 +6115,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -6095,13 +6165,39 @@ var jmLine = /*#__PURE__*/function (_jmPath) {
 
 
   _createClass(jmLine, [{
-    key: "initPoints",
+    key: "start",
+    get: function get() {
+      return this.__pro('start');
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('start', v);
+    }
+    /**
+     * 控制结束点
+     * 
+     * @property end
+     * @for jmLine
+     * @type {point}
+     */
 
+  }, {
+    key: "end",
+    get: function get() {
+      return this.__pro('end');
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('end', v);
+    }
     /**
      * 初始化图形点,如呆为虚线则根据跳跃间隔描点
      * @method initPoints
      * @private
      */
+
+  }, {
+    key: "initPoints",
     value: function initPoints() {
       var start = this.start;
       var end = this.end;
@@ -6141,32 +6237,6 @@ var jmLine = /*#__PURE__*/function (_jmPath) {
       this.points.push(end);
       return this.points;
     }
-  }, {
-    key: "start",
-    get: function get() {
-      return this.__pro('start');
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('start', v);
-    }
-    /**
-     * 控制结束点
-     * 
-     * @property end
-     * @for jmLine
-     * @type {point}
-     */
-
-  }, {
-    key: "end",
-    get: function get() {
-      return this.__pro('end');
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('end', v);
-    }
   }]);
 
   return jmLine;
@@ -6177,14 +6247,14 @@ exports.jmLine = exports["default"] = jmLine;
 },{"../core/jmPath.js":8}],21:[function(require,module,exports){
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.jmPrismatic = exports["default"] = void 0;
 
 var _jmPath2 = require("../core/jmPath.js");
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -6198,11 +6268,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -6245,8 +6315,14 @@ var jmPrismatic = /*#__PURE__*/function (_jmPath) {
 
 
   _createClass(jmPrismatic, [{
-    key: "initPoints",
-
+    key: "center",
+    get: function get() {
+      return this.__pro('center');
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('center', v);
+    }
     /**
      * 初始化图形点
      * 计算棱形顶点
@@ -6254,6 +6330,9 @@ var jmPrismatic = /*#__PURE__*/function (_jmPath) {
      * @method initPoints
      * @private
      */
+
+  }, {
+    key: "initPoints",
     value: function initPoints() {
       var location = this.getLocation();
       var mw = location.width / 2;
@@ -6276,15 +6355,6 @@ var jmPrismatic = /*#__PURE__*/function (_jmPath) {
         y: location.center.y - mh
       });
     }
-  }, {
-    key: "center",
-    get: function get() {
-      return this.__pro('center');
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('center', v);
-    }
   }]);
 
   return jmPrismatic;
@@ -6295,6 +6365,8 @@ exports.jmPrismatic = exports["default"] = jmPrismatic;
 },{"../core/jmPath.js":8}],22:[function(require,module,exports){
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -6302,7 +6374,9 @@ exports.jmRect = exports["default"] = void 0;
 
 var _jmPath2 = require("../core/jmPath.js");
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+var _jmArc = require("./jmArc.js");
+
+var _jmLine = require("./jmLine.js");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -6316,11 +6390,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -6357,14 +6431,38 @@ var jmRect = /*#__PURE__*/function (_jmPath) {
 
 
   _createClass(jmRect, [{
-    key: "getBounds",
+    key: "radius",
+    get: function get() {
+      return this.__pro('radius');
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('radius', v);
+    }
+    /**
+     * 当前位置左上角
+     * @property position
+     * @type {point}
+     */
 
+  }, {
+    key: "position",
+    get: function get() {
+      return this.__pro('position');
+    },
+    set: function set(v) {
+      this.needUpdate = true;
+      return this.__pro('position', v);
+    }
     /**
      * 获取当前控件的边界
      *
      * @method getBounds
      * @return {bound} 当前控件边界
      */
+
+  }, {
+    key: "getBounds",
     value: function getBounds() {
       var rect = {};
       this.initPoints();
@@ -6429,7 +6527,7 @@ var jmRect = /*#__PURE__*/function (_jmPath) {
       }; //如果指定为虚线 , 则初始化一个直线组件，来构建虚线点集合
 
       if (this.style.lineType === 'dotted' && !this.dottedLine) {
-        this.dottedLine = this.graph.createShape('line', {
+        this.dottedLine = this.graph.createShape(_jmLine.jmLine, {
           style: this.style
         });
       } //如果有边界弧度则借助圆弧对象计算描点
@@ -6437,7 +6535,7 @@ var jmRect = /*#__PURE__*/function (_jmPath) {
 
       if (location.radius && location.radius < location.width / 2 && location.radius < location.height / 2) {
         var q = Math.PI / 2;
-        var arc = this.graph.createShape('arc', {
+        var arc = this.graph.createShape(_jmArc.jmArc, {
           radius: location.radius,
           anticlockwise: false
         });
@@ -6448,7 +6546,7 @@ var jmRect = /*#__PURE__*/function (_jmPath) {
         arc.startAngle = Math.PI;
         arc.endAngle = Math.PI + q;
         var ps1 = arc.initPoints();
-        arc = this.graph.createShape('arc', {
+        arc = this.graph.createShape(_jmArc.jmArc, {
           radius: location.radius,
           anticlockwise: false
         });
@@ -6459,7 +6557,7 @@ var jmRect = /*#__PURE__*/function (_jmPath) {
         arc.startAngle = Math.PI + q;
         arc.endAngle = Math.PI * 2;
         var ps2 = arc.initPoints();
-        arc = this.graph.createShape('arc', {
+        arc = this.graph.createShape(_jmArc.jmArc, {
           radius: location.radius,
           anticlockwise: false
         });
@@ -6470,7 +6568,7 @@ var jmRect = /*#__PURE__*/function (_jmPath) {
         arc.startAngle = 0;
         arc.endAngle = q;
         var ps3 = arc.initPoints();
-        arc = this.graph.createShape('arc', {
+        arc = this.graph.createShape(_jmArc.jmArc, {
           radius: location.radius,
           anticlockwise: false
         });
@@ -6519,30 +6617,6 @@ var jmRect = /*#__PURE__*/function (_jmPath) {
 
       return this.points;
     }
-  }, {
-    key: "radius",
-    get: function get() {
-      return this.__pro('radius');
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('radius', v);
-    }
-    /**
-     * 当前位置左上角
-     * @property position
-     * @type {point}
-     */
-
-  }, {
-    key: "position",
-    get: function get() {
-      return this.__pro('position');
-    },
-    set: function set(v) {
-      this.needUpdate = true;
-      return this.__pro('position', v);
-    }
   }]);
 
   return jmRect;
@@ -6550,8 +6624,10 @@ var jmRect = /*#__PURE__*/function (_jmPath) {
 
 exports.jmRect = exports["default"] = jmRect;
 
-},{"../core/jmPath.js":8}],23:[function(require,module,exports){
+},{"../core/jmPath.js":8,"./jmArc.js":12,"./jmLine.js":20}],23:[function(require,module,exports){
 "use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -6559,8 +6635,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.jmResize = exports["default"] = void 0;
 
 var _jmRect2 = require("./jmRect.js");
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -6574,11 +6648,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -6622,14 +6696,36 @@ var jmResize = /*#__PURE__*/function (_jmRect) {
 
 
   _createClass(jmResize, [{
-    key: "init",
+    key: "rectSize",
+    get: function get() {
+      return this.__pro('rectSize');
+    },
+    set: function set(v) {
+      return this.__pro('rectSize', v);
+    }
+    /**
+     * 是否可以拉大缩小
+     * @property resizable
+     * @type {boolean}
+     */
 
+  }, {
+    key: "resizable",
+    get: function get() {
+      return this.__pro('resizable');
+    },
+    set: function set(v) {
+      return this.__pro('resizable', v);
+    }
     /**
      * 初始化控件的8个拉伸方框
      *
      * @method init
      * @private
      */
+
+  }, {
+    key: "init",
     value: function init(params) {
       //如果不可改变大小。则直接退出
       if (this.resizable === false) return;
@@ -6647,7 +6743,7 @@ var jmResize = /*#__PURE__*/function (_jmRect) {
 
       for (var i = 0; i < 8; i++) {
         //生成改变大小方块
-        var r = (this.graph || params.graph).createShape('rect', {
+        var r = (this.graph || params.graph).createShape(_jmRect2.jmRect, {
           position: {
             x: 0,
             y: 0
@@ -6730,6 +6826,39 @@ var jmResize = /*#__PURE__*/function (_jmRect) {
           this.cursor = 'default';
         });
       }
+      /*
+      // 如果是双指开始滑动
+      let touchPositions;
+      this.on('touchstart', (evt) => {
+      	if(evt.touches && evt.touches.legnth === 2) {
+      		touchPositions = evt.touches;
+      	}
+      });
+      		// 如果是双指滑动
+      //计算二手指滑动距离，然后再通过在父容器中的占比得到缩放比例
+      this.on('touchmove', (evt) => {
+      	if(touchPositions && evt.touches && evt.touches.length == 2) {
+      		//上次滑动二指的距离
+      		const preOffX = touchPositions[0].x - touchPositions[1].x;
+      		const preOffY = touchPositions[0].y - touchPositions[1].y;
+      		const preDis = Math.sqrt(preOffX * preOffX + preOffY * preOffY);
+      		//当次滑动二指的距离
+      		const curOffX = evt.touches[0].x - evt.touches[1].x;
+      		const curOffY = evt.touches[0].y - evt.touches[1].y;
+      		const curDis = Math.sqrt(curOffX * curOffX + curOffY * curOffY);
+      
+      		//const disx = Math.abs(preOffX - curOffX);//x轴滑行的距离
+      		//const disy = Math.abs(preOffY - curOffY);//y轴滑行的距离
+      		
+      		const offset = curDis - preDis;
+      				this.reset(0, 0, offset, offset);
+      	}
+      });	
+      // 结束滑动
+      this.on('touchend touchcancel', (evt) => {
+      	touchPositions = null;
+      });*/
+
     }
     /**
      * 按移动偏移量重置当前对象，并触发大小和位置改变事件
@@ -6840,28 +6969,6 @@ var jmResize = /*#__PURE__*/function (_jmRect) {
             }
         }
       }
-    }
-  }, {
-    key: "rectSize",
-    get: function get() {
-      return this.__pro('rectSize');
-    },
-    set: function set(v) {
-      return this.__pro('rectSize', v);
-    }
-    /**
-     * 是否可以拉大缩小
-     * @property resizable
-     * @type {boolean}
-     */
-
-  }, {
-    key: "resizable",
-    get: function get() {
-      return this.__pro('resizable');
-    },
-    set: function set(v) {
-      return this.__pro('resizable', v);
     }
   }]);
 

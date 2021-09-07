@@ -1,82 +1,54 @@
 {
-  "_from": "jmgraph@^3.0.5",
-  "_id": "jmgraph@3.1.60",
-  "_inBundle": false,
-  "_integrity": "sha512-Emc3l/sBl4Tlm/MY2tVOoq698X/zPhf0K5Rxako4LVhAtHZWQOQQZqs4eLi5Jab6IzVSC4frl0FBXvhCOkXnyQ==",
-  "_location": "/jmgraph",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "range",
-    "registry": true,
-    "raw": "jmgraph@^3.0.5",
-    "name": "jmgraph",
-    "escapedName": "jmgraph",
-    "rawSpec": "^3.0.5",
-    "saveSpec": null,
-    "fetchSpec": "^3.0.5"
-  },
-  "_requiredBy": [
-    "#USER",
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/jmgraph/-/jmgraph-3.1.60.tgz",
-  "_shasum": "d2af692ac053ea31a8256df608f50aa921460a7a",
-  "_spec": "jmgraph@^3.0.5",
-  "_where": "E:\\github\\mini-jmchart",
-  "author": {
-    "name": "jiamao",
-    "email": "haofefe@163.com"
-  },
-  "bugs": {
-    "url": "https://github.com/jiamao/jmgraph/issues"
-  },
-  "bundleDependencies": false,
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
-  "dependencies": {},
-  "deprecated": false,
+  "family": "jmgraph",
+  "name": "jmgraph",
+  "version": "3.1.82",
   "description": "一个简单的canvas画图库",
+  "homepage": "http://graph.jm47.com/",
+  "keywords": [
+    "canvas",
+    "html5"
+  ],
+  "author": "jiamao<haofefe@163.com>",
+  "engines": {},
+  "dependencies": {},
   "devDependencies": {
     "@commitlint/cli": "^7.6.1",
     "@commitlint/config-conventional": "^7.6.0",
     "cz-conventional-changelog": "^2.1.0",
     "express": "^4.17.1"
   },
-  "directories": {
-    "example": "example"
-  },
-  "engines": {},
-  "family": "jmgraph",
-  "homepage": "http://graph.jm47.com/",
-  "keywords": [
-    "canvas",
-    "html5"
-  ],
-  "license": "MIT",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/jiamao/jmgraph/blob/master/LICENSE"
-    }
-  ],
-  "main": "./index.js",
-  "name": "jmgraph",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jiamao/jmgraph.git"
   },
-  "scripts": {
-    "build": "cd build & npm i & gulp & cd ..",
-    "dev": "node dev"
-  },
+  "main": "./index.js",
   "spm": {
     "alias": {},
     "output": [
       "main.js"
     ]
   },
-  "version": "3.1.60"
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/jiamao/jmgraph/blob/master/LICENSE"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/jiamao/jmgraph/issues"
+  },
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "build": "cd build & npm i & gulp & cd ..",
+    "push": "npm publish --registry=https://registry.npmjs.org",
+    "dev": "node dev"
+  },
+  "license": "MIT",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }

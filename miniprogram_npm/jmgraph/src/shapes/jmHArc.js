@@ -12,8 +12,8 @@ export default class jmHArc extends jmArc {
 	constructor(params, t='jmHArc') {
 		super(params, t);
 
-		this.minRadius = params.minRadius || style.minRadius || 0;
-		this.maxRadius = params.maxRadius || style.maxRadius || 0;
+		this.minRadius = params.minRadius || this.style.minRadius || 0;
+		this.maxRadius = params.maxRadius || this.style.maxRadius || 0;
 	}
 
 	/**
@@ -76,8 +76,12 @@ export default class jmHArc extends jmArc {
 		let maxps = [];
 		//椭圆方程x=a*cos(r) ,y=b*sin(r)
 		for(let r=start;;r += step) {
-			if(step > 0 && r >= end) break;
-			else if(step < 0 && r <= end) break;
+			if(step > 0 && r > end) {
+				r = end;
+			}
+			else if(step < 0 && r < end) {
+				r = end;
+			}
 
 			let cos = Math.cos(r);
 			let sin = Math.sin(r);
@@ -91,6 +95,8 @@ export default class jmHArc extends jmArc {
 			};
 			minps.push(p1);
 			maxps.push(p2);
+
+			if(r === end) break;
 		}
 		
 		maxps.reverse();//大圆逆序

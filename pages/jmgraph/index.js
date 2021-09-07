@@ -39,8 +39,7 @@ Page({
     var wxInfo = wx.getSystemInfoSync();//获取系统信息
     this.setData({
       canvasHeight: wxInfo.windowHeight - 50
-    }, function(){
-      debugger
+    }, function(){      
       var g = jmGraph.create('firstCanvas', {
         style: {
           fill: '#000'
