@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "jmgraph": "^3.1.60"
+    "jmchart": "^1.1.72",
+    "jmgraph": "^3.1.84"
   }
 }

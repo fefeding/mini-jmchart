@@ -1,0 +1,83 @@
+{
+  "_from": "jmgraph@^3.1.60",
+  "_id": "jmgraph@3.1.84",
+  "_inBundle": false,
+  "_integrity": "sha512-KT92/pU8FRRfmpjllCWKCEB2/o1myWPny7HxRKz7xXd/SYRuhVg7MYHTcc0g13DQ7eG8NCqc+hT/s9oRIp1OHg==",
+  "_location": "/jmgraph",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "jmgraph@^3.1.60",
+    "name": "jmgraph",
+    "escapedName": "jmgraph",
+    "rawSpec": "^3.1.60",
+    "saveSpec": null,
+    "fetchSpec": "^3.1.60"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "http://r.npm.jintencent.com/jmgraph/-/jmgraph-3.1.84.tgz",
+  "_shasum": "62845fc7b43d31ac7eba3b5a683c6841835e79a5",
+  "_spec": "jmgraph@^3.1.60",
+  "_where": "D:\\code\\github\\mini-jmchart",
+  "author": {
+    "name": "jiamao",
+    "email": "haofefe@163.com"
+  },
+  "bugs": {
+    "url": "https://github.com/jiamao/jmgraph/issues"
+  },
+  "bundleDependencies": false,
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "dependencies": {},
+  "deprecated": false,
+  "description": "一个简单的canvas画图库",
+  "devDependencies": {
+    "@commitlint/cli": "^7.6.1",
+    "@commitlint/config-conventional": "^7.6.0",
+    "cz-conventional-changelog": "^2.1.0",
+    "express": "^4.17.1"
+  },
+  "directories": {
+    "example": "example"
+  },
+  "engines": {},
+  "family": "jmgraph",
+  "homepage": "http://graph.jm47.com/",
+  "keywords": [
+    "canvas",
+    "html5"
+  ],
+  "license": "MIT",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/jiamao/jmgraph/blob/master/LICENSE"
+    }
+  ],
+  "main": "./index.js",
+  "name": "jmgraph",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jiamao/jmgraph.git"
+  },
+  "scripts": {
+    "build": "cd build & npm i & gulp & cd ..",
+    "dev": "node dev",
+    "push": "npm publish --registry=https://registry.npmjs.org"
+  },
+  "spm": {
+    "alias": {},
+    "output": [
+      "main.js"
+    ]
+  },
+  "version": "3.1.84"
+}

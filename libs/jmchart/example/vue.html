@@ -1,0 +1,323 @@
+<!doctype html>
+<html>
+	<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+		<style>
+		html,body {
+			margin:0;
+			padding:0;
+			width:100%;
+			height:100%;
+            background-color: #000;
+		}
+        #app {
+            height: 100%;
+            margin: 10px;
+        }
+		/*div.jm-tooltip {
+			background-color: rgba(255,255,255,0.8);
+			padding:4px;
+			border:1px solid #000;
+			box-shadow: 0 0 3px #000;
+			border-radius: 6px;
+		}*/
+        .floatdiv {
+            position:absolute;background:red;top:0;left:0;
+        }
+		</style>
+		
+	</head>
+	<body>
+		<div id="app">
+            <v-chart v-if="visible" :chart-data="chartData" ref="mychart"
+                :chart-options="chartOptions" 
+                :chart-series="chartSeries" 
+                v-on:touch-point-change="touchPointChange"
+                v-on:touchstart="touchstart"
+                v-on:touchmove="touchmove"
+                v-on:touchend="touchend"
+                v-on:touchleave="touchleave"
+                :width="width" :height="height">
+                
+            </v-chart>
+
+            <div :style="{top: floattop, left: flaotleft}" class="floatdiv">浮窗</div>
+
+            <button @click="visible=!visible">显示/隐藏</button>
+
+            <button @click="changeField">换field</button>
+
+            <button @click="showTooltip">展示浮窗</button>
+            <br />
+            <div style="color: #ccc; font-size: 12px; overflow: hidden">
+                {{ touchDataInfo }}
+            </div>
+		</div>	
+            <script type="module">
+                import { vChart } from '../dist/jmchart.esm.js';
+                //window.devicePixelRatio=1;
+                //if(!window.devicePixelRatio || window.devicePixelRatio<2) window.devicePixelRatio = 2; // pc状态下默认指定为2
+                
+                const options = {
+                    //width: 800,  // 可以这里指定，也可以VUE属性指定
+                    //height: 600,
+                    xField: 'x',// X轴对应在数据中的字段名
+                    enableAnimate: true,
+                    touchGraph: true, // 是否依赖生成操作图层，当点比较多时，性能低下可以把它设为true
+                    autoRefresh: true,
+                    legendPosition: 'top', // 图例位置 top left right bottom
+                    legendVisible: false, // 不显示图例
+                    // 最大和最小X值，  这里一般不用指定，除非硬是需要
+                    minXValue : 0,
+                    maxXValue : 10,
+                    // 格式化x标签值
+                    xLabelFormat: function(v, item, index) {
+                        if(!this.data) return;
+                        // 只展示第一个和最后一个
+                        if(index == 0 || index == Math.floor(this.data.length/2) || index == this.data.length - 1) {
+                            return v + '';
+                        }
+                        return '';
+                    },
+                    style: {
+                        margin:{
+                            left: 60,
+                            top: 20,
+                            right: 20,
+                            bottom: 30
+                        },
+                        // x轴 Y轴隐藏
+                        axis: {
+                            stroke: 'transparent',
+                            align: 'center', // 轴标签往中间靠。不出二边
+                            grid: {
+                                x: true,  // 不显示X轴网格
+                                y: false,     // 显示Y轴网格
+                                stroke: '#292921',
+                                lineWidth: 1,
+                            },
+                            xLabel: {
+                                fill: '#fff', // 轴上的字颜色
+                                font: `12px PingFangSC-Regular`,
+                                margin: {
+                                    top: 10
+                                }
+                            },
+                            yLabel: {
+                                count: 4,
+                                fill: 'green', // 轴上的字颜色
+                                textAlign: 'right',
+                                textBaseline: 'middle',
+                                font: `16px PingFangSC-Regular`,
+                                margin: {
+                                    right: 2
+                                }
+                            }
+                        },
+                        // 跟随标线
+                        markLine: {
+                            x: true, // 显示X标线
+                            y: true, // 显示Y标线
+                            fill: '#000',
+                            lineWidth: 1
+                            //lineType: 'dotted' // 虚线  待优化，会卡住
+                        },
+                        // 隐藏边框
+                        chartArea: {
+                            stroke: 'transparent'
+                        }
+                    }
+                };
+
+                
+
+                const ser1 = {
+                        type: 'line', // line bar pie spline
+                        field: 'y1', // 当前图绑定的数据字段名  
+                        legendLabel: '图例2',
+                        // 最大值和最小值，如果不指定会自动计算，
+                        // 如果指定了也只是指定了最大或最小边界，如果有数值超过它，依然以事实数值为准
+                        minYValue: 0.95,
+                        maxYValue: 1.5,
+                        // 格式化y轴标签值
+                        yLabelFormat: function(v) {
+                            return v.toFixed? (v.toFixed(2)+ '%') : v;
+                        },
+                        style: {
+                            // 不显示小圆点
+                            showItem: false,
+                            //color: '#C79156', // 自定义颜色，如果不指定就会采用默认的
+                            curve: true, // 圆滑的曲线,
+                            lineWidth: 1,
+                            aniCount: 100, // 动画最多刷新多少次, 越大越平顺但越慢
+                            // 填充图形
+                            area: {
+                                // 自定义填充颜色处理
+                                fill: function(style) {
+                                    // 根据颜色生成渐变效果
+                                    const color = this.graph.utils.hexToRGBA(this.style.stroke);
+                                    return `linear-gradient(50% 0 50% 100%, 
+                                        rgba(${color.r},${color.g},${color.b}, 0) 1, 
+                                        rgba(${color.r},${color.g},${color.b}, 0) 0.8,
+                                        rgba(${color.r},${color.g},${color.b}, 0.2) 0.5, 
+                                        rgba(${color.r},${color.g},${color.b}, 0.8) 0)`;
+                                }
+                            }
+                        }
+                    };
+
+                const ser2 = {
+                        type: 'line', // line bar pie spline
+                        field: 'y2', // 当前图绑定的数据字段名  
+                        legendLabel: '图例2',
+                        // 最大值和最小值，如果不指定会自动计算，
+                        // 如果指定了也只是指定了最大或最小边界，如果有数值超过它，依然以事实数值为准
+                        //minYValue: 0,
+                        maxYValue: 1.15,
+                        lineWidth: 1,
+                        // 格式化y轴标签值
+                        yLabelFormat: (v) => {
+                            return v.toFixed? (v.toFixed(2) + '%') : v;
+                        },
+                        style: {
+                            //curve: true,
+                            // 不显示小圆点
+                            showItem: false,
+                            // 填充图形
+                            area: {
+                                // 自定义填充颜色处理
+                                fill: function(style) {
+                                    // 根据颜色生成渐变效果
+                                    const color = this.graph.utils.hexToRGBA(this.style.stroke);
+                                    return `linear-gradient(50% 0 50% 100%, 
+                                        rgba(${color.r},${color.g},${color.b}, 0) 1, 
+                                        rgba(${color.r},${color.g},${color.b}, 0) 0.8,
+                                        rgba(${color.r},${color.g},${color.b}, 0.3) 0.5,
+                                        rgba(${color.r},${color.g},${color.b}, 0.5) 0.2, 
+                                        rgba(${color.r},${color.g},${color.b}, 0.8) 0)`;
+                                }
+                            }
+                        }
+                    };
+
+                const app = new Vue({
+                    el: '#app',
+                    data: {
+                        visible: true,
+                        chartData: [],
+                        // 图表配置
+                        chartOptions: options,
+                        // 图，可以指定多个
+                        chartSeries: [
+                            ser1,
+                            ser2
+                        ],
+                        width: '100%',
+                        height: '50%',
+                        touchDataInfo: '',
+                        floattop: '0px',
+                        flaotleft: '0px'
+                    },
+                    components: {
+                        vChart
+                    },
+                    methods: {
+                        // 滑动改变数据点
+                        touchPointChange: (args) => {
+                            console.log(args);
+                            app.touchDataInfo = JSON.stringify(args);
+                        },
+                        touchstart: (args) => {
+                            //console.log('touchstart', args);
+                        },
+                        touchmove: (args) => {
+                            //console.log('touchmove', args);
+                        },
+                        touchend: (args) => {
+                            //console.log('touchend', args);
+                        },
+                        touchleave: (args) => {
+                            // 滑动离开事件，滑到外面去了
+                            //console.log('touchleave', args);
+                        },
+                        changeField() {
+                            //series[0].field == 'y2'?series[0].field = 'y3':series[0].field = 'y2';
+
+                            this.chartSeries = this.chartSeries.includes(ser1)?[
+                                ser2
+                            ]: [
+                                ser1
+                            ];
+                            // 可以停用动画
+                            //ser1.enableAnimate = false;
+                            this.$refs.mychart.refresh();// 改变基础属性需要重刷
+                        },
+                        showTooltip() {
+                            let point = this.$refs.mychart.chartInstance.series[0].getDataPointByXValue('2019-05-25');
+                            console.log(point);
+
+                            
+
+                            const chartarea = this.$refs.mychart.chartInstance.chartArea.getBounds();
+                            let x = chartarea.left + point.x;
+                            let y = chartarea.top + point.y;
+
+                            const p2 = this.$refs.mychart.chartInstance.pointToPixes({
+                                x,
+                                y
+                            });
+
+                            this.floattop = p2.y + 'px';
+                            this.flaotleft = p2.x + 'px';
+                        }
+                    }
+                });
+
+                (function load() {
+                    //var w = Math.max((window.innerWidth || window.document.body.clientWidth) * 0.8, 400);
+                    //var h = Math.min((window.innerHeight || window.document.body.clientHeight) * 0.5, 280);		
+                    app.chartData = [];	
+                    inichart();
+
+                    //setTimeout(()=>{
+                    //    app.width = "800px";
+                    //}, 1000)
+                })();
+                
+    
+                function inichart() {
+    
+                    const datacount = 200;   
+                    
+                    // 动态加入数据
+                    function animate() {
+                        const data = [];
+                        for(let i =0; i<datacount; i++) {
+                            const d = {
+                                x :  '2019-05-' + i,
+                                y1:  Math.random()/2 + 0.5,
+                                y2:  Math.random(),
+                                y3:  Math.random(),
+                            };
+                            
+                            if(data.length < datacount) {
+                                data.push(d);  
+                                
+                                //setTimeout(animate, 200); // 一直加
+                            }
+                            else {
+                                data.shift();   
+                                data.push(d); 
+                            }
+                        }
+                        app.chartData = data;
+                    }
+                    
+                    animate();    
+                }
+            </script>	
+	</body>
+</html>

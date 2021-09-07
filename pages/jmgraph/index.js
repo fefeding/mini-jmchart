@@ -1,7 +1,7 @@
 // pages/jmgraph/index.js
 //https://github.com/jiamao/jmgraph
 
-import {jmGraph} from "jmgraph";
+import {jmGraph} from "../../libs/jmgraph/index.js";
 
 Page({
 

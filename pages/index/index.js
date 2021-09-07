@@ -93,6 +93,11 @@ Page({
       url: '/pages/jmgraph/index'
     });
   },
+  bindGojmChart() {
+    wx.navigateTo({
+      url: '/pages/jmchart/index'
+    });
+  },
   bindGoVideo: function(){
     wx.navigateTo({
       url: '/pages/video/play'

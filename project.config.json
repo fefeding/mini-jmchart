@@ -9,7 +9,7 @@
         "minified": true,
         "newFeature": true,
         "coverView": true,
-        "nodeModules": false,
+        "nodeModules": true,
         "autoAudits": false,
         "showShadowRootInWxmlPanel": true,
         "scopeDataCheck": false,
@@ -36,7 +36,7 @@
         "showES6CompileOption": false
     },
     "compileType": "miniprogram",
-    "libVersion": "2.11.3",
+    "libVersion": "2.19.3",
     "appid": "wx0ee68cb48a2a96f8",
     "projectname": "jmchart",
     "simulatorType": "wechat",

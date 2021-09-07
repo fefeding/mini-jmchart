@@ -17,7 +17,8 @@
         disabled="{{mylive_disabled}}" bindtap="startLive"> 我要直播 </button>
       <button wx:if="{{canIView}}" type="primary" disabled="{{mylive_disabled}}" loading="{{mylivelist_loading}}" class="weui-btn" plain="true" bindtap="bindViewLive"> 查看直播 </button>
 -->
-      <button bindtap="bindGojmGraph" type="primary">jmGraph</button>
+      <button bindtap="bindGojmChart" type="">jmChart</button>
+      <button bindtap="bindGojmGraph" type="primary" style="margin-top: 10px;">jmGraph</button>
       <text href="https://github.com/jiamao/jmgraph">https://github.com/jiamao/jmgraph</text>
       <button bindtap="bindGoVideo" class="hide" type="primary">video</button>
     </view>

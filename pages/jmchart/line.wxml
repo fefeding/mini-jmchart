@@ -1,0 +1,2 @@
+
+<canvas style="width: 100%; height: {{canvasHeight}}px;" canvas-id="firstCanvas" bindtouchstart="canvastouchstart" bindtouchmove="canvastouchmove" bindtouchend="canvastouchend" bindtouchcancel="canvastouchcancel"></canvas>
