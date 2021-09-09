@@ -4,7 +4,8 @@
         "pages/jmgraph/index",
         "pages/video/play",
         "pages/jmchart/index",
-        "pages/jmchart/line"
+        "pages/jmchart/line",
+        "pages/jmchart/bar"
     ],
     "window": {
         "backgroundTextStyle": "light",

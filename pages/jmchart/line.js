@@ -179,7 +179,7 @@ Page({
         for(let i = 0;i<20;i++) {
             const data = {
                 x : i,
-                y1: Math.random() * 5 + i,
+                y1: Math.random() * 200 + i,
                 y2: Math.random() * 10 + i * 5,
             };
             g.data.push(data);

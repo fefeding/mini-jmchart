@@ -1,3 +1,4 @@
 <view>
     <navigator url="line">线图</navigator>
+    <navigator url="bar">柱图</navigator>
 </view>
