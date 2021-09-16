@@ -5148,6 +5148,12 @@ define(['exports'], function (exports) { 'use strict';
       right: 20,
       bottom: 40
     },
+    itemLabel: {
+      textAlign: 'left',
+      textBaseline: 'middle',
+      font: '12px Arial',
+      fill: '#000'
+    },
     // 跟随标线
     markLine: {
       x: true,
@@ -6392,7 +6398,8 @@ define(['exports'], function (exports) { 'use strict';
           index: i,
           xValue: xv,
           xLabel: xv,
-          points: []
+          points: [],
+          style: this.graph.utils.clone(this.style)
         }; // 这里的点应相对于chartArea
 
         p.x = xstep * (data.length === 1 ? 1 : i) + this.xAxis.labelStart;
@@ -6420,12 +6427,26 @@ define(['exports'], function (exports) { 'use strict';
           }
 
           p.points.push(point);
+        } // 初始化项
+
+
+        if (typeof this.option.initItemHandler === 'function') {
+          this.option.initItem.call(this, p);
         }
 
         this.dataPoints.push(p);
       }
 
       return this.dataPoints;
+    } // 生成颜色
+
+
+    getColor(p) {
+      if (typeof this.style.color === 'function') {
+        return this.style.color.call(this, p);
+      } else {
+        return this.style.color;
+      }
     }
     /**
      * 生成图例
@@ -6437,12 +6458,50 @@ define(['exports'], function (exports) { 'use strict';
     createLegend() {
       //生成图例前的图标
       const style = this.graph.utils.clone(this.style);
-      style.fill = style.color; //delete style.stroke;
+      style.fill = this.getColor(); //delete style.stroke;
 
       const shape = this.graph.createShape('rect', {
         style
       });
       this.graph.legend.append(this, shape);
+    } // 生成柱图的标注
+
+
+    createItemLabel(point, position) {
+      if (!this.style.label || this.style.label.show !== true) return;
+      const text = this.option.itemLabelFormat ? this.option.itemLabelFormat.call(this, point) : point.yValue;
+      if (!text) return; // v如果指定了为控件，则直接加入
+
+      if (text instanceof jmControl) {
+        this.addShape(text);
+        return text;
+      }
+
+      const style = this.graph.utils.clone(this.graph.style.itemLabel, {
+        zIndex: 21,
+        ...this.style.label
+      });
+
+      if (typeof style.fill === 'function') {
+        style.fill = style.fill.call(this, point);
+      }
+
+      const barWidth = (this.barTotalWidth || 0) / 2 - (this.barWidth || 0) * (this.barIndex || 0) - (this.barWidth || 0) / 2;
+      const baseOffset = point.y - this.baseY;
+      const label = this.graph.createShape('label', {
+        style,
+        text: text,
+        data: point,
+        position: function () {
+          const offh = style.offset || 5;
+          const size = this.testSize();
+          return {
+            x: point.x - size.width / 2 - barWidth,
+            y: baseOffset > 0 ? point.y + offh : point.y - size.height - offh
+          };
+        }
+      });
+      this.addShape(label);
     }
     /**
      * 在图上加下定制图形
@@ -6531,7 +6590,8 @@ define(['exports'], function (exports) { 'use strict';
           continue;
         }
 
-        const sp = this.addShape(this.graph.createPath(null, this.graph.utils.clone(this.style))); //绑定提示框
+        point.style.fill = this.getColor(point);
+        const sp = this.addShape(this.graph.createPath(null, point.style)); //绑定提示框
         //this.bindTooltip(sp, point);
         //首先确定p1和p4,因为他们是底脚。会固定
 
@@ -6574,7 +6634,8 @@ define(['exports'], function (exports) { 'use strict';
         sp.points.push(p1);
         sp.points.push(p2);
         sp.points.push(p3);
-        sp.points.push(p4); // 生成标点的回调
+        sp.points.push(p4);
+        this.createItemLabel(point); // 生成标点的回调
 
         this.emit('onPointCreated', point);
       }
@@ -6592,10 +6653,8 @@ define(['exports'], function (exports) { 'use strict';
 
 
     initWidth(count) {
-      //设定其填充颜色
-      this.style.fill = this.style.color; //计算每个柱子占宽
+      //计算每个柱子占宽
       //每项柱子占宽除以柱子个数,默认最大宽度为30		
-
       this.barTotalWidth = this.xAxis.width / count * (this.style.perWidth || 0.4);
       this.barWidth = this.barTotalWidth / this.graph.barSeriesCount;
       const maxBarWidth = this.graph.barMaxWidth || 50;
@@ -7011,7 +7070,7 @@ define(['exports'], function (exports) { 'use strict';
 
     createLabel(point) {
       if (this.style.label && this.style.label.show === false) return;
-      const text = this.option.labelFormat ? this.option.labelFormat.call(this, point) : point.step;
+      const text = this.option.itemLabelFormat ? this.option.itemLabelFormat.call(this, point) : point.step;
       if (!text) return; // v如果指定了为控件，则直接加入
 
       if (text instanceof jmControl) {
@@ -7181,7 +7240,8 @@ define(['exports'], function (exports) { 'use strict';
           shapePoints = this.createDotLine(shapePoints, p);
         }
 
-        shapePoints.push(p); // 生成关健值标注
+        shapePoints.push(p);
+        this.createItemLabel(p); // 生成关健值标注
 
         this.emit('onPointCreated', p);
       } // 如果所有都已经结束，则重置成初始化状态
@@ -7549,44 +7609,49 @@ define(['exports'], function (exports) { 'use strict';
       // 纵标线，中间标小圆圈
       if (this.markLineType === 'y') {
         const touchPoints = []; // 命中的数据点
-        // chartGraph 表示图表层，有可能当前graph为操作层
 
-        const graph = this.graph.chartGraph || this.graph;
-        const isTocuhGraph = graph !== this.graph; // 不在图表图层，在操作图层的情况
+        let touchChange = false;
 
-        let touchChange = false; // 查找最近的X坐标
+        try {
+          // chartGraph 表示图表层，有可能当前graph为操作层
+          const graph = this.graph.chartGraph || this.graph;
+          const isTocuhGraph = graph !== this.graph; // 不在图表图层，在操作图层的情况
+          // 查找最近的X坐标
 
-        const findX = isTocuhGraph ? this.start.x - graph.chartArea.position.x : this.start.x; // 根据线条数生成标点个数
+          const findX = isTocuhGraph ? this.start.x - graph.chartArea.position.x : this.start.x; // 根据线条数生成标点个数
 
-        for (let serie of graph.series) {
-          // 得有数据描点的才展示圆
-          if (!serie.getDataPointByX) continue;
-          const point = serie.getDataPointByX(findX); // 找到最近的数据点
+          for (const serie of graph.series) {
+            // 得有数据描点的才展示圆
+            if (!serie.getDataPointByX) continue;
+            const point = serie.getDataPointByX(findX); // 找到最近的数据点
 
-          if (!point) continue; // 锁定在有数据点的X轴上
-          // 如果在操作图层上， 点的X轴需要加上图表图层区域偏移量
+            if (!point) continue; // 锁定在有数据点的X轴上
+            // 如果在操作图层上， 点的X轴需要加上图表图层区域偏移量
 
-          this.start.x = this.end.x = isTocuhGraph ? point.x + graph.chartArea.position.x : point.x;
+            this.start.x = this.end.x = isTocuhGraph ? point.x + graph.chartArea.position.x : point.x;
 
-          for (const p of point.points) {
-            this.markArc = graph.createShape('circle', {
-              style: this.style,
-              radius: (this.style.radius || 5) * this.graph.devicePixelRatio
-            });
-            this.markArc.center.y = p.y;
-            this.children.add(this.markArc);
-            this.shapes.add(this.markArc);
-          } // x轴改变，表示变换了位置
+            for (const p of point.points) {
+              this.markArc = graph.createShape('circle', {
+                style: this.style,
+                radius: (this.style.radius || 5) * this.graph.devicePixelRatio
+              });
+              this.markArc.center.y = p.y;
+              this.children.add(this.markArc);
+              this.shapes.add(this.markArc);
+            } // x轴改变，表示变换了位置
 
 
-          if (!touchChange && (!serie.lastMarkPoint || serie.lastMarkPoint.x != point.x)) touchChange = true;
-          touchPoints.push(point);
-          serie.lastMarkPoint = point; // 记下最后一次改变的点
-          // 同时改变下X轴标线的位置，它的Y坐标跟随最后一个命中的线点
+            if (!touchChange && (!serie.lastMarkPoint || serie.lastMarkPoint.x != point.x)) touchChange = true;
+            touchPoints.push(point);
+            serie.lastMarkPoint = point; // 记下最后一次改变的点
+            // 同时改变下X轴标线的位置，它的Y坐标跟随最后一个命中的线点
 
-          if (graph && graph.xMarkLine) {
-            graph.xMarkLine.start.y = graph.xMarkLine.end.y = isTocuhGraph ? point.y + graph.chartArea.position.y : point.y;
+            if (graph && graph.xMarkLine) {
+              graph.xMarkLine.start.y = graph.xMarkLine.end.y = isTocuhGraph ? point.y + graph.chartArea.position.y : point.y;
+            }
           }
+        } catch (e) {
+          console.error(e);
         } // 触发touch数据点改变事件
 
 
@@ -7954,7 +8019,7 @@ define(['exports'], function (exports) { 'use strict';
 
       this.series.each(function (i, serie) {
         //设定边框颜色和数据项图示颜 色
-        serie.style.color = serie.style.color || serie.graph.getColor(i); //如果排版指定非内缩的方式，但出现了柱图，还是会采用内缩一个刻度的方式
+        if (!serie.style.color) serie.style.color = serie.graph.getColor(i); //如果排版指定非内缩的方式，但出现了柱图，还是会采用内缩一个刻度的方式
 
         if (serie.graph.style.layout != 'inside') {
           if (serie instanceof jmBarSeries) {
@@ -8022,6 +8087,7 @@ define(['exports'], function (exports) { 'use strict';
       // 深度组件默认样式
       options.style = options.style ? this.utils.clone(this.style.axis, options.style, true) : this.style.axis;
       const axis = this.createShape(jmAxis, options);
+      if (typeof options.visible !== 'undefined') axis.visible = options.visible;
       this.children.add(axis);
       return axis;
     }
@@ -8039,6 +8105,7 @@ define(['exports'], function (exports) { 'use strict';
         options = Object.assign({
           field: this.xField,
           type: 'x',
+          visible: this.style.axis.x === false ? false : true,
           format: this.option.xLabelFormat,
           ...this.option.yAxisOption
         }, options || {});
@@ -8074,6 +8141,7 @@ define(['exports'], function (exports) { 'use strict';
       options = Object.assign({
         index: 1,
         type: 'y',
+        visible: this.style.axis.y === false ? false : true,
         format: this.option.yLabelFormat,
         zeroBase: this.baseY === 0,
         ...this.option.xAxisOption

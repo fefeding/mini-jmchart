@@ -14,6 +14,12 @@ export default {
 		right: 20,
 		bottom: 40
 	},
+	itemLabel: {
+		textAlign: 'left',
+		textBaseline: 'middle',
+		font: '12px Arial',
+		fill: '#000'
+	},
 	// 跟随标线
 	markLine: {
 		x: true, // 显示X标线

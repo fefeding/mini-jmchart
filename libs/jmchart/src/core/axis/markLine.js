@@ -47,46 +47,53 @@ export default class jmMarkLine extends jmLine {
         // 纵标线，中间标小圆圈
         if(this.markLineType === 'y') {
             const touchPoints = []; // 命中的数据点
-            // chartGraph 表示图表层，有可能当前graph为操作层
-            const graph = this.graph.chartGraph || this.graph;
-            const isTocuhGraph = graph !== this.graph;// 不在图表图层，在操作图层的情况
             let touchChange = false;
-            // 查找最近的X坐标
-            const findX = isTocuhGraph? (this.start.x - graph.chartArea.position.x) : this.start.x;
-
-            // 根据线条数生成标点个数
-            for(let serie of graph.series) {
-                // 得有数据描点的才展示圆
-                if(!serie.getDataPointByX) continue; 
-               
-                const point = serie.getDataPointByX(findX); // 找到最近的数据点
-                if(!point) continue;
-
-                // 锁定在有数据点的X轴上
-                // 如果在操作图层上， 点的X轴需要加上图表图层区域偏移量
-                this.start.x = this.end.x = isTocuhGraph? (point.x + graph.chartArea.position.x): point.x;
-
-                for(const p of point.points) {
-                    this.markArc = graph.createShape('circle', {
-                        style: this.style,
-                        radius: (this.style.radius || 5) * this.graph.devicePixelRatio
-                    });
-
-                    this.markArc.center.y = p.y;
-
-                    this.children.add(this.markArc);
-                    this.shapes.add(this.markArc);
-                }
-                // x轴改变，表示变换了位置
-                if(!touchChange && (!serie.lastMarkPoint || serie.lastMarkPoint.x != point.x)) touchChange = true;
-
-                touchPoints.push(point);
-                serie.lastMarkPoint = point;// 记下最后一次改变的点
+            
+            try {
+                // chartGraph 表示图表层，有可能当前graph为操作层
+                const graph = this.graph.chartGraph || this.graph;
+                const isTocuhGraph = graph !== this.graph;// 不在图表图层，在操作图层的情况
                 
-                // 同时改变下X轴标线的位置，它的Y坐标跟随最后一个命中的线点
-                if(graph && graph.xMarkLine) {
-                    graph.xMarkLine.start.y = graph.xMarkLine.end.y = isTocuhGraph? (point.y + graph.chartArea.position.y): point.y;
+                // 查找最近的X坐标
+                const findX = isTocuhGraph? (this.start.x - graph.chartArea.position.x) : this.start.x;
+
+                // 根据线条数生成标点个数
+                for(const serie of graph.series) {
+                    // 得有数据描点的才展示圆
+                    if(!serie.getDataPointByX) continue; 
+                
+                    const point = serie.getDataPointByX(findX); // 找到最近的数据点
+                    if(!point) continue;
+
+                    // 锁定在有数据点的X轴上
+                    // 如果在操作图层上， 点的X轴需要加上图表图层区域偏移量
+                    this.start.x = this.end.x = isTocuhGraph? (point.x + graph.chartArea.position.x): point.x;
+
+                    for(const p of point.points) {
+                        this.markArc = graph.createShape('circle', {
+                            style: this.style,
+                            radius: (this.style.radius || 5) * this.graph.devicePixelRatio
+                        });
+
+                        this.markArc.center.y = p.y;
+
+                        this.children.add(this.markArc);
+                        this.shapes.add(this.markArc);
+                    }
+                    // x轴改变，表示变换了位置
+                    if(!touchChange && (!serie.lastMarkPoint || serie.lastMarkPoint.x != point.x)) touchChange = true;
+
+                    touchPoints.push(point);
+                    serie.lastMarkPoint = point;// 记下最后一次改变的点
+                    
+                    // 同时改变下X轴标线的位置，它的Y坐标跟随最后一个命中的线点
+                    if(graph && graph.xMarkLine) {
+                        graph.xMarkLine.start.y = graph.xMarkLine.end.y = isTocuhGraph? (point.y + graph.chartArea.position.y): point.y;
+                    }
                 }
+            }
+            catch(e) {
+                console.error(e);
             }
 
             // 触发touch数据点改变事件

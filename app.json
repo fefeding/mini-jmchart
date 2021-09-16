@@ -5,7 +5,8 @@
         "pages/video/play",
         "pages/jmchart/index",
         "pages/jmchart/line",
-        "pages/jmchart/bar"
+        "pages/jmchart/bar",
+        "pages/jmchart/pie"
     ],
     "window": {
         "backgroundTextStyle": "light",

@@ -43,8 +43,9 @@ export default class jmBarSeries extends jmSeries {
 			if(typeof point.y === 'undefined'  || point.y === null) {
 				continue;
 			}
-		
-			const sp = this.addShape(this.graph.createPath(null, this.graph.utils.clone(this.style)));
+			
+			point.style.fill = this.getColor(point);
+			const sp = this.addShape(this.graph.createPath(null, point.style));
 			
 			//绑定提示框
 			//this.bindTooltip(sp, point);
@@ -82,6 +83,8 @@ export default class jmBarSeries extends jmSeries {
 			sp.points.push(p3); 
 			sp.points.push(p4); 
 
+			this.createItemLabel(point);
+
 			// 生成标点的回调
 			this.emit('onPointCreated', point);
 		}
@@ -100,8 +103,7 @@ export default class jmBarSeries extends jmSeries {
 
 	// 计算柱子宽度
 	initWidth(count) {
-		//设定其填充颜色
-		this.style.fill = this.style.color;	
+		
 		//计算每个柱子占宽
 		//每项柱子占宽除以柱子个数,默认最大宽度为30		
 		this.barTotalWidth = (this.xAxis.width / count * (this.style.perWidth||0.4));

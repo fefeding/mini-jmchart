@@ -62,6 +62,28 @@ Page({
         const self = this;
         const bar1 = g.createSeries('bar', {
             field: 'y1',
+            style: {
+							// 渐变色
+							color: 'linear-gradient(50% 0 50% 100%, #ccc 0, #000 0.5, #fff 1)',
+							label: {
+								show: true,
+								offset: 5, // 离柱偏移量
+								shadow: {
+									x: 0,
+									y: 0,
+									blur: 0,
+									color: 'transparent'
+								},
+								fill: function(point) {
+									console.log(point);
+									if(point.yValue < 0) return 'green';
+									else return 'red';
+								}
+							}
+            },
+            itemLabelFormat(p) {
+							return p.yValue.toFixed(2);
+						},
             // 图例格式化，如果不给定，则采用legendLabel
             legendFormat: function(options) {
                 return '图1';
@@ -73,7 +95,21 @@ Page({
         
         const bar2 = g.createSeries('bar', {
             field: 'y2',
-            legendLabel: '图例3'
+            legendLabel: '图例3',
+            style: {
+							// 自定义单个bar的颜色
+							color: function(p) {
+								if(p && p.xValue == 3) {
+									return 'green';
+								}
+								// 默认值
+								return 'linear-gradient(50% 0 50% 100%, #ff0000 0, #00ff00 0.5, #0000ff 1)';
+							},
+							label: {
+								show: false,
+								offset: 5 // 离柱偏移量
+							}
+						},
         });	
 
         g.data = [];

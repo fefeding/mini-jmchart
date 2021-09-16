@@ -82,6 +82,8 @@ export default class jmLineSeries extends jmSeries {
 
 			shapePoints.push(p);
 
+			this.createItemLabel(p);
+
 			// 生成关健值标注
 			this.emit('onPointCreated', p);
 		}

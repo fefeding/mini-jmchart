@@ -1,40 +1,35 @@
 {
-  "_from": "jmchart@^1.1.71",
-  "_id": "jmchart@1.1.72",
-  "_inBundle": false,
-  "_integrity": "sha512-pmAapBpkLnxYxUWXsTxeYX5hMFLwhjpCK0VR1fxM9qYmVboAKQdWfciwzGjiU5KuzLIAD5CCdilDLmOWpq+ABA==",
-  "_location": "/jmchart",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "range",
-    "registry": true,
-    "raw": "jmchart@^1.1.71",
-    "name": "jmchart",
-    "escapedName": "jmchart",
-    "rawSpec": "^1.1.71",
-    "saveSpec": null,
-    "fetchSpec": "^1.1.71"
+  "name": "jmchart",
+  "version": "1.1.77",
+  "description": "chart",
+  "main": "./index.js",
+  "directories": {
+    "example": "example"
   },
-  "_requiredBy": [
-    "#USER",
-    "/"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clone": "git clone https://ghproxy.com/https://github.com/jiamao/jmchart.git",
+    "dev": "node server.js",
+    "push": "npm publish --registry=https://registry.npmjs.org",
+    "build": "node build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jiamao/jmchart.git"
+  },
+  "keywords": [
+    "chart",
+    "jmgraph"
   ],
-  "_resolved": "http://r.npm.jintencent.com/jmchart/-/jmchart-1.1.72.tgz",
-  "_shasum": "0c4706ba52b32e9c412a3a554adf7ff2c2a441b1",
-  "_spec": "jmchart@^1.1.71",
-  "_where": "D:\\code\\github\\mini-jmchart",
-  "author": {
-    "name": "jiamao"
-  },
+  "author": "jiamao",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/jiamao/jmchart/issues"
   },
-  "bundleDependencies": false,
+  "homepage": "https://github.com/jiamao/jmchart#readme",
   "dependencies": {
-    "jmgraph": "^3.1.84"
+    "jmgraph": "^3.1.87"
   },
-  "deprecated": false,
-  "description": "chart",
   "devDependencies": {
     "@babel/core": "^7.10.2",
     "@babel/plugin-proposal-class-properties": "^7.10.1",
@@ -43,29 +38,5 @@
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-sourcemaps": "^0.6.2"
-  },
-  "directories": {
-    "example": "example"
-  },
-  "homepage": "https://github.com/jiamao/jmchart#readme",
-  "keywords": [
-    "chart",
-    "jmgraph"
-  ],
-  "license": "MIT",
-  "main": "./index.js",
-  "name": "jmchart",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jiamao/jmchart.git"
-  },
-  "scripts": {
-    "build": "node build.js",
-    "clone": "git clone https://ghproxy.com/https://github.com/jiamao/jmchart.git",
-    "dev": "node server.js",
-    "push": "npm publish --registry=https://registry.npmjs.org",
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "version": "1.1.72"
+  }
 }

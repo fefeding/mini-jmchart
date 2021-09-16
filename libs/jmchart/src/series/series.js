@@ -249,7 +249,8 @@ export default class jmSeries extends jmPath {
 				index: i,
 				xValue: xv,
 				xLabel: xv,
-				points: []
+				points: [],
+				style: this.graph.utils.clone(this.style),
 			};
 			
 			// 这里的点应相对于chartArea
@@ -278,10 +279,26 @@ export default class jmSeries extends jmPath {
 					point.y = p.y = this.baseY - point.height;
 				}	
 				p.points.push(point);
-			}		
+			}
+
+			// 初始化项
+			if(typeof this.option.initItemHandler === 'function') {
+				this.option.initItem.call(this, p);
+			}
+				
 			this.dataPoints.push(p);							
 		}
 		return this.dataPoints;
+	}
+
+	// 生成颜色
+	getColor(p) {
+		if(typeof this.style.color === 'function') {
+			return this.style.color.call(this, p);
+		}
+		else {
+			return this.style.color;
+		}
 	}
 
 	/**
@@ -292,12 +309,53 @@ export default class jmSeries extends jmPath {
 	createLegend() {
 		//生成图例前的图标
 		const style = this.graph.utils.clone(this.style);
-		style.fill = style.color;	
+		style.fill = this.getColor();	
 		//delete style.stroke;
 		const shape = this.graph.createShape('rect',{
 			style
 		});
 		this.graph.legend.append(this, shape);
+	}
+
+	// 生成柱图的标注
+	createItemLabel(point, position) {
+		if(!this.style.label || this.style.label.show !== true) return;
+		
+		const text = this.option.itemLabelFormat?this.option.itemLabelFormat.call(this, point): point.yValue;
+		if(!text) return;
+		
+		// v如果指定了为控件，则直接加入
+		if(text instanceof jmControl) {
+			this.addShape(text);
+			return text;
+		}
+		
+		const style = this.graph.utils.clone(this.graph.style.itemLabel, {
+			zIndex: 21,
+			...this.style.label
+		});
+
+		if(typeof style.fill === 'function') {
+			style.fill = style.fill.call(this, point);
+		}
+		
+		const barWidth = (this.barTotalWidth||0) / 2 - (this.barWidth||0) * (this.barIndex||0) - (this.barWidth||0) / 2;
+		const baseOffset = point.y - this.baseY;
+		const label = this.graph.createShape('label', {
+			style,
+			text: text,
+			data: point,
+			position: function() {
+				const offh = style.offset || 5;
+				const size = this.testSize();
+				return {
+					x: point.x - size.width / 2 - barWidth,
+					y: baseOffset>0?(point.y + offh): (point.y - size.height - offh)
+				}
+			}
+		});
+
+		this.addShape(label);
 	}
 
 	/**

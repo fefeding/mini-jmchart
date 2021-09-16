@@ -249,7 +249,7 @@ export default class jmPieSeries extends jmSeries {
 	createLabel(point) {
 		if(this.style.label && this.style.label.show === false) return;
 
-		const text = this.option.labelFormat?this.option.labelFormat.call(this, point): point.step;
+		const text = this.option.itemLabelFormat?this.option.itemLabelFormat.call(this, point): point.step;
 		if(!text) return;
 		
 		// v如果指定了为控件，则直接加入

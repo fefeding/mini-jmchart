@@ -1,4 +1,5 @@
-<view>
+<view class="weui_panel">
     <navigator url="line">线图</navigator>
     <navigator url="bar">柱图</navigator>
+    <navigator url="pie">饼图</navigator>
 </view>
