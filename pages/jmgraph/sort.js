@@ -8,7 +8,7 @@ exports.init = function(g) {
 }
 
 exports.destory = function () {
-  if (exports.sort.aniTimeoutHandler) clearTimeout(exports.sort.aniTimeoutHandler);
+  if (this.sort.aniTimeoutHandler) clearTimeout(this.sort.aniTimeoutHandler);
 }
 
 Array.prototype.toRect = function () {

@@ -1,4 +1,3 @@
-require('../../utils/jmgraph')
 
 exports.init = function(g) {
   //g.style.fill = '#000'; //画布背景

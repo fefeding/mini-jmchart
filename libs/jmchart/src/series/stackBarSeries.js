@@ -43,15 +43,19 @@ export default class jmStackBarSeries extends jmBarSeries {
 			let bottomStartY = this.baseY;
 			for(let index=0; index < point.points.length; index ++) {
 				const style = this.graph.utils.clone(this.style);
+				const p = point.points[index];
+
 				if(style.color && typeof style.color === 'function') {
-					style.fill = style.color.call(this, this, index);
+					style.fill = style.color.call(this, {
+						index,
+						point: p
+					});
 				}
 				else {
 					style.fill = this.graph.getColor(index);
 				}
-				const sp = this.addShape(this.graph.createPath(null, style));
+				const sp = this.addShape(this.graph.createPath(null, style));				
 				
-				const p = point.points[index];
 				let startY = topStartY;
 				if(p.yValue < this.baseYValue) startY = bottomStartY;
 				

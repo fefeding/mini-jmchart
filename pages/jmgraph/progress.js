@@ -1,4 +1,3 @@
-require('../../utils/jmgraph')
 
 exports.init = function (g) {
   var style = {

@@ -1929,6 +1929,7 @@ var jmEvents = /*#__PURE__*/function () {
     key: "touchStart",
     value: function touchStart(evt) {
       evt = evt || window.event;
+      evt.eventName = 'touchstart';
       this.container.raiseEvent('touchstart', evt);
       var t = evt.target || evt.srcElement;
 
@@ -1941,6 +1942,7 @@ var jmEvents = /*#__PURE__*/function () {
     key: "touchMove",
     value: function touchMove(evt) {
       evt = evt || window.event;
+      evt.eventName = 'touchmove';
       this.container.raiseEvent('touchmove', evt);
       var t = evt.target || evt.srcElement;
 
@@ -1953,6 +1955,7 @@ var jmEvents = /*#__PURE__*/function () {
     key: "touchEnd",
     value: function touchEnd(evt) {
       evt = evt || window.event;
+      evt.eventName = 'touchend';
       this.container.raiseEvent('touchend', evt);
       var t = evt.target || evt.srcElement;
 
@@ -1965,6 +1968,7 @@ var jmEvents = /*#__PURE__*/function () {
     key: "touchCancel",
     value: function touchCancel(evt) {
       evt = evt || window.event;
+      evt.eventName = 'touchcancel';
       this.container.raiseEvent('touchcancel', evt);
       var t = evt.target || evt.srcElement;
 
@@ -2014,6 +2018,7 @@ var jmMouseEvent = /*#__PURE__*/function () {
 
       this.eventEvents['mousedown'] = _jmUtils.jmUtils.bindEvent(this.target, 'mousedown', function (evt) {
         evt = evt || window.event;
+        evt.eventName = 'mousedown';
         var r = container.raiseEvent('mousedown', evt); //if(r === false) {
         //if(evt.preventDefault) evt.preventDefault();
         //return false;
@@ -2021,6 +2026,7 @@ var jmMouseEvent = /*#__PURE__*/function () {
       });
       this.eventEvents['mousedown'] = _jmUtils.jmUtils.bindEvent(this.target, 'mousemove', function (evt) {
         evt = evt || window.event;
+        evt.eventName = 'mousemove';
         var target = evt.target || evt.srcElement;
 
         if (target == canvas) {
@@ -2032,18 +2038,22 @@ var jmMouseEvent = /*#__PURE__*/function () {
       });
       this.eventEvents['mousedown'] = _jmUtils.jmUtils.bindEvent(this.target, 'mouseover', function (evt) {
         evt = evt || window.event;
+        evt.eventName = 'mouseover';
         container.raiseEvent('mouseover', evt);
       });
       this.eventEvents['mouseleave'] = _jmUtils.jmUtils.bindEvent(this.target, 'mouseleave', function (evt) {
         evt = evt || window.event;
+        evt.eventName = 'mouseleave';
         container.raiseEvent('mouseleave', evt);
       });
       this.eventEvents['mouseout'] = _jmUtils.jmUtils.bindEvent(this.target, 'mouseout', function (evt) {
         evt = evt || window.event;
+        evt.eventName = 'mouseout';
         container.raiseEvent('mouseout', evt);
       });
       doc && (this.eventEvents['mouseup'] = _jmUtils.jmUtils.bindEvent(doc, 'mouseup', function (evt) {
-        evt = evt || window.event; //let target = evt.target || evt.srcElement;
+        evt = evt || window.event;
+        evt.eventName = 'mouseup'; //let target = evt.target || evt.srcElement;
         //if(target == canvas) {						
 
         var r = container.raiseEvent('mouseup', evt);
@@ -2056,34 +2066,41 @@ var jmMouseEvent = /*#__PURE__*/function () {
       }));
       this.eventEvents['dblclick'] = _jmUtils.jmUtils.bindEvent(this.target, 'dblclick', function (evt) {
         evt = evt || window.event;
+        evt.eventName = 'dblclick';
         container.raiseEvent('dblclick', evt);
       });
       this.eventEvents['click'] = _jmUtils.jmUtils.bindEvent(this.target, 'click', function (evt) {
         evt = evt || window.event;
+        evt.eventName = 'click';
         container.raiseEvent('click', evt);
       });
       doc && (this.eventEvents['resize'] = _jmUtils.jmUtils.bindEvent(doc, 'resize', function (evt) {
         evt = evt || window.event;
+        evt.eventName = 'resize';
         return container.raiseEvent('resize', evt);
       })); // passive: false 为了让浏览器不告警并且preventDefault有效
       // 另一种处理：touch-action: none; 这样任何触摸事件都不会产生默认行为，但是 touch 事件照样触发。
 
       this.eventEvents['touchstart'] = _jmUtils.jmUtils.bindEvent(this.target, 'touchstart', function (evt) {
+        evt.eventName = 'touchstart';
         return instance.touchStart(evt);
       }, {
         passive: false
       });
       this.eventEvents['touchmove'] = _jmUtils.jmUtils.bindEvent(this.target, 'touchmove', function (evt) {
+        evt.eventName = 'touchmove';
         return instance.touchMove(evt);
       }, {
         passive: false
       });
       doc && (this.eventEvents['touchend'] = _jmUtils.jmUtils.bindEvent(doc, 'touchend', function (evt) {
+        evt.eventName = 'touchend';
         return instance.touchEnd(evt);
       }, {
         passive: false
       }));
       doc && (this.eventEvents['touchcancel'] = _jmUtils.jmUtils.bindEvent(doc, 'touchcancel', function (evt) {
+        evt.eventName = 'touchcancel';
         return instance.touchCancel(evt);
       }, {
         passive: false
@@ -2145,7 +2162,7 @@ var jmKeyEvent = /*#__PURE__*/function () {
         return true;
       };
 
-      doc && (this.eventEvents['touchcancel'] = _jmUtils.jmUtils.bindEvent(doc, 'keypress', function (evt) {
+      doc && (this.eventEvents['keypress'] = _jmUtils.jmUtils.bindEvent(doc, 'keypress', function (evt) {
         evt = evt || window.event;
         if (!checkKeyEvent(evt)) return; //如果事件为其它输入框，则不响应
 
@@ -2153,7 +2170,7 @@ var jmKeyEvent = /*#__PURE__*/function () {
         if (r === false && evt.preventDefault) evt.preventDefault();
         return r;
       }));
-      doc && (this.eventEvents['touchcancel'] = _jmUtils.jmUtils.bindEvent(doc, 'keydown', function (evt) {
+      doc && (this.eventEvents['keydown'] = _jmUtils.jmUtils.bindEvent(doc, 'keydown', function (evt) {
         evt = evt || window.event;
         if (!checkKeyEvent(evt)) return; //如果事件为其它输入框，则不响应
 
@@ -2161,7 +2178,7 @@ var jmKeyEvent = /*#__PURE__*/function () {
         if (r === false && evt.preventDefault) evt.preventDefault();
         return r;
       }));
-      doc && (this.eventEvents['touchcancel'] = _jmUtils.jmUtils.bindEvent(doc, 'keyup', function (evt) {
+      doc && (this.eventEvents['keyup'] = _jmUtils.jmUtils.bindEvent(doc, 'keyup', function (evt) {
         evt = evt || window.event;
         if (!checkKeyEvent(evt)) return; //如果事件为其它输入框，则不响应
 
@@ -2559,6 +2576,8 @@ var jmGraph = /*#__PURE__*/function (_jmControl) {
     }
 
     option = option || {};
+    option.mode = option.mode || '2d'; // webgl | 2d
+
     option.interactive = true;
     _this = _super.call(this, option, 'jmGraph');
     _this.option = option || {};
@@ -2575,6 +2594,7 @@ var jmGraph = /*#__PURE__*/function (_jmControl) {
     if (typeof wx != 'undefined' && wx.createCanvasContext) {
       _this.context = wx.createCanvasContext(canvas);
       canvas = wx.createSelectorQuery().select('#' + canvas);
+      _this.isWXMiniApp = true; // 微信小程序平台
     } else {
       if (typeof canvas === 'string' && typeof document != 'undefined') {
         canvas = document.getElementById(canvas);
@@ -2948,7 +2968,7 @@ var jmGraph = /*#__PURE__*/function (_jmControl) {
   }, {
     key: "css",
     value: function css(name, value) {
-      if (this.canvas) {
+      if (this.canvas && this.canvas.style) {
         if (typeof value != 'undefined') this.canvas.style[name] = value;
         return this.canvas.style[name];
       }
@@ -3094,11 +3114,13 @@ var jmGraph = /*#__PURE__*/function (_jmControl) {
         }
 
         if (self.needUpdate) self.redraw();
-        requestAnimationFrame(update);
+        self.__requestAnimationFrameFunHandler && _jmUtils.jmUtils.cancelAnimationFrame(self.__requestAnimationFrameFunHandler);
+        self.__requestAnimationFrameFunHandler = _jmUtils.jmUtils.requestAnimationFrame(update);
         if (callback) callback();
       }
 
-      requestAnimationFrame(update);
+      self.__requestAnimationFrameFunHandler && _jmUtils.jmUtils.cancelAnimationFrame(self.__requestAnimationFrameFunHandler);
+      self.__requestAnimationFrameFunHandler = _jmUtils.jmUtils.requestAnimationFrame(update);
       return this;
     } // 销毁当前对象
 
@@ -4017,7 +4039,7 @@ var jmUtils = /*#__PURE__*/function () {
       var touches = evt.changedTouches || evt.targetTouches || evt.touches;
       var target = evt.target || evt.srcElement;
 
-      if (touches) {
+      if (touches && touches.length) {
         evt = touches[0]; //兼容touch事件
 
         if (!evt.target) evt.target = target;
@@ -4322,12 +4344,12 @@ var jmUtils = /*#__PURE__*/function () {
           p[i].y = x1 * sin + y1 * cos + rp.y;
         }
       } else {
-        var _x2 = p.x - rp.x;
+        var _x4 = p.x - rp.x;
 
         var _y = p.y - rp.y;
 
-        p.x = _x2 * cos - _y * sin + rp.x;
-        p.y = _x2 * sin + _y * cos + rp.y;
+        p.x = _x4 * cos - _y * sin + rp.x;
+        p.y = _x4 * sin + _y * cos + rp.y;
       }
 
       return p;
@@ -4594,7 +4616,46 @@ var jmUtils = /*#__PURE__*/function () {
       }
 
       return r;
-    }
+    } // window.requestAnimationFrame() 告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前调用指定的回调函数更新动画。该方法需要传入一个回调函数作为参数，该回调函数会在浏览器下一次重绘之前执行
+
+  }, {
+    key: "requestAnimationFrame",
+    value: function (_requestAnimationFrame) {
+      function requestAnimationFrame(_x2) {
+        return _requestAnimationFrame.apply(this, arguments);
+      }
+
+      requestAnimationFrame.toString = function () {
+        return _requestAnimationFrame.toString();
+      };
+
+      return requestAnimationFrame;
+    }(function (callback) {
+      if (typeof requestAnimationFrame === 'undefined') {
+        return setTimeout(callback, 20);
+      } else {
+        return requestAnimationFrame(callback);
+      }
+    })
+  }, {
+    key: "cancelAnimationFrame",
+    value: function (_cancelAnimationFrame) {
+      function cancelAnimationFrame(_x3) {
+        return _cancelAnimationFrame.apply(this, arguments);
+      }
+
+      cancelAnimationFrame.toString = function () {
+        return _cancelAnimationFrame.toString();
+      };
+
+      return cancelAnimationFrame;
+    }(function (handler) {
+      if (typeof requestAnimationFrame === 'undefined') {
+        return clearTimeout(handler);
+      } else {
+        return cancelAnimationFrame(handler);
+      }
+    })
   }]);
 
   return jmUtils;

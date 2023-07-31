@@ -203,7 +203,6 @@ export default {
 		zIndex: 17,
 		cursor: 'default',
 		close : true,
-		opacity: 0.8,
 		shadow: {
 			x: 1,
 			y: 1,
@@ -232,12 +231,56 @@ export default {
 		zIndex: 11,
 		cursor: 'default',
 		close : true,
-		opacity: 0.8,
 		shadow: {
 			x: 1,
 			y: 1,
 			blur: 2,
 			color: '#ccc'
 		}
+	},
+	radar: {
+		normal: {
+			zIndex: 11,
+			cursor: 'default',
+			opacity: 0.8
+		},
+		hover: {
+			//zIndex: 100,
+			opacity: 1,
+			cursor: 'pointer'
+		},
+		margin: {
+			left: 10,
+			top: 10,
+			right: 10,
+			bottom: 10
+		},
+		lineWidth: 1,
+		zIndex: 11,
+		cursor: 'default',
+		close : true,
+		shadow: {
+			x: 1,
+			y: 1,
+			blur: 2,
+			color: '#ccc'
+		}
+	},
+	candlestick: {
+		normal: {
+			lineWidth: 1,
+			zIndex: 18,
+			cursor: 'default'
+		},
+		hover: {
+			//zIndex: 100,
+			cursor: 'pointer'
+		},
+		perWidth: 0.5,
+		// 阴线颜色
+		negativeColor: 'green',
+		// 阳线颜色
+		masculineColor: 'red',
+		lineWidth: 1
 	}
 }

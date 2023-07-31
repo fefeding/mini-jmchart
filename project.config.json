@@ -32,7 +32,8 @@
         "packNpmManually": false,
         "packNpmRelationList": [],
         "minifyWXSS": true,
-        "showES6CompileOption": false
+        "showES6CompileOption": false,
+        "condition": false
     },
     "compileType": "miniprogram",
     "libVersion": "2.19.3",
@@ -40,15 +41,13 @@
     "projectname": "jmchart",
     "simulatorType": "wechat",
     "simulatorPluginLibVersion": {},
-    "condition": {
-        "search": {
-            "list": []
-        },
-        "conversation": {
-            "list": []
-        },
-        "miniprogram": {
-            "list": []
-        }
+    "condition": {},
+    "packOptions": {
+        "ignore": [],
+        "include": []
+    },
+    "editorSetting": {
+        "tabIndent": "insertSpaces",
+        "tabSize": 4
     }
 }

@@ -34,7 +34,7 @@ export default class jmSeries extends jmPath {
 		
 		// 初始化一些参数， 因为这里有多个Y轴的可能，所以每次都需要重调一次init
 		this.yAxis.init({
-			field: this.field,
+			field: Array.isArray(this.field)? this.field[0]: this.field,
 			minYValue: options.minYValue,
 			maxYValue: options.maxYValue
 		});
@@ -121,6 +121,10 @@ export default class jmSeries extends jmPath {
 		else {
 			this.dataPoints = this.createPoints(...args);
 		}
+		// 执行初始化函数回调
+		if(this.option && this.option.onInit) {
+			this.option.onInit.apply(this, args);
+		}
 		return {
 			dataChanged,
 			points: this.dataPoints
@@ -183,11 +187,11 @@ export default class jmSeries extends jmPath {
 		while(shape = this.shapes.shift()) {
 			shape && shape.remove();
 		}
+
+		this.initAxisValue();// 处理最大值最小值
 		
 		//生成图例  这里要放到shape清理后面
 		this.createLegend();
-
-		this.initAxisValue();// 处理最大值最小值
 
 		return this.chartInfo = {
 			xAxis: this.xAxis,
@@ -254,7 +258,7 @@ export default class jmSeries extends jmPath {
 			};
 			
 			// 这里的点应相对于chartArea
-			p.x = xstep * (data.length === 1? 1: i) + this.xAxis.labelStart;			
+			p.x = xstep * i + this.xAxis.labelStart;			
 			
 			for(const f of fields) {
 				const yv = s[f];
@@ -266,7 +270,8 @@ export default class jmSeries extends jmPath {
 					x: p.x,
 					// 高度
 					height: p.height,
-					yValue: yv				
+					yValue: yv,
+					field: f				
 				}
 				//如果Y值不存在。则此点无效，不画图
 				if(yv == null || typeof yv == 'undefined') {
@@ -315,6 +320,7 @@ export default class jmSeries extends jmPath {
 			style
 		});
 		this.graph.legend.append(this, shape);
+		return shape;
 	}
 
 	// 生成柱图的标注

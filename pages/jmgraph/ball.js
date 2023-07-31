@@ -172,5 +172,5 @@ function ball(graph, x, y, radius, style) {
 }
 
 exports.destory = function() {
-  if (exports.handler) clearTimeout(exports.handler);
+  if (this.handler) clearTimeout(this.handler);
 }

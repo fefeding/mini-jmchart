@@ -2,6 +2,13 @@
 //https://github.com/jiamao/jmgraph
 
 import {jmGraph} from "../../libs/jmgraph/index.js";
+import rectPage from './rect.js';
+import bezierPage from './bezier.js';
+import resizePage from './resize.js';
+import progressPage from './progress.js';
+import ballPage from './ball.js';
+import cellPage from './cell.js';
+import sortPage from './sort.js';
 
 Page({
 
@@ -10,13 +17,13 @@ Page({
    */
   data: {
     shapes: [
-      { name: 'rect', value: 'base', checked: 'true'},
-      { name: 'bezier', value: 'bezier'  },
-      { name: 'resize', value: 'resize' },
-      { name: 'progress', value: '动画' },
-      { name: 'ball', value: '球' },
-      { name: 'cell', value: '孢子' },
-      { name: 'sort', value: '排序' },
+      { name: 'rect', value: 'base', checked: 'true', page: rectPage},
+      { name: 'bezier', value: 'bezier', page: bezierPage  },
+      { name: 'resize', value: 'resize', page: resizePage },
+      { name: 'progress', value: '动画', page: progressPage },
+      { name: 'ball', value: '球', page: ballPage },
+      { name: 'cell', value: '孢子', page: cellPage },
+      { name: 'sort', value: '排序', page: sortPage },
     ],
     canvasHeight: 600
   },
@@ -39,24 +46,22 @@ Page({
     var wxInfo = wx.getSystemInfoSync();//获取系统信息
     this.setData({
       canvasHeight: wxInfo.windowHeight - 50
-    }, function(){      
+    }, function(){     
+         
       var g = new jmGraph('firstCanvas', {
         style: {
           fill: '#000'
         },
         width: wxInfo.windowWidth,
-        height: self.data.canvasHeight
-      })
+        height: self.data.canvasHeight,
+        autoRefresh: true
+      });      
         self.initGraph(g);      
     });
   },
   initGraph: function(g) {
-    function update() {
-      if (g.needUpdate) g.redraw();
-      setTimeout(update, 20);
-    }  
-    this.graph = g;    
-    update();
+    
+    this.graph = g;   
 
     this.changeShape('rect');//默认显示
 
@@ -83,14 +88,25 @@ Page({
   },
 
   changeShape: function(s) {
+      
+    this.destory();
+    
+    //切换示例
+    let shape = null;
+    for(const o of this.data.shapes) {
+        if(o.name === s) shape = o;
+    }
+    console.log('require', shape);
+    this.graphShape = shape.page;
+    this.graphShape.init(this.graph);
+    this.graph.needUpdate = true;
+  },
+
+  destory() {
     this.graph.children.clear();
     if (this.graphShape && this.graphShape.destory) {
       this.graphShape.destory(this.graph);
     }
-    //切换示例
-    this.graphShape = require(s);
-    this.graphShape.init(this.graph);
-    this.graph.needUpdate = true;
   },
 
   /**
@@ -111,7 +127,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    this.destory();
   },
 
   /**

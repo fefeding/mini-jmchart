@@ -237,6 +237,6 @@ function resize(g) {
 }
 
 exports.destory = function (g) {
-  if (exports.handler) clearTimeout(exports.handler);
+  if (this.handler) clearTimeout(this.handler);
   g && g.unbind('touchend');
 }

@@ -33,6 +33,7 @@ export default class jmAxis extends jmArrowLine {
 
 		this.field = options.field || '';
 		this.index = options.index || 0;
+		this.gridLines = [];// 线条数组
 
 		this.init(options);
 	}
@@ -44,13 +45,16 @@ export default class jmAxis extends jmArrowLine {
 		// 深度组件默认样式
 		if(options.style) this.graph.utils.clone(options.style, this.style, true);
 
+		this.field = options.field || this.field || '';
+		this.radarOption = options.radarOption;
+
 		if(this.type == 'x') {
 			if(typeof options.maxXValue !== 'undefined') this.maxValue = options.maxXValue; // 最大的值，如果指定了，则如果有数值比它大才会修改上限，否则以它为上限
 			if(typeof options.minXValue !== 'undefined') this.minValue = options.minXValue;// 最小值，如果指定了，则轴的最小值为它或更小的值
 		}
 		else {
-			if(typeof options.maxYValue !== 'undefined') this.maxValue = options.maxYValue; // 最大的值，如果指定了，则如果有数值比它大才会修改上限，否则以它为上限
-			if(typeof options.minYValue !== 'undefined') this.minValue = options.minYValue;// 最小值，如果指定了，则轴的最小值为它或更小的值
+			if(typeof options.maxYValue !== 'undefined' && (options.maxYValue > this.maxValue || typeof this.maxValue === 'undefined')) this.maxValue = options.maxYValue; // 最大的值，如果指定了，则如果有数值比它大才会修改上限，否则以它为上限
+			if(typeof options.minYValue !== 'undefined'&& (options.minYValue < this.minValue || typeof this.minValue === 'undefined')) this.minValue = options.minYValue;// 最小值，如果指定了，则轴的最小值为它或更小的值
 		}
 	}
 
@@ -99,6 +103,11 @@ export default class jmAxis extends jmArrowLine {
 	scalePoints = [];
 
 	/**
+	 * 轴上的标签，只读
+	 */
+	labels = [];
+
+	/**
 	 * 关联访问的是chart的数据源
 	 */
 	get data() {
@@ -108,6 +117,23 @@ export default class jmAxis extends jmArrowLine {
 		this.graph.data = d;
 	}
 
+	// 生成绘制点，
+	// 重写原函数
+	initPoints() {
+		// 如果是雷达图
+		if(this.radarOption && this.type === 'x') {
+			this.points = [];
+			for(const axis of this.radarOption.yAxises) {
+				this.points.push(axis.end);
+			}
+			this.points.push(this.points[0]);
+			return this.points;
+		}
+		else {
+			return super.initPoints();
+		}	
+	}
+
 
 	/**
 	 * 计算当前轴的位置
@@ -115,12 +141,40 @@ export default class jmAxis extends jmArrowLine {
 	 * @method reset
 	 */
 	reset() {	
-		
 		const bounds = this.graph.chartArea.getBounds();// 获取画图区域
 		switch(this.type) {
-			case 'x' : {	
+			case 'x' : {
 				//初始化显示标签个数
-				this.labelCount = this.style.xLabel.count || 5;
+				this.labelCount = this.style.xLabel.count || 5;	
+				// 如果是雷达图，则画栅格线
+				if(this.radarOption) {
+					if(this.style.grid && this.style.grid.x) {
+						for(let i=1; i< this.labelCount+1; i++) {
+							const points = [];
+							const curRadius = this.radarOption.radius / this.labelCount * i;
+							for(const axis of this.radarOption.yAxises) {
+								const point = {};
+								point.x = axis.radarOption.center.x + axis.radarOption.cos * curRadius + bounds.left;
+								point.y = axis.radarOption.center.y - axis.radarOption.sin * curRadius + bounds.top;
+								points.push(point);
+							}
+							// 画栅格线
+							for(let j=0; j<points.length; j++) {
+								const start = points[j];
+								const end = points[j+1] || points[0];
+								const gridLine = this.graph.createShape('line', {
+									start,
+									end,
+									style: this.style.grid
+								});	
+								this.parent.children.add(gridLine);	
+								this.gridLines.push(gridLine);
+							}											
+						}	
+					}				
+					break;
+				}
+				
 				this.start.x = bounds.left;
 				this.start.y = bounds.bottom;
 				this.end.x = bounds.right;
@@ -137,25 +191,34 @@ export default class jmAxis extends jmArrowLine {
 				}
 				break;
 			}
-			case 'y' : {				
-				const index = this.index || 1;					
-				let xoffset = bounds.left;
-
+			case 'y' : {		
 				//初始化显示标签个数
 				this.labelCount = this.style.yLabel.count || 5;
-				
-				//多Y轴时，第二个为右边第一轴，其它的依此递推
-				if(index == 2) {
-					xoffset = bounds.right;
-				}
-				else if(index > 2) {
-					xoffset = this.graph.yAxises[index-1].start.x + this.graph.yAxises[index-1].width + 10;
-				}					
-				
-				this.start.x = xoffset;
-				this.start.y = bounds.bottom;
-				this.end.x = this.start.x;
-				this.end.y = bounds.top;				
+
+				const index = this.index || 1;	
+				// 如果是雷达图，则画发散的线
+				if(this.radarOption) {
+					this.end.x = this.radarOption.center.x + this.radarOption.cos * this.radarOption.radius + bounds.left;;
+					this.end.y = this.radarOption.center.y - this.radarOption.sin * this.radarOption.radius + bounds.top; 
+					this.start.x = this.radarOption.center.x + bounds.left;
+					this.start.y = this.radarOption.center.y + bounds.top;
+				}	
+				else {		
+					let xoffset = bounds.left;
+					
+					//多Y轴时，第二个为右边第一轴，其它的依此递推
+					if(index == 2) {
+						xoffset = bounds.right;
+					}
+					else if(index > 2) {
+						xoffset = this.graph.yAxises[index-1].start.x + this.graph.yAxises[index-1].width + 10;
+					}					
+					
+					this.start.x = xoffset;
+					this.start.y = bounds.bottom;
+					this.end.x = this.start.x;
+					this.end.y = bounds.top;	
+				}			
 				break;
 			}
 		}
@@ -174,17 +237,18 @@ export default class jmAxis extends jmArrowLine {
 	 * @method createLabel
 	 */
 	createLabel() {		
-		//移除原有的标签 
-		this.children.each(function(i, c) {
-			c.remove();
-		}, true);
-		
-		this.labels = [];
+		if(this.visible === false) return;
+
+		// 雷达图的标签单独处理
+		if(this.radarOption) {
+			return this.createRadarLabel();
+		}
+
 		//如果是？X轴则执行X轴标签生成
 		if(this.type == 'x') {
 			this.createXLabel();
 		}
-		else if(this.type == 'y') {
+		else if(this.type == 'y') {			
 			this.createYLabel();
 		}			
 	}
@@ -214,7 +278,7 @@ export default class jmAxis extends jmArrowLine {
 			if(!text) continue;
 
 			/// 只有一条数据，就取这条数据就可以了	
-			const w = (this.data.length === 1? 1: i) * step;
+			const w = i * step;
 
 			const label = this.graph.createShape('label', {
 				style: this.style.xLabel
@@ -303,23 +367,19 @@ export default class jmAxis extends jmArrowLine {
 		this.scalePoints = [];// 刻度点集合
 
 		let count = this.labelCount;
-		const mm = max - min;
-		/*if(mm <= 10) {
-			count = mm;
-		}*/
-		// mm 放大10000倍，这里结果也需要除于10000
-		let pervalue = (mm / count) || 1;
-		//if(pervalue > 1 || pervalue < -1) pervalue = Math.floor(pervalue);		
+		const mm = max - min;		
+		let pervalue = (mm / count) || 1;	
 			
 		const format = this.option.format || this.format;
 		const marginLeft = this.style.yLabel.margin.left * this.graph.devicePixelRatio || 0;
 		const marginRight = this.style.yLabel.margin.right * this.graph.devicePixelRatio || 0;
 		let p = 0;
+		
 		for(let i=0; i<count+1; i++) {
 			p = min + pervalue * i;
 			if(p > max || i === count) p = max;
 			const h = (p - min) * step; // 当前点的偏移高度
-			const label = this.graph.graph.createShape('label', {
+			const label = this.graph.createShape('label', {
 				style: this.style.yLabel
 			});
 			
@@ -357,7 +417,7 @@ export default class jmAxis extends jmArrowLine {
 				});
 
 				// 指定要显示网格
-				if(this.style.grid && this.style.grid.x) {
+				if(!this.radarOption && this.style.grid && this.style.grid.x) {
 					// 它的坐标是相对于轴的，所以Y轴会用负的区域高度
 					const line = this.graph.createShape('line', {
 						start: {
@@ -421,6 +481,38 @@ export default class jmAxis extends jmArrowLine {
 				label.position = pos;
 			}	
 		}
+	}
+
+	/**
+	 * 生成雷达图的Y轴标签
+	 */
+	createRadarLabel() {
+		const format = this.option.format;
+		const bounds = this.graph.chartArea.getBounds();// 获取画图区域
+		const self = this;
+		const label = this.graph.createShape('label', {
+			style: this.style.yLabel,
+			position: function() {
+				// 因为axis是相对于chart的，而center是相对于chartArea的，所以要计算axis位置相对于chartArea来比较
+				const pos = {
+					x: self.end.x - bounds.left,
+					y: self.end.y - bounds.top
+				};
+				const size = this.testSize();
+				if(pos.x < self.radarOption.center.x) {
+					pos.x -= size.width;
+				}
+				
+				if(pos.y < self.radarOption.center.y) {
+					pos.y -= size.height;
+				}
+				return pos;
+			}
+		});
+		
+		label.text = typeof format === 'function'? format.call(this, label): this.field; // 格式化label
+		this.labels.push(label);
+		this.graph.chartArea.children.add(label);
 	}
 
 	/**
@@ -569,6 +661,18 @@ export default class jmAxis extends jmArrowLine {
 	clear() {
 		this._min = null;
 		this._max = null;
+		this.children.each((i, c) => {
+			c.remove();
+		}, true);
+		// 清空栅格线
+		this.gridLines && this.gridLines.forEach((line)=>{
+			line.remove();
+		});
+		this.labels && this.labels.forEach((label)=>{
+			label.remove();
+		});
+		this.labels = [];
+		this.gridLines = [];
 	}
 
 	/**
@@ -579,7 +683,7 @@ export default class jmAxis extends jmArrowLine {
 	 */
 	step() {
 		if(this.type == 'x') {
-			const w = this.width;
+			const w = this.radarOption? this.radarOption.radius : this.width;
 
 			//如果排版为内联，则单位占宽减少一个单位,
 			//也就是起始位从一个单位开始
@@ -597,7 +701,7 @@ export default class jmAxis extends jmArrowLine {
 				
 		}		
 		else if(this.type == 'y') {
-			const h = this.height;
+			const h = this.radarOption? this.radarOption.radius : this.height;
 			switch(this.dataType) {					
 				case 'string': {
 					return h / this.max();

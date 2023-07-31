@@ -78,10 +78,24 @@ export default {
             this.chartInstance = new jmChart(this.$refs.jmChartContainer, this.option);
             
             if(this.chartData && this.chartData.length) this.refresh(); // 这里有死循环的问题，但上面 chartInstance不为空就返回了，就没有这个问题了
-
+            
             // touch改变数据点事件
             this.chartInstance.bind('touchPointChange', (args) => {
                 this.$emit('touch-point-change', args);
+            });
+
+            // 图表标线事件
+            this.chartInstance.bind('marklinelongtapstart', (args) => {
+                this.$emit('markline-longtap-start', args);
+            });
+            this.chartInstance.bind('marklinestartmove', (args) => {
+                this.$emit('markline-start-move', args);
+            });
+            this.chartInstance.bind('marklinemove', (args) => {
+                this.$emit('markline-move', args);
+            });
+            this.chartInstance.bind('marklineendmove', (args) => {
+                this.$emit('markline-end-move', args);
             });
 
             // touch事件

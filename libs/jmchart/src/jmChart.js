@@ -10,10 +10,11 @@ import jmLegend from './core/legend/legend.js';
 import jmBarSeries from './series/barSeries.js';
 import jmStackBarSeries from './series/stackBarSeries.js';
 import jmPieSeries from './series/pieSeries.js';
-
+import jmRadarSeries from './series/radarSeries.js';
 import jmLineSeries from './series/lineSeries.js';
 import jmStackLineSeries from './series/stackLineSeries.js';
-import jmMarkLine from './core/axis/markLine';
+import jmCandlestickSeries from './series/candlestickSeries.js';
+import jmMarkLineManager from './core/markLine/manager';
 
 /**
  * jm图表组件
@@ -139,11 +140,9 @@ export default class jmChart extends jmGraph  {
 			autoRefresh: true
 		}, true);
 
-		let graph = this.touchGraph = this;
-
 		// 生成图层, 当图刷新慢时，需要用一个操作图层来进行滑动等操作重绘
 		// isWXMiniApp 非微信小程序下才能创建
-		if(!graph.isWXMiniApp && container && options.touchGraph) {
+		if(!this.isWXMiniApp && container && options.touchGraph) {
 			let cn = document.createElement('canvas');
 			cn.width = container.offsetWidth||container.clientWidth;
 			cn.height = container.offsetHeight||container.clientHeight;
@@ -151,7 +150,7 @@ export default class jmChart extends jmGraph  {
 			cn.style.top = 0;
 			cn.style.left = 0;
 
-			this.touchGraph = graph = new jmGraph(cn, options);
+			this.touchGraph = new jmGraph(cn, options);
 			
 			container.appendChild(cn);
 
@@ -162,64 +161,16 @@ export default class jmChart extends jmGraph  {
 					this.touchGraph[name] = args.newValue / this.devicePixelRatio;
 				}
 			});
-		}
-
-		if(this.style.markLine)  {
-
-			graph.on('beginDraw', () => {
-				// 重置标线，会处理小圆圈问题
-				this.xMarkLine && this.xMarkLine.init();
-				this.yMarkLine && this.yMarkLine.init();
-			});
-
-			// 生成标线，可以跟随鼠标或手指滑动
-			if(this.style.markLine && this.style.markLine.x) {
-				this.xMarkLine = graph.createShape(jmMarkLine, {
-					type: 'x',
-					style: this.style.markLine
-				});
-				const area = graph.chartArea || graph;
-				area.children.add(this.xMarkLine);
-			}
-
-			if(this.style.markLine && this.style.markLine.y) {
-				this.yMarkLine = graph.createShape(jmMarkLine, {
-					type: 'y',
-					style: this.style.markLine
-				});
-				const area = graph.chartArea || graph;
-				area.children.add(this.yMarkLine);
-			}
-
-			graph.on('mousedown touchstart', (args) => {
-				if(this.xMarkLine) {
-					this.xMarkLine.visible = true;
-					this.xMarkLine.move(args);
-				}
-				if(this.yMarkLine) {
-					this.yMarkLine.visible = true;
-					this.yMarkLine.move(args);
-				}
-			});
-			// 移动标线
-			graph.on('mousemove touchmove', (args) => {
-				if(this.xMarkLine && this.xMarkLine.visible) {
-					this.xMarkLine.move(args);
-				}
-				if(this.yMarkLine && this.yMarkLine.visible) {
-					this.yMarkLine.move(args);
-				}
-			});
-			// 取消移动
-			graph.on('mouseup touchend touchcancel touchleave', (args) => {
-				if(this.xMarkLine && this.xMarkLine.visible) {
-					this.xMarkLine.cancel(args);
-				}
-				if(this.yMarkLine && this.yMarkLine.visible) {
-					this.yMarkLine.cancel(args);
+			// 把上层canvse事件传递给绘图层对象
+			this.touchGraph.on('mousedown touchstart mousemove touchmove mouseup touchend touchcancel touchleave', (args) => {
+				const eventName = args.event.eventName || args.event.type;
+				if(eventName) {
+					this.emit(eventName, args);
 				}
 			});
 		}
+		// 初始化标线
+		this.markLine = new jmMarkLineManager(this);
 	}
 	
 	// 重置整个图表
@@ -382,7 +333,7 @@ export default class jmChart extends jmGraph  {
 				type: 'x',
 				visible: this.style.axis.x === false? false: true,
 				format: this.option.xLabelFormat,
-				...this.option.yAxisOption
+				...this.option.xAxisOption
 			}, options || {});
 			
 			if(typeof this.option.minXValue !== 'undefined') {
@@ -415,7 +366,7 @@ export default class jmChart extends jmGraph  {
 			visible: this.style.axis.y === false? false: true,
 			format: this.option.yLabelFormat,
 			zeroBase: this.baseY === 0,
-			...this.option.xAxisOption,
+			...this.option.yAxisOption,
 		}, options || {});
 		if(typeof this.option.minYValue !== 'undefined') {
 			options.minYValue = typeof options.minYValue === 'undefined'?this.option.minYValue:Math.min(this.option.minYValue, options.minYValue);
@@ -444,7 +395,9 @@ export default class jmChart extends jmGraph  {
 				'bar' : jmBarSeries,
 				'stackBar' : jmStackBarSeries,
 				'pie' : jmPieSeries,
-				'stackLine' : jmStackLineSeries
+				'radar' : jmRadarSeries,
+				'stackLine' : jmStackLineSeries,
+				'candlestick': jmCandlestickSeries
 			};		
 		}
 

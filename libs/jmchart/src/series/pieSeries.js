@@ -43,7 +43,7 @@ export default class jmPieSeries extends jmSeries {
 			y: this.graph.chartArea.height / 2
 		};
 		
-		const radius = Math.min(center.x - this.style.margin.left - 
+		const radius = Math.min(center.x - this.style.margin.left * this.graph.devicePixelRatio - 
 			this.style.margin.right * this.graph.devicePixelRatio,
 			center.y - this.style.margin.top * this.graph.devicePixelRatio - this.style.margin.bottom * this.graph.devicePixelRatio);
 		
@@ -141,6 +141,7 @@ export default class jmPieSeries extends jmSeries {
 					style: this.graph.utils.clone(this.style),
 					anticlockwise
 				};
+				points.push(p);
 				//p.style.color = this.graph.getColor(index);
 				if(p.style.color && typeof p.style.color === 'function') {
 					p.style.fill = p.style.color.call(this, p);
@@ -218,34 +219,32 @@ export default class jmPieSeries extends jmSeries {
 					// 如果有点击事件
 					if(this.option.onClick) {
 						p.shape.on('click', (e) => {
-							this.option.onClick.call(this, p, e);
+							return this.option.onClick.call(this, p, e);
 						});
 					}
 					if(this.option.onOver) {
 						p.shape.on('mouseover touchover', (e) => {
-							this.option.onOver.call(this, p, e);
+							return this.option.onOver.call(this, p, e);
 						});
 					}
 					if(this.option.onLeave) {
 						p.shape.on('mouseleave touchleave', (e) => {
-							this.option.onLeave.call(this, p, e);
+							return this.option.onLeave.call(this, p, e);
 						});
 					}
 
 					this.createLabel(p);// 生成标签
+					// 生成标点的回调
+					this.emit('onPointCreated', p);		
 				}
-				points.push(p);
-				index++;	
-				
-				// 生成标点的回调
-				this.emit('onPointCreated', p);			
+				index++;
 			}			
 		}
 		
 		return points;
 	}
 
-	// 生成柱图的标注
+	// 生成图的标注
 	createLabel(point) {
 		if(this.style.label && this.style.label.show === false) return;
 
@@ -269,7 +268,7 @@ export default class jmPieSeries extends jmSeries {
 				const parentRect = this.parent.getBounds();
 				//const rect = this.getBounds.call(this.parent);
 
-				// 圆弧的中间位，离圆心最近和最完的二个点
+				// 圆弧的中间位，离圆心最近和最远的二个点
 				let centerMaxPoint = this.parent.points[Math.floor(this.parent.points.length / 2)];
 				let centerMinPoint = this.parent.center;
 				// 如果是空心圆，则要计算 1/4 和 3/4位的点。顺时针和逆时针二个点大小不一样，这里只取，大小计算时处理
@@ -331,18 +330,6 @@ jmPieSeries.prototype.createLegend = function() {
 		//此处重写图例事件
 		this.graph.legend.append(this, shape, {
 			name: this.legendLabel, 
-			hover: function() {	
-				//var sp = this.children.get(0);
-				//应用图的动态样式
-				Object.assign(this.targetShape.style, this.targetShape.style.hover);	
-				Object.assign(this.style, this.style.hover);
-			},
-			leave: function() {	
-				//var sp = this.children.get(0);
-				//应用图的普通样式
-				Object.assign(this.targetShape.style, this.targetShape.style.normal);			
-				Object.assign(this.style, this.style.normal);
-			}, 
 			data: this.data[k]
 		});
 	}	

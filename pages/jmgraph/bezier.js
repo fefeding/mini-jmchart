@@ -139,5 +139,5 @@ exports.init = function(g) {
 }
 
 exports.destory = function () {
-  if (exports.handler) clearTimeout(exports.handler);
+  if (this.handler) clearTimeout(this.handler);
 }

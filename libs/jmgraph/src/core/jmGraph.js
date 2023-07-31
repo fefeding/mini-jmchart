@@ -27,7 +27,7 @@ export default class jmGraph extends jmControl {
 		}
 	
 		option = option || {};
-		
+		option.mode = option.mode || '2d'; // webgl | 2d
 		option.interactive = true;
 		
 		super(option, 'jmGraph');
@@ -47,6 +47,7 @@ export default class jmGraph extends jmControl {
 		if(typeof wx != 'undefined' && wx.createCanvasContext) {
 			this.context = wx.createCanvasContext(canvas);
 			canvas = wx.createSelectorQuery().select('#' + canvas);
+			this.isWXMiniApp = true;// 微信小程序平台
 		}
 		else {
 			if(typeof canvas === 'string' && typeof document != 'undefined') {
@@ -66,8 +67,7 @@ export default class jmGraph extends jmControl {
 			}	
 			else {
 				this.container = canvas.parentElement;
-			}
-
+			}			
 			this.context = canvas.getContext('2d');
 		}
 		this.canvas = canvas;
@@ -379,7 +379,7 @@ export default class jmGraph extends jmControl {
 	* @param {string} value 样式值
 	*/
 	css(name, value) {
-		if(this.canvas) {
+		if(this.canvas && this.canvas.style) {
 			if(typeof value != 'undefined') this.canvas.style[name] = value;
 			return this.canvas.style[name];
 		}
@@ -495,16 +495,19 @@ export default class jmGraph extends jmControl {
 		if(this.___isAutoRefreshing) return;
 		const self = this;
 		this.___isAutoRefreshing = true;
+		
 		function update() {
 			if(self.destoryed) {
 				self.___isAutoRefreshing = false;
 				return;// 已销毁
 			}
 			if(self.needUpdate) self.redraw();
-			requestAnimationFrame(update);
+			self.__requestAnimationFrameFunHandler && jmUtils.cancelAnimationFrame(self.__requestAnimationFrameFunHandler);
+			self.__requestAnimationFrameFunHandler = jmUtils.requestAnimationFrame(update);
 			if(callback) callback();
 		}
-		requestAnimationFrame(update);
+		self.__requestAnimationFrameFunHandler && jmUtils.cancelAnimationFrame(self.__requestAnimationFrameFunHandler);
+		self.__requestAnimationFrameFunHandler = jmUtils.requestAnimationFrame(update);
 		return this;
 	}
 
