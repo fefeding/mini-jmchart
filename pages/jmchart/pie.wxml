@@ -1,2 +1,1 @@
-
-<canvas style="width: 100%; height: {{canvasHeight}}px;" canvas-id="firstCanvas" bindtouchstart="canvastouchstart" bindtouchmove="canvastouchmove" bindtouchend="canvastouchend" bindtouchcancel="canvastouchcancel"></canvas>
+<jmchart id="jmchart_component" width="{{canvasWidth}}" height="{{canvasHeight}}" options="{{options}}"></jmchart>

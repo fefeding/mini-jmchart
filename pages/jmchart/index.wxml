@@ -2,4 +2,5 @@
     <navigator url="line">线图</navigator>
     <navigator url="bar">柱图</navigator>
     <navigator url="pie">饼图</navigator>
+    <navigator url="radar">雷达图</navigator>
 </view>

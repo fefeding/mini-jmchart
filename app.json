@@ -2,11 +2,11 @@
     "pages": [
         "pages/index/index",
         "pages/jmgraph/index",
-        "pages/video/play",
         "pages/jmchart/index",
         "pages/jmchart/line",
         "pages/jmchart/bar",
-        "pages/jmchart/pie"
+        "pages/jmchart/pie",
+        "pages/jmchart/radar"
     ],
     "window": {
         "backgroundTextStyle": "light",

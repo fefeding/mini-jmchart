@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "pie"
+  "navigationBarTitleText": "pie",
+  "usingComponents": {
+    "jmchart": "/components/jmchart/index"
+  }
 }

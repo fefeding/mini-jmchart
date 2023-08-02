@@ -1,11 +1,15 @@
-import jmChart from "../../libs/jmchart/dist/jmchart.esm.js";
+import jmChart from "../../components/jmchart/jmchart/dist/jmchart.esm.js";
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        canvasHeight: 600
+        canvasHeight: 600,
+        canvasWidth: 400,
+        options: {            
+            xField: 'x',
+        }
     },
 
     /**
@@ -21,46 +25,21 @@ Page({
     onReady: function () {
         const wxInfo = wx.getSystemInfoSync();//获取系统信息
         this.setData({
-          canvasHeight: wxInfo.windowHeight * 0.5
+          canvasHeight: wxInfo.windowHeight * 0.5,
+          canvasWidth: wxInfo.windowWidth,
+          options: {
+              xField: 'x',
+              enableAnimate: true
+          }
         }, ()=>{      
-            const g = new jmChart('firstCanvas', {
-                style: {
-                 fill: '#ccc'
-                },
-                width: wxInfo.windowWidth,
-                height: this.data.canvasHeight,
-                xField: 'x',
-                //baseY: 0,
-                // 最大和最小X值，  这里一般不用指定，除非硬是需要
-                /*minXValue : 0,
-                maxXValue : 10,
-                minYValue: -100,
-                maxYValue: 400,*/
-                enableAnimate: true,
-                autoRefresh: true
-            })
-            this.initChart(g);      
+            this.chart = this.selectComponent('#jmchart_component');
+            this.initChart(this.chart);      
         });
     },
-    initChart: function(g) {
-    
-    
-        //初始化jmGraph事件
-        //把小程序中的canvas事件交给jmGraph处理
-        this.canvastouchstart = function (...arg) {
-          return g.eventHandler.touchStart(...arg);
-        }
-        this.canvastouchmove = function (...arg) {
-          return g.eventHandler.touchMove(...arg);
-        }
-        this.canvastouchend = function (...arg) {
-          return g.eventHandler.touchEnd(...arg);
-        }
-        this.canvastouchcancel = function (...arg) {
-          return g.eventHandler.touchCancel(...arg);
-        }
-        const self = this;
-        const bar1 = g.createSeries('bar', {
+    initChart: async function(g) {
+        const chart = await g.initChart();
+        
+        const bar1 = chart.createSeries('bar', {
             field: 'y1',
             style: {
 							// 渐变色
@@ -93,7 +72,7 @@ Page({
             }
         });		
         
-        const bar2 = g.createSeries('bar', {
+        const bar2 = chart.createSeries('bar', {
             field: 'y2',
             legendLabel: '图例3',
             style: {
@@ -112,16 +91,16 @@ Page({
 						},
         });	
 
-        g.data = [];
+        chart.data = [];
         for(let i = 0; i< 5;i++) {
             const data = {
                 x : i,
                 y1: Math.random() * 200 + i,
                 y2: Math.random() * 10 + i * 5,
             };
-            g.data.push(data);
+            chart.data.push(data);
         }
-        g.refresh();
+        chart.refresh();
       },
     /**
      * 生命周期函数--监听页面显示

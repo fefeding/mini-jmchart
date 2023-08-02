@@ -1,0 +1,55 @@
+{
+  "family": "jmgraph",
+  "name": "jmgraph",
+  "version": "3.1.94",
+  "description": "一个简单的canvas画图库",
+  "homepage": "http://graph.jm47.com/",
+  "keywords": [
+    "canvas",
+    "html5"
+  ],
+  "author": "jiamao<haofefe@163.com>",
+  "engines": {},
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^7.6.1",
+    "@commitlint/config-conventional": "^7.6.0",
+    "cz-conventional-changelog": "^2.1.0",
+    "express": "^4.17.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jiamao/jmgraph.git"
+  },
+  "main": "./index.js",
+  "spm": {
+    "alias": {},
+    "output": [
+      "main.js"
+    ]
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/jiamao/jmgraph/blob/master/LICENSE"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/jiamao/jmgraph/issues"
+  },
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "build": "cd build & npm i & gulp & cd ..",
+    "push": "npm publish --registry=https://registry.npmjs.org",
+    "dev": "node dev"
+  },
+  "license": "MIT",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

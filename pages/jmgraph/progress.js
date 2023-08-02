@@ -1,4 +1,4 @@
-
+var handler = 0;
 exports.init = function (g) {
   var style = {
     stroke: 'rgb(120,20,80)',
@@ -57,7 +57,7 @@ exports.init = function (g) {
 
     arc.style.fill = 'radial-gradient(50% 50% 0 50% 50% 50%, green 0,blue ' + bluestop + ', yellow ' + yellowstop + ', red 1)';
     g.needUpdate = true;
-    exports.handler = setTimeout(arcAni, 50);
+    handler = setTimeout(arcAni, 50);
   }
   arc.children.add(childarc);
   arcAni();
@@ -65,5 +65,5 @@ exports.init = function (g) {
 }
 
 exports.destory = function () {
-  if (exports.handler) clearTimeout(exports.handler);
+  if (handler) clearTimeout(handler);
 }

@@ -1,4 +1,5 @@
 
+var handler = 0;
 exports.init = function(g) {
   resize(g);
 
@@ -135,7 +136,7 @@ exports.init = function(g) {
       b1.y(y);
     }
     g.needUpdate = true;
-    exports.handler = setTimeout(animate, 1);
+    handler = setTimeout(animate, 1);
   };
   animate();		
 }
@@ -172,5 +173,5 @@ function ball(graph, x, y, radius, style) {
 }
 
 exports.destory = function() {
-  if (this.handler) clearTimeout(this.handler);
+  if (handler) clearTimeout(handler);
 }

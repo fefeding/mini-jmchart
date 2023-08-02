@@ -1,5 +1,10 @@
-exports.init = function(g) {
-  this.balls = [];
+
+var balls = [];
+var state = 0;
+var handler = 0;
+exports.init = function(g) {    
+  balls = [];
+  state = 1;
   refreshBall(g);
 }
 
@@ -36,9 +41,8 @@ function refreshBall(g) {
     var b = new cell(g, p.x, p.y, radius, style);
     b.vx = Math.random() - Math.random();
     b.vy = Math.random() - Math.random();
-    exports.balls.push(b);
+    balls.push(b);
   }
-
 
   //var radius = Math.random() * 10 + 6;
   var styletmp = g.util.clone(style);
@@ -50,7 +54,7 @@ function refreshBall(g) {
 
   var myCell = createCell(g, g.width / 2, g.height / 2, 14, styletmp);//new cell(g,graph.width / 2,g.height / 2,10,styletmp);
 
-  //exports.balls.push(myCell);
+  //balls.push(myCell);
 
   g.bind('touchend', function (evt) {
     var x = evt.position.x;
@@ -60,7 +64,8 @@ function refreshBall(g) {
   });
 
   function animate() {
-    var bs = exports.balls;
+      if(state !== 1) return;
+    var bs = balls;
     var len = bs.length;
     //var mvx = 0;
     //var mvy = 0;
@@ -105,7 +110,7 @@ function refreshBall(g) {
             darea = smallB.radius() * smallB.radius();
             dr = smallB.radius();
             smallB.visible(false);
-            exports.balls.splice(smallindex, 1);
+            balls.splice(smallindex, 1);
           }
           var bigr = Math.sqrt(bigB.radius() * bigB.radius() + darea);
 
@@ -137,14 +142,14 @@ function refreshBall(g) {
       b1.y(y);
     }
     g.needUpdate = true;
-    exports.handler = setTimeout(animate, 20);
+    handler = setTimeout(animate, 20);
   };
   animate();
 }
 
 function createCell(g, x, y, r, style) {
   var c = new cell(g, x, y, r, style);
-  exports.balls.push(c);
+  balls.push(c);
   return c;
 }
 
@@ -215,8 +220,8 @@ function createPosition(radius, i, g) {
   var x = Math.random() * g.width + radius;
   var y = Math.random() * g.height + radius;
 
-  for (var j = i + 1; j < exports.balls.length; j++) {
-    var b2 = exports.balls[j];
+  for (var j = i + 1; j < balls.length; j++) {
+    var b2 = balls[j];
     var lx = Math.abs(x - b2.x());
     var ly = Math.abs(y - b2.y());
     var l = Math.sqrt(lx * lx + ly * ly);
@@ -237,6 +242,7 @@ function resize(g) {
 }
 
 exports.destory = function (g) {
-  if (this.handler) clearTimeout(this.handler);
+    state = 0;
+  if (handler) clearTimeout(handler);
   g && g.unbind('touchend');
 }

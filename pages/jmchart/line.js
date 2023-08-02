@@ -1,11 +1,15 @@
-import jmChart from "../../libs/jmchart/dist/jmchart.esm.js";
+import jmChart from "../../components/jmchart/jmchart/dist/jmchart.esm.js";
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        canvasHeight: 600
+        canvasHeight: 600,
+        canvasWidth: 400,
+        options: {            
+            xField: 'x',
+        }
     },
 
     /**
@@ -21,14 +25,9 @@ Page({
     onReady: function () {
         const wxInfo = wx.getSystemInfoSync();//获取系统信息
         this.setData({
-          canvasHeight: wxInfo.windowHeight * 0.5
-        }, ()=>{      
-            const g = new jmChart('firstCanvas', {
-                style: {
-                fill: '#000'
-                },
-                width: wxInfo.windowWidth,
-                height: this.data.canvasHeight,
+          canvasHeight: wxInfo.windowHeight * 0.5,
+          canvasWidth: wxInfo.windowWidth,
+          options:  {
                 xField: 'x',
                 //baseY: 0,
                 // 最大和最小X值，  这里一般不用指定，除非硬是需要
@@ -44,35 +43,18 @@ Page({
                 xLabelFormat: (value, data, index)=>{
                     if(index % 5 === 0) return value + 'x';
                     return '';
-                },
-                style: {
-                    margin: {
-                        left: 50
-                    }
                 }
-            })
-            this.initChart(g);      
+            }
+        }, ()=>{      
+            this.chart = this.selectComponent('#jmchart_component');
+            this.initChart(this.chart);            
         });
     },
-    initChart: function(g) {
+    initChart: async function(g) {
+        const chart = await g.initChart();
     
-    
-        //初始化jmGraph事件
-        //把小程序中的canvas事件交给jmGraph处理
-        this.canvastouchstart = function (...arg) {
-          return g.eventHandler.touchStart(...arg);
-        }
-        this.canvastouchmove = function (...arg) {
-          return g.eventHandler.touchMove(...arg);
-        }
-        this.canvastouchend = function (...arg) {
-          return g.eventHandler.touchEnd(...arg);
-        }
-        this.canvastouchcancel = function (...arg) {
-          return g.eventHandler.touchCancel(...arg);
-        }
         const self = this;
-        const line1 = g.createSeries('line', {
+        const line1 = chart.createSeries('line', {
             field: 'y1',
             //index: 2, // 指定Y轴索引，如是档指定就会共用左边的Y轴，
             // 最大值和最小值，如果不指定会自动计算，
@@ -129,7 +111,7 @@ Page({
             }
         });		
         
-        const line2 = g.createSeries('line', {
+        const line2 = chart.createSeries('line', {
             field: 'y2',
             legendLabel: '图例3',
             index: 2,
@@ -175,16 +157,16 @@ Page({
             }
         });	
 
-        g.data = [];
+        chart.data = [];
         for(let i = 0;i<20;i++) {
             const data = {
                 x : i,
                 y1: Math.random() * 200 + i,
                 y2: Math.random() * 10 + i * 5,
             };
-            g.data.push(data);
+            chart.data.push(data);
         }
-        g.refresh();
+        chart.refresh();
       },
       addPointMark(point, serie, options) {
         const mark = serie.graph.createShape('circle', {

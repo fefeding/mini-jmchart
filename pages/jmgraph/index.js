@@ -1,7 +1,6 @@
 // pages/jmgraph/index.js
 //https://github.com/jiamao/jmgraph
 
-import {jmGraph} from "../../libs/jmgraph/index.js";
 import rectPage from './rect.js';
 import bezierPage from './bezier.js';
 import resizePage from './resize.js';
@@ -25,61 +24,31 @@ Page({
       { name: 'cell', value: '孢子', page: cellPage },
       { name: 'sort', value: '排序', page: sortPage },
     ],
-    canvasHeight: 600
+    canvasHeight: 600,
+    canvasWidth: 500
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    console.log('jmgraph load');
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
-    //let jmGraph = require('../../utils/jmgraph');
-
-    var self = this;
+    this.jmgraph = this.selectComponent('#jmgraph_component');
     var wxInfo = wx.getSystemInfoSync();//获取系统信息
     this.setData({
-      canvasHeight: wxInfo.windowHeight - 50
-    }, function(){     
-         
-      var g = new jmGraph('firstCanvas', {
-        style: {
-          fill: '#000'
-        },
-        width: wxInfo.windowWidth,
-        height: self.data.canvasHeight,
-        autoRefresh: true
-      });      
-        self.initGraph(g);      
+      canvasHeight: wxInfo.windowHeight - 50,
+      canvasWidth: wxInfo.windowWidth
+    }, ()=>{   
+         this.changeShape('rect');
     });
   },
-  initGraph: function(g) {
-    
-    this.graph = g;   
-
-    this.changeShape('rect');//默认显示
-
-    //初始化jmGraph事件
-    //把小程序中的canvas事件交给jmGraph处理
-    this.canvastouchstart = function (...arg) {
-      return g.eventHandler.touchStart(...arg);
-    }
-    this.canvastouchmove = function (...arg) {
-      return g.eventHandler.touchMove(...arg);
-    }
-    this.canvastouchend = function (...arg) {
-      return g.eventHandler.touchEnd(...arg);
-    }
-    this.canvastouchcancel = function (...arg) {
-      return g.eventHandler.touchCancel(...arg);
-    }
-  },
+  
 
   radioChange: function(e) {
     console.log(e);
@@ -87,25 +56,24 @@ Page({
     this.changeShape(e.detail.value);
   },
 
-  changeShape: function(s) {
-      
-    this.destory();
+  changeShape: async function(s) {
+      const graph = await this.jmgraph.initGraph();
+        this.destory(graph);
     
-    //切换示例
-    let shape = null;
-    for(const o of this.data.shapes) {
-        if(o.name === s) shape = o;
-    }
-    console.log('require', shape);
-    this.graphShape = shape.page;
-    this.graphShape.init(this.graph);
-    this.graph.needUpdate = true;
+        //切换示例
+        let shape = null;
+        for(const o of this.data.shapes) {
+            if(o.name === s) shape = o;
+        }
+        console.log('require', shape);
+        this.graphShape = shape.page;
+        this.graphShape.init(graph);
   },
 
-  destory() {
-    this.graph.children.clear();
+  destory(graph) {
+    graph && graph.children.clear();
     if (this.graphShape && this.graphShape.destory) {
-      this.graphShape.destory(this.graph);
+      this.graphShape.destory(graph);
     }
   },
 

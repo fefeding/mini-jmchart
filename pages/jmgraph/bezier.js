@@ -1,3 +1,4 @@
+var handler = 0;
 exports.init = function(g) {
   var psize = 6;
   var style = {
@@ -114,7 +115,7 @@ exports.init = function(g) {
   var t = 0;
   var dir = 0;
   var speed = 0.02;
-  function handler() {
+  function handlerFun() {
     if (t > 1) {
       t = 1;
       dir = 1;
@@ -133,11 +134,11 @@ exports.init = function(g) {
       arr.end = mbezierpath.points[mbezierpath.points.length - 1];
     }
     t = dir == 0 ? (t + speed) : (t - speed);
-    exports.handler=setTimeout(handler, 50);
+    handler=setTimeout(handlerFun, 50);
   }
-  handler();
+  handlerFun();
 }
 
 exports.destory = function () {
-  if (this.handler) clearTimeout(this.handler);
+  if (handler) clearTimeout(handler);
 }

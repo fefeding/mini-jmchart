@@ -1,11 +1,15 @@
-import jmChart from "../../libs/jmchart/dist/jmchart.esm.js";
+import jmChart from "../../components/jmchart/jmchart/dist/jmchart.esm.js";
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        canvasHeight: 600
+        canvasHeight: 600,
+        canvasWidth: 400,
+        options: {            
+            xField: 'x',
+        }
     },
 
     /**
@@ -21,56 +25,42 @@ Page({
     onReady: function () {
         const wxInfo = wx.getSystemInfoSync();//获取系统信息
         this.setData({
-          canvasHeight: wxInfo.windowHeight * 0.5
-        }, ()=>{      
-            const g = new jmChart('firstCanvas', {               
-                width: wxInfo.windowWidth,
-                height: this.data.canvasHeight,
-                xField: 'x',
-                //baseY: 0,
-                // 最大和最小X值，  这里一般不用指定，除非硬是需要
-                minXValue : 0,
-                maxXValue : 10,
-                minYValue: -100,
-                maxYValue: 400,
-                enableAnimate: true,
-                autoRefresh: true,
-                yLabelFormat: (value, shape)=>{
-                    return value + '%';
-                },
-                xLabelFormat: (value, data, index)=>{
-                    if(index % 5 === 0) return value + 'x';
-                    return '';
-                },
-                style: {
-                    markLine: false, // 不展示标线
-                    margin: {
-                        left: 50
-                    }
+          canvasHeight: wxInfo.windowHeight * 0.5,
+          canvasWidth: wxInfo.windowWidth,
+          options: {   
+            xField: 'x',
+            //baseY: 0,
+            // 最大和最小X值，  这里一般不用指定，除非硬是需要
+            minXValue : 0,
+            maxXValue : 10,
+            minYValue: -100,
+            maxYValue: 400,
+            enableAnimate: true,
+            autoRefresh: true,
+            yLabelFormat: (value, shape)=>{
+                return value + '%';
+            },
+            xLabelFormat: (value, data, index)=>{
+                if(index % 5 === 0) return value + 'x';
+                return '';
+            },
+            style: {
+                markLine: false, // 不展示标线
+                margin: {
+                    left: 50
                 }
-            })
-            this.initChart(g);      
+            }
+        }
+        }, ()=>{     
+            const chart = this.selectComponent('#jmchart_component');
+            this.initChart(chart);  
         });
     },
-    initChart: function(g) {
+    initChart: async function(g) {
     
-    
-        //初始化jmGraph事件
-        //把小程序中的canvas事件交给jmGraph处理
-        this.canvastouchstart = function (...arg) {
-          return g.eventHandler.touchStart(...arg);
-        }
-        this.canvastouchmove = function (...arg) {
-          return g.eventHandler.touchMove(...arg);
-        }
-        this.canvastouchend = function (...arg) {
-          return g.eventHandler.touchEnd(...arg);
-        }
-        this.canvastouchcancel = function (...arg) {
-          return g.eventHandler.touchCancel(...arg);
-        }
+        const chart = await g.initChart();   
         
-        const pie = g.createSeries('pie', {
+        const pie = chart.createSeries('pie', {
             field: 'y1',
             startAngle: function(data) {
                 const step = Math.abs(data[0].y1 / this.totalValue);
@@ -200,7 +190,7 @@ Page({
                 }
             }
         });
-        g.data = [
+        chart.data = [
             {
                 x : 0,
                 name: 'test1',
@@ -227,6 +217,7 @@ Page({
                 y1 :  88
             }
         ];	
+        chart.refresh();
     },
     /**
      * 生命周期函数--监听页面显示

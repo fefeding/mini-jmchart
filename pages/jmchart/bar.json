@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "bar"
+  "navigationBarTitleText": "bar",
+  "usingComponents": {
+    "jmchart": "/components/jmchart/index"
+  }
 }
