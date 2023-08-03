@@ -1,4 +1,4 @@
-import {jmGraph} from "jmgraph/index.js";
+import jmGraph from "jmgraph";
 Component({
     /**
      * 组件的属性列表

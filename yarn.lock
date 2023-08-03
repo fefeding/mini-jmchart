@@ -2,7 +2,14 @@
 # yarn lockfile v1
 
 
-jmgraph@^3.0.5:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/jmgraph/-/jmgraph-3.0.5.tgz#4bccfff7d60901cc7af97e2468412762cd5a713c"
-  integrity sha512-SOUgcYnND/K3PwrA/CnOxChgKTl3RMT/YDPfm+MucQBjPNAfVKc258nc2lZOijueQShwJ462psnY1cr3VosVvw==
+"jmchart@^1.2.0":
+  "integrity" "sha512-YAjoS9he8t99UGykM9a2/+HqftJY5TXC0g/WNUBw4oCCh29StjKquAaqgYBe/clKHIOK9BtONwYBzeydWxMbiQ=="
+  "resolved" "https://npm.ciccjinteng.cn/jmchart/-/jmchart-1.2.0.tgz"
+  "version" "1.2.0"
+  dependencies:
+    "jmgraph" "^3.1.95"
+
+"jmgraph@^3.1.95":
+  "integrity" "sha512-egi6Y4FuUO3X2+Am0y/86JbkdPychDcT6SJIB+u3E+9fGwveUdLo/07vJ5CtMFGIh2pX0vcbKPKabZC+H4mL4Q=="
+  "resolved" "https://npm.ciccjinteng.cn/jmgraph/-/jmgraph-3.1.95.tgz"
+  "version" "3.1.95"

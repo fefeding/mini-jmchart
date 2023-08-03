@@ -1,6 +1,23 @@
 {
+  "name": "mini-jmchart",
+  "version": "1.0.0",
+  "description": "jmgraph jmchart 小程序示例",
+  "main": "app.js",
   "dependencies": {
-    "jmchart": "^1.1.72",
-    "jmgraph": "^3.1.84"
-  }
+    "jmchart": "^1.2.0",
+    "jmgraph": "^3.1.95"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jiamao/mini-jmchart.git"
+  },
+  "author": "fefeding",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jiamao/mini-jmchart/issues"
+  },
+  "homepage": "https://github.com/jiamao/mini-jmchart#readme"
 }
