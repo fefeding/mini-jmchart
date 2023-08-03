@@ -3759,7 +3759,7 @@
   		try {
   			
   			let img = this.getImage();
-  			if(this.graph.isWXMiniApp && this.graph.canvas) {
+  			if(this.graph.isWXMiniApp && this.graph.canvas && typeof img === 'string') {
   				// 图片对象
   				const image = this.graph.canvas.createImage();
   				// 图片加载完成回调
@@ -3781,6 +3781,10 @@
 
   	// 绘制
   	drawImg(img) {
+  		if(!img) {
+  			console.warn('image is empty');
+  			return;
+  		}
   		let bounds = this.parent && this.parent.absoluteBounds?this.parent.absoluteBounds:this.absoluteBounds;
   		if(!bounds) bounds = this.parent && this.parent.getAbsoluteBounds?this.parent.getAbsoluteBounds():this.getAbsoluteBounds();
   		let p = this.getLocation();

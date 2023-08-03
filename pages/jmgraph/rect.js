@@ -119,31 +119,43 @@ exports.init = function(g) {
   g.children.add(arrow);
 
   var style = {
-    src: 'https://mat1.gtimg.com/www/qq2018/imgs/qq_logo_2018x2.png'
+    //src: 'https://mat1.gtimg.com/www/qq2018/imgs/qq_logo_2018x2.png'
   };
   style.shadow = '0,0,10,#fff';
   //style.opacity = 0.2;		
 
-  //创建一个image
-  var img = g.createShape('image', {
-    style: style,
-    position: { x: 100, y: 300 }
-  });
-  img.canMove(true);
-  g.children.add(img);
+  // 图片对象
+  const image = g.canvas.createImage();
+  // 图片加载完成回调
+  image.onload = () => {
+      // 将图片绘制到 canvas 上
 
-  //截取logo
-  var img2 = g.createShape('image', {
-    style: style,
-    position: { x: 100, y: 400 },
+      //创建一个image
+        var img = g.createShape('image', {
+            style: style,
+            image,
+            position: { x: 100, y: 300 }
+        });
+        img.canMove(true);
+        g.children.add(img);
 
-    //伸展或缩小图像
-    width: 100,
-    height: 40,
+        //截取logo
+        var img2 = g.createShape('image', {
+            style: style,
+            position: { x: 100, y: 400 },
+            image,
+            //伸展或缩小图像
+            width: 100,
+            height: 40,
 
-    sourcePosition: { x: 0, y: 0 }, //截取起点
-    sourceWidth: 60,          //截取宽度，如果不填则用原图宽
-    sourceHeight: 60            //截取高度，如果不填则用原图高
-  });
-  g.children.add(img2);
+            sourcePosition: { x: 0, y: 0 }, //截取起点
+            sourceWidth: 60,          //截取宽度，如果不填则用原图宽
+            sourceHeight: 60            //截取高度，如果不填则用原图高
+        });
+        g.children.add(img2);
+
+  }
+  // 设置图片src
+  image.src = 'https://mat1.gtimg.com/www/qq2018/imgs/qq_logo_2018x2.png';
+  
 }
