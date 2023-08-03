@@ -43,7 +43,7 @@ Component({
                         const canvas = res[0].node
                         const graph = this.data.graph || (this.data.graph = new jmGraph(canvas, {
                             style: {
-                            fill: '#000'
+                            //fill: '#000'
                             },
                             width: this.data.width,
                             height: this.data.height,

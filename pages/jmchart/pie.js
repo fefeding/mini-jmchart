@@ -1,4 +1,4 @@
-import jmChart from "../../components/jmchart/jmchart/dist/jmchart.esm.js";
+
 Page({
 
     /**

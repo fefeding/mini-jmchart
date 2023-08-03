@@ -1,5 +1,5 @@
 // components/jmchart/index.js\
-import jmChart from "jmchart/dist/jmchart.esm.js";
+import jmChart from "jmchart/dist/jmchart.esm";
 Component({
     /**
      * 组件的属性列表
