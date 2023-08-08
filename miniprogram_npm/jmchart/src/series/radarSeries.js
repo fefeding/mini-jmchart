@@ -86,9 +86,9 @@ export default class jmRadarSeries extends jmSeries {
 			y: this.graph.chartArea.height / 2
 		};
 		
-		this.radius = Math.min(this.center.x - this.style.margin.left * this.graph.devicePixelRatio - 
-			this.style.margin.right * this.graph.devicePixelRatio,
-			this.center.y - this.style.margin.top * this.graph.devicePixelRatio - this.style.margin.bottom * this.graph.devicePixelRatio);
+		this.radius = Math.min(this.center.x - this.style.margin.left - 
+			this.style.margin.right,
+			this.center.y - this.style.margin.top - this.style.margin.bottom);
 		
         const axises = this.createAxises(this.center, this.radius);// 重置所有轴
 		// 计算最大最小值

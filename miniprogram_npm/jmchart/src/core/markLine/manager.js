@@ -107,7 +107,7 @@ export default class jmMarkLineManager {
 					else lineTouching = 1;
 				}
 				
-				args.event.stopPropagation && args.event.stopPropagation();
+				args.event && args.event.stopPropagation && args.event.stopPropagation();
 				// 如果指定了锁定图表标线操作值，则触发后当次滑动不再响应系统默认行为
 				if(chart.style.markLine.lock){
 					// 标线状态一直禁用系统能力
@@ -118,7 +118,7 @@ export default class jmMarkLineManager {
 						 || lineTouching === 1) {
 
 						lineTouching = 1;
-						args.event.preventDefault(); // 阻止默认行为
+						args.event && args.event.preventDefault && args.event.preventDefault(); // 阻止默认行为
 					}
 				}
 

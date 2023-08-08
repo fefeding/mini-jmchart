@@ -106,7 +106,7 @@ export default class jmStackBarSeries extends jmBarSeries {
 		else {
 			this.___animateCounter++;
 			// next tick 再次刷新
-			setTimeout(()=>{
+			this.graph.utils.requestAnimationFrame(()=>{
 				this.needUpdate = true;//需要刷新
 			});
 		}

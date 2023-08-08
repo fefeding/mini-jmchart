@@ -26,7 +26,7 @@ Component({
         chart: null
     },
     created() {
-        this.initChart();    
+        //this.initChart();    
     },
     detached() {
         this.data.graph && this.data.graph.destroy();
@@ -46,8 +46,8 @@ Component({
                     .exec((res) => {
                         const canvas = res[0].node
                         const chart = this.data.chart || (this.data.chart = new jmChart(canvas, {
-                            width: this.data.width,
-                            height: this.data.height,
+                            width: res[0].width,
+                            height: res[0].height,
                             autoRefresh: true,
                             ...this.data.options
                         }));  

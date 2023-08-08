@@ -79,13 +79,13 @@ jmLegend.prototype.append = function(series, shape, options = {}) {
 	const legendPosition = this.legendPosition || this.style.legendPosition || 'right';
 	if(legendPosition == 'top' || legendPosition == 'bottom') {
 		//顶部和底部图例横排，每次右移位一个单位图例
-		panel.position.x = this.width + 15 * this.graph.devicePixelRatio;
+		panel.position.x = this.width + 15;
 		this.width = panel.position.x + panel.width; // 把容器宽指定为所有图例宽和
 		this.height = Math.max(panel.height, this.height);
 	}
 	else {
 		//右边和左边图例竖排
-		panel.position.y += this.height + 5 * this.graph.devicePixelRatio;
+		panel.position.y += this.height + 5;
 		this.height = panel.position.y + panel.height;
 		this.width = Math.max(panel.width, this.width);
 	}
@@ -122,23 +122,23 @@ jmLegend.prototype.reset = function() {
 			case 'left': {
 				this.graph.chartArea.width = this.graph.chartArea.width - this.width;
 				//画图区域向右偏移
-				this.graph.chartArea.position.x = this.position.x + this.width + this.style.margin.right * this.graph.devicePixelRatio;
+				this.graph.chartArea.position.x = this.position.x + this.width + this.style.margin.right;
 				break;
 			}
 			case 'top': {
 				this.graph.chartArea.height = this.graph.chartArea.height - this.height;				
-				this.graph.chartArea.position.y = this.position.y + this.height + this.style.margin.bottom * this.graph.devicePixelRatio;
+				this.graph.chartArea.position.y = this.position.y + this.height + this.style.margin.bottom;
 				break;
 			}
 			case 'bottom': {
 				this.graph.chartArea.height = this.graph.chartArea.height - this.height;
-				this.position.y = this.graph.chartArea.position.y + this.graph.chartArea.height + this.style.margin.top * this.graph.devicePixelRatio;				
+				this.position.y = this.graph.chartArea.position.y + this.graph.chartArea.height + this.style.margin.top;				
 				break;
 			}
 			case 'right': 
 			default: {
 				this.graph.chartArea.width = this.graph.chartArea.width - this.width;
-				this.position.x = this.graph.chartArea.position.x + this.graph.chartArea.width + this.style.margin.left * this.graph.devicePixelRatio;
+				this.position.x = this.graph.chartArea.position.x + this.graph.chartArea.width + this.style.margin.left;
 				break;
 			}
 		}	

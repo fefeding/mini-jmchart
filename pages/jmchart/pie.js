@@ -73,7 +73,7 @@ Page({
             itemLabelFormat: function(point) {
                 //return (point.step * 100).toFixed(2) + '%';
                 //return point.data.name;
-                const label = this.graph.createShape('label', {
+                /*const label = this.graph.createShape('label', {
                     style: this.style.label,
                     text: point.data.name,
                     position: function() {
@@ -100,7 +100,7 @@ Page({
                         return position;
                     }
                 });
-                return label;
+                return label;*/
             },
             /*radius: function(p, radius, index) {
                 if(p.data.selected) {
@@ -140,35 +140,21 @@ Page({
             onClick: function(point, e) {							
                 
             },
-            /*onOver: function(point, e) {
-                point.data.overColor = '#D8E404';
-                this.needUpdate = true;
-
-                // 每隔一段时间检查是否在图形上，否则认为离开
-                clearTimeout(point.data.___event_check_handler);
-                point.data.___event_check_handler = setTimeout(() => {
-                    if(point.data.overColor) {
-                        point.data.overColor = '';
-                        this.needUpdate = true;
-                    }
-                }, 200);
-            },
-            onLeave: function(point, e) {
-                point.data.overColor = '';// 去除当前色
-                this.needUpdate = true;
-            },*/
             style: {
-                isHollow: true, // 是否空心
+                isHollow: false, // 是否空心
                 arcWidth: 30, // 圆弧宽
                 marginAngle: 0.02,// 间隔角度
+                stroke: 'transparent',
+                lineWidth: 0,
                 // 指定颜色获取方式，不指定就会使用默认的
                 color: function(point) {	
-                    if(!point || !point.data) return;							
+                    if(!point || !point.data) return '';	
+                    				
                     const color = point.data.color || this.graph.getColor(point.x);
                     if(!point.data.selected) {
                     // 如果没有被选中，则给个透明度
                         const colorRGBA = this.graph.utils.hexToRGBA(color);
-                        return `rgba(${colorRGBA.r},${colorRGBA.g},${colorRGBA.b}, 0.5)`;
+                        return `rgba(${colorRGBA.r},${colorRGBA.g},${colorRGBA.b}, 0.1)`;
                     }
                     return color;
                 },

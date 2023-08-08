@@ -95,7 +95,7 @@ export default class jmLineSeries extends jmSeries {
 		else if(isRunningAni) {	
 			this.___animateCounter += aniStep;		
 			// next tick 再次刷新
-			setTimeout(()=>{
+			this.graph.utils.requestAnimationFrame(()=>{
 				this.needUpdate = true;//需要刷新
 			});
 		}

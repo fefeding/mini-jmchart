@@ -4,7 +4,7 @@ var __DEFINE__ = function(modId, func, req) { var m = { exports: {}, _tempexport
 var __REQUIRE__ = function(modId, source) { if(!__MODS__[modId]) return require(source); if(!__MODS__[modId].status) { var m = __MODS__[modId].m; m._exports = m._tempexports; var desp = Object.getOwnPropertyDescriptor(m, "exports"); if (desp && desp.configurable) Object.defineProperty(m, "exports", { set: function (val) { if(typeof val === "object" && val !== m._exports) { m._exports.__proto__ = val.__proto__; Object.keys(val).forEach(function (k) { m._exports[k] = val[k]; }); } m._tempexports = val }, get: function () { return m._tempexports; } }); __MODS__[modId].status = 1; __MODS__[modId].func(__MODS__[modId].req, m, m.exports); } return __MODS__[modId].m.exports; };
 var __REQUIRE_WILDCARD__ = function(obj) { if(obj && obj.__esModule) { return obj; } else { var newObj = {}; if(obj != null) { for(var k in obj) { if (Object.prototype.hasOwnProperty.call(obj, k)) newObj[k] = obj[k]; } } newObj.default = obj; return newObj; } };
 var __REQUIRE_DEFAULT__ = function(obj) { return obj && obj.__esModule ? obj.default : obj; };
-__DEFINE__(1691024105116, function(require, module, exports) {
+__DEFINE__(1691461582484, function(require, module, exports) {
 
 
 var __TEMP__ = require('./src/shapes/jmArc.js');var jmArc = __TEMP__['jmArc'];
@@ -101,8 +101,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 
 
 
-}, function(modId) {var map = {"./src/shapes/jmArc.js":1691024105117,"./src/shapes/jmArrow.js":1691024105126,"./src/shapes/jmBezier.js":1691024105127,"./src/shapes/jmCircle.js":1691024105128,"./src/shapes/jmHArc.js":1691024105129,"./src/shapes/jmLine.js":1691024105130,"./src/shapes/jmPrismatic.js":1691024105131,"./src/shapes/jmRect.js":1691024105132,"./src/shapes/jmArrowLine.js":1691024105133,"./src/shapes/jmImage.js":1691024105134,"./src/shapes/jmLabel.js":1691024105135,"./src/shapes/jmResize.js":1691024105136,"./src/core/jmGraph.js":1691024105137}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105117, function(require, module, exports) {
+}, function(modId) {var map = {"./src/shapes/jmArc.js":1691461582485,"./src/shapes/jmArrow.js":1691461582494,"./src/shapes/jmBezier.js":1691461582495,"./src/shapes/jmCircle.js":1691461582496,"./src/shapes/jmHArc.js":1691461582497,"./src/shapes/jmLine.js":1691461582498,"./src/shapes/jmPrismatic.js":1691461582499,"./src/shapes/jmRect.js":1691461582500,"./src/shapes/jmArrowLine.js":1691461582501,"./src/shapes/jmImage.js":1691461582502,"./src/shapes/jmLabel.js":1691461582503,"./src/shapes/jmResize.js":1691461582504,"./src/core/jmGraph.js":1691461582505}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582485, function(require, module, exports) {
 var __TEMP__ = require('../core/jmPath.js');var jmPath = __TEMP__['jmPath'];
 /**
  * 圆弧图型 继承自jmPath
@@ -255,8 +255,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmArc
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmArc', { enumerable: true, configurable: true, get: function() { return jmArc; } });
-}, function(modId) { var map = {"../core/jmPath.js":1691024105118}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105118, function(require, module, exports) {
+}, function(modId) { var map = {"../core/jmPath.js":1691461582486}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582486, function(require, module, exports) {
 var __TEMP__ = require('./jmControl.js');var jmControl = __TEMP__['jmControl'];
 /**
  * 基础路径,大部分图型的基类
@@ -293,14 +293,38 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmPath', { enumerable: true, configurable: true, get: function() { return jmPath; } });
 
-}, function(modId) { var map = {"./jmControl.js":1691024105119}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105119, function(require, module, exports) {
+}, function(modId) { var map = {"./jmControl.js":1691461582487}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582487, function(require, module, exports) {
 
 var __TEMP__ = require('./jmUtils.js');var jmUtils = __TEMP__['jmUtils'];
 var __TEMP__ = require('./jmList.js');var jmList = __TEMP__['jmList'];
 var __TEMP__ = require('./jmGradient.js');var jmGradient = __TEMP__['jmGradient'];
 var __TEMP__ = require('./jmShadow.js');var jmShadow = __TEMP__['jmShadow'];
 var __TEMP__ = require('./jmProperty.js');var jmProperty = __TEMP__['jmProperty'];
+
+//样式名称，也当做白名单使用		
+const jmStyleMap = {
+	'fill':'fillStyle',
+	'stroke':'strokeStyle',
+	'shadow.blur':'shadowBlur',
+	'shadow.x':'shadowOffsetX',
+	'shadow.y':'shadowOffsetY',
+	'shadow.color':'shadowColor',
+	'lineWidth' : 'lineWidth',
+	'miterLimit': 'miterLimit',
+	'fillStyle' : 'fillStyle',
+	'strokeStyle' : 'strokeStyle',
+	'font' : 'font',
+	'opacity' : 'globalAlpha',
+	'textAlign' : 'textAlign',
+	'textBaseline' : 'textBaseline',
+	'shadowBlur' : 'shadowBlur',
+	'shadowOffsetX' : 'shadowOffsetX',
+	'shadowOffsetY' : 'shadowOffsetY',
+	'shadowColor' : 'shadowColor',
+	'lineJoin': 'lineJoin',//线交汇处的形状,miter(默认，尖角),bevel(斜角),round（圆角）
+	'lineCap':'lineCap' //线条终端点,butt(默认，平),round(圆),square（方）
+};
 
 /**
  * 控件基础对象
@@ -327,30 +351,6 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 		this.graph = params.graph || null;
 		this.zIndex = params.zIndex || 0;
 		this.interactive = typeof params.interactive == 'undefined'? true : params.interactive;
-
-		//样式名称，也当做白名单使用		
-		this.jmStyleMap = {
-			'fill':'fillStyle',
-			'stroke':'strokeStyle',
-			'shadow.blur':'shadowBlur',
-			'shadow.x':'shadowOffsetX',
-			'shadow.y':'shadowOffsetY',
-			'shadow.color':'shadowColor',
-			'lineWidth' : 'lineWidth',
-			'miterLimit': 'miterLimit',
-			'fillStyle' : 'fillStyle',
-			'strokeStyle' : 'strokeStyle',
-			'font' : 'font',
-			'opacity' : 'globalAlpha',
-			'textAlign' : 'textAlign',
-			'textBaseline' : 'textBaseline',
-			'shadowBlur' : 'shadowBlur',
-			'shadowOffsetX' : 'shadowOffsetX',
-			'shadowOffsetY' : 'shadowOffsetY',
-			'shadowColor' : 'shadowColor',
-			'lineJoin': 'lineJoin',//线交汇处的形状,miter(默认，尖角),bevel(斜角),round（圆角）
-			'lineCap':'lineCap' //线条终端点,butt(默认，平),round(圆),square（方）
-		};
 
 		this.initializing();	
 		
@@ -638,9 +638,6 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 		style = style || jmUtils.clone(this.style, true);
 		if(!style) return;
 
-		// 当前根据屏幕放大倍数，如果有倍数，则需要对线宽等同比放大
-		let scale = this.graph.devicePixelRatio;
-
 		/**
 		 * 样式设定
 		 * 
@@ -652,120 +649,93 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 		 * @param {string} mpkey 样式名称在映射中的key(例如：shadow.blur为模糊值)
 		 */
 		let __setStyle = (style, name, mpkey) => {
-			//let styleValue = style[mpkey||name]||style;
-			if(style) {				
-				if(typeof style === 'function') {
+			
+			if(style) {		
+				let styleValue = style;		
+				if(typeof styleValue === 'function') {
 					try {
-						style = style.call(this);
+						styleValue = styleValue.call(this);
 					}
 					catch(e) {
 						console.warn(e);
 						return;
 					}
 				}
-				let t = typeof style;	
-				let mpname = this.jmStyleMap[mpkey || name];
+				let t = typeof styleValue;	
+				let mpname = jmStyleMap[mpkey || name];
 
 				//如果为渐变对象
-				if((style instanceof jmGradient) || (t == 'string' && style.indexOf('-gradient') > -1)) {
+				if((styleValue instanceof jmGradient) || (t == 'string' && styleValue.indexOf('-gradient') > -1)) {
 					//如果是渐变，则需要转换
-					if(t == 'string' && style.indexOf('-gradient') > -1) {
-						style = new jmGradient(style);
+					if(t == 'string' && styleValue.indexOf('-gradient') > -1) {
+						styleValue = new jmGradient(styleValue);
 					}
-					__setStyle(style.toGradient(this), mpname||name);	
-				}
-				else if(t == 'function') {					
-					if(mpname) {
-						style = style.call(this, mpname);
-						if(style) {
-							__setStyle(style, mpname);	
-						}
-					}
+					__setStyle(styleValue.toGradient(this), mpname||name);	
 				}
 				else if(mpname) {
 					//只有存在白名单中才处理
 					//颜色转换
 					if(t == 'string' && ['fillStyle', 'strokeStyle', 'shadowColor'].indexOf(mpname) > -1) {
-						style = jmUtils.toColor(style);
+						styleValue = jmUtils.toColor(styleValue);
 					}
-
-					// 按比例需要放大的样式
-					if(scale && style) {
-						switch(mpname) {
-							case 'lineWidth': {
-								style *= scale;
-								break;
-							}
-							// 字体放大
-							case 'fontSize':
-							case 'font': {
-								const ms = style.toString().match(/[\d\.]+/);
-								if(ms && ms.length) {
-									const size = Number(ms[0]) * scale;
-									style = style.toString().replace(ms[0], size);
-								}
-								break;
-							}
-						}
-					}					
-					this.context[mpname] = style;
+					this.context[mpname] = styleValue;
 				}	
 				else {
 					switch(name) {
 						//阴影样式
 						case 'shadow' : {
 							if(t == 'string') {
-								__setStyle(new jmShadow(style), name);
+								__setStyle(new jmShadow(styleValue), name);
 								break;
 							}
-							for(let k in style) {
-								__setStyle(style[k], k, name + '.' + k);
+							for(let k in styleValue) {
+								__setStyle(styleValue[k], k, name + '.' + k);
 							}
 							break;
 						}
 						//平移
 						case 'translate' : {
-							this.context.translate(style.x,style.y);
+							this.context.translate(styleValue.x, styleValue.y);
 							break;
 						}
 						//旋转
 						case 'rotation' : {	
-							if(!style.angle) break;							
+							if(!styleValue.angle) break;							
 							//旋 转先移位偏移量
 							let tranX = 0;
 							let tranY = 0;
 							//旋转，则移位，如果有中心位则按中心旋转，否则按左上角旋转
 							//这里只有style中的旋转才能生效，不然会导至子控件多次旋转
-							if(style.point) {
+							if(styleValue.point) {
 								let bounds = this.absoluteBounds?this.absoluteBounds:this.getAbsoluteBounds();
-								style = this.getRotation(style);
+								styleValue = this.getRotation(styleValue);
 								
-								tranX = style.rotateX + bounds.left;
-								tranY = style.rotateY + bounds.top;	
+								tranX = styleValue.rotateX + bounds.left;
+								tranY = styleValue.rotateY + bounds.top;	
 							}
 												
 							if(tranX!=0 || tranY != 0) this.context.translate(tranX,tranY);
-							this.context.rotate(style.angle);
+							this.context.rotate(styleValue.angle);
 							if(tranX!=0 || tranY != 0) this.context.translate(-tranX,-tranY);
 							break;
 						}
 						case 'transform' : {
-							if(Array.isArray(style)) {
-								this.context.transform.apply(this.context, style);
+							if(Array.isArray(styleValue)) {
+								this.context.transform.apply(this.context, styleValue);
 							}
-							else if(typeof style == 'object') {
-								this.context.transform(style.scaleX,//水平缩放
-									style.skewX,//水平倾斜
-									style.skewY,//垂直倾斜
-									style.scaleY,//垂直缩放
-									style.offsetX,//水平位移
-									style.offsetY);//垂直位移
+							else if(typeof styleValue == 'object') {
+								this.context.transform(styleValue.scaleX,//水平缩放
+								styleValue.skewX,//水平倾斜
+								styleValue.skewY,//垂直倾斜
+								styleValue.scaleY,//垂直缩放
+								styleValue.offsetX,//水平位移
+								styleValue.offsetY);//垂直位移
 							}								
 							break;
 						}
 						//鼠标指针
 						case 'cursor' : {
-							this.cursor = style;
+							this.cursor = styleValue;
 							break;
 						}
 					}							
@@ -814,18 +784,12 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 			if(typeof this.canvas.width === 'function') {
 				rect.right = this.canvas.width(); 
 			}
-			else if(this.canvas.width) {
-				rect.right = this.canvas.width; 
-			}
 			else if(this.width) {
 				rect.right = this.width;
 			}
 			
 			if(typeof this.canvas.height === 'function') {
 				rect.bottom = this.canvas.height(); 
-			}
-			else if(this.canvas.height) {
-				rect.bottom = this.canvas.height; 
 			}
 			else if(this.height) {
 				rect.bottom = this.height;
@@ -889,10 +853,10 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 		local.height = this.height;
 
 		let margin = jmUtils.clone(this.style.margin, {});
-		margin.left = (margin.left || 0) * this.graph.devicePixelRatio;
-		margin.top = (margin.top || 0) * this.graph.devicePixelRatio;
-		margin.right = (margin.right || 0) * this.graph.devicePixelRatio;
-		margin.bottom = (margin.bottom || 0) * this.graph.devicePixelRatio;
+		margin.left = (margin.left || 0);
+		margin.top = (margin.top || 0);
+		margin.right = (margin.right || 0);
+		margin.bottom = (margin.bottom || 0);
 		
 		//如果没有指定位置，但指定了margin。则位置取margin偏移量
 		if(local.position) {
@@ -1200,8 +1164,6 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 			this.emit('endDraw',this);	
 			this.context.restore();
 			
-			//兼容小程序
-			if(this.is('jmGraph') && this.context.draw) this.context.draw();
 			this.needUpdate = false;
 		}
 	}
@@ -1321,8 +1283,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 			//获取dom位置
 			let position = this.getPosition();
 			// 由于高清屏会有放大坐标，所以这里用pagex就只能用真实的canvas大小
-			const right = position.left + (this.canvas.clientWidth || this.canvas.offsetWidth || this.canvas.width);
-			const bottom = position.top + (this.canvas.clientHeight || this.canvas.offsetHeight || this.canvas.height);
+			const right = position.left + this.width;
+			const bottom = position.top + this.height;
 			if(p.pageX > right || p.pageX < position.left) {
 				return false;
 			}
@@ -1411,14 +1373,7 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 
 			const srcElement = args.srcElement || args.target;			
 			
-			const position = jmUtils.getEventPosition(args, graph.scaleSize);//初始化事件位置		
-
-			// 如果有指定scale高清处理，需要对坐标处理
-			// 因为是对canvas放大N倍，再把style指定为当前大小，所以坐标需要放大N    && srcElement === graph.canvas      
-			if(graph.devicePixelRatio > 0) {
-				position.x = position.offsetX = position.x * graph.devicePixelRatio;
-				position.y = position.offsetY = position.y * graph.devicePixelRatio;
-			}
+			const position = jmUtils.getEventPosition(args, graph.scaleSize);//初始化事件位置
 		
 			args = {
 				position: position,
@@ -1694,8 +1649,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmControl;
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmControl', { enumerable: true, configurable: true, get: function() { return jmControl; } });
-}, function(modId) { var map = {"./jmUtils.js":1691024105120,"./jmList.js":1691024105121,"./jmGradient.js":1691024105122,"./jmShadow.js":1691024105123,"./jmProperty.js":1691024105124}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105120, function(require, module, exports) {
+}, function(modId) { var map = {"./jmUtils.js":1691461582488,"./jmList.js":1691461582489,"./jmGradient.js":1691461582490,"./jmShadow.js":1691461582491,"./jmProperty.js":1691461582492}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582488, function(require, module, exports) {
 
 var __TEMP__ = require('./jmList.js');var jmList = __TEMP__['jmList'];
 
@@ -2401,26 +2356,18 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
         return r;
     }
     // window.requestAnimationFrame() 告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前调用指定的回调函数更新动画。该方法需要传入一个回调函数作为参数，该回调函数会在浏览器下一次重绘之前执行
-    static requestAnimationFrame(callback) {
-        if(typeof requestAnimationFrame === 'undefined') {
-			return setTimeout(callback, 20);
-		}
-		else {
-			return requestAnimationFrame(callback);
-		}
+    static requestAnimationFrame(callback, win) {
+        let fun = win && win.requestAnimationFrame? win.requestAnimationFrame: (typeof window !== 'undefined' && window.requestAnimationFrame? window.requestAnimationFrame: setTimeout);        
+		return fun(callback, 20);
     }
-    static cancelAnimationFrame(handler) {
-        if(typeof requestAnimationFrame === 'undefined') {
-			return clearTimeout(handler);
-		}
-		else {
-			return cancelAnimationFrame(handler);
-		}
+    static cancelAnimationFrame(handler, win) {
+        let fun = win && win.cancelAnimationFrame? win.cancelAnimationFrame: (typeof window !== 'undefined' && window.cancelAnimationFrame? window.cancelAnimationFrame: clearTimeout);        
+		return fun(handler);
     }	
 };exports.default = jmUtils
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmUtils', { enumerable: true, configurable: true, get: function() { return jmUtils; } });
-}, function(modId) { var map = {"./jmList.js":1691024105121}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105121, function(require, module, exports) {
+}, function(modId) { var map = {"./jmList.js":1691461582489}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582489, function(require, module, exports) {
 /**
  * 自定义集合
  * 
@@ -2580,7 +2527,7 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmList', { enumerable: true, configurable: true, get: function() { return jmList; } });
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105122, function(require, module, exports) {
+__DEFINE__(1691461582490, function(require, module, exports) {
 var __TEMP__ = require('./jmUtils.js');var jmUtils = __TEMP__['jmUtils'];
 var __TEMP__ = require('./jmList.js');var jmList = __TEMP__['jmList'];
 
@@ -2792,8 +2739,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 
 
 
-}, function(modId) { var map = {"./jmUtils.js":1691024105120,"./jmList.js":1691024105121}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105123, function(require, module, exports) {
+}, function(modId) { var map = {"./jmUtils.js":1691461582488,"./jmList.js":1691461582489}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582491, function(require, module, exports) {
 var __TEMP__ = require('./jmUtils.js');var jmUtils = __TEMP__['jmUtils'];
 
 /**
@@ -2860,8 +2807,10 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmShadow
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmShadow', { enumerable: true, configurable: true, get: function() { return jmShadow; } });
-}, function(modId) { var map = {"./jmUtils.js":1691024105120}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105124, function(require, module, exports) {
+}, function(modId) { var map = {"./jmUtils.js":1691461582488}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582492, function(require, module, exports) {
+
+var __TEMP__ = require('./jmUtils.js');var jmUtils = __TEMP__['jmUtils'];
 var __TEMP__ = require('./jmObject.js');var jmObject = __TEMP__['jmObject'];
 
 const PROPERTY_KEY = Symbol("properties");
@@ -2934,14 +2883,30 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 	set graph(v) {
 		return this.__pro('graph', v);
 	}
+
+	/**
+	 * 在下次进行重绘时执行
+	 * @param {Function} handler 
+	 */
+	requestAnimationFrame(handler) {
+		return jmUtils.requestAnimationFrame(handler, this.graph? this.graph.canvas: null);
+	}
+	/**
+	 * 清除执行回调
+	 * @param {Function} handler 
+	 * @returns 
+	 */
+	cancelAnimationFrame(handler) {
+		return jmUtils.cancelAnimationFrame(handler, this.graph? this.graph.canvas: null);
+	}
 };exports.default = jmProperty
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmProperty', { enumerable: true, configurable: true, get: function() { return jmProperty; } });
 
 
 
-}, function(modId) { var map = {"./jmObject.js":1691024105125}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105125, function(require, module, exports) {
+}, function(modId) { var map = {"./jmUtils.js":1691461582488,"./jmObject.js":1691461582493}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582493, function(require, module, exports) {
 
 var __TEMP__ = require('./jmList.js');var jmList = __TEMP__['jmList'];
 
@@ -3047,8 +3012,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmObject
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmObject', { enumerable: true, configurable: true, get: function() { return jmObject; } });
-}, function(modId) { var map = {"./jmList.js":1691024105121}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105126, function(require, module, exports) {
+}, function(modId) { var map = {"./jmList.js":1691461582489}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582494, function(require, module, exports) {
 var __TEMP__ = require('../core/jmPath.js');var jmPath = __TEMP__['jmPath'];
 var __TEMP__ = require('../core/jmUtils.js');var jmUtils = __TEMP__['jmUtils'];
 /**
@@ -3209,8 +3174,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmArrow
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmArrow', { enumerable: true, configurable: true, get: function() { return jmArrow; } });
-}, function(modId) { var map = {"../core/jmPath.js":1691024105118,"../core/jmUtils.js":1691024105120}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105127, function(require, module, exports) {
+}, function(modId) { var map = {"../core/jmPath.js":1691461582486,"../core/jmUtils.js":1691461582488}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582495, function(require, module, exports) {
 var __TEMP__ = require('../core/jmPath.js');var jmPath = __TEMP__['jmPath'];
 /**
  * 贝塞尔曲线,继承jmPath
@@ -3322,8 +3287,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmBezier
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmBezier', { enumerable: true, configurable: true, get: function() { return jmBezier; } });
-}, function(modId) { var map = {"../core/jmPath.js":1691024105118}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105128, function(require, module, exports) {
+}, function(modId) { var map = {"../core/jmPath.js":1691461582486}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582496, function(require, module, exports) {
 var __TEMP__ = require('./jmArc.js');var jmArc = __TEMP__['jmArc'];
 /**
  * 画规则的圆弧
@@ -3379,8 +3344,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmCircle', { enumerable: true, configurable: true, get: function() { return jmCircle; } });
 
-}, function(modId) { var map = {"./jmArc.js":1691024105117}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105129, function(require, module, exports) {
+}, function(modId) { var map = {"./jmArc.js":1691461582485}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582497, function(require, module, exports) {
 var __TEMP__ = require('./jmArc.js');var jmArc = __TEMP__['jmArc'];
 /**
  * 画空心圆弧,继承自jmPath
@@ -3491,8 +3456,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmHArc
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmHArc', { enumerable: true, configurable: true, get: function() { return jmHArc; } });
-}, function(modId) { var map = {"./jmArc.js":1691024105117}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105130, function(require, module, exports) {
+}, function(modId) { var map = {"./jmArc.js":1691461582485}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582498, function(require, module, exports) {
 var __TEMP__ = require('../core/jmPath.js');var jmPath = __TEMP__['jmPath'];
 /**
  * 画一条直线
@@ -3581,8 +3546,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmLine
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmLine', { enumerable: true, configurable: true, get: function() { return jmLine; } });
-}, function(modId) { var map = {"../core/jmPath.js":1691024105118}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105131, function(require, module, exports) {
+}, function(modId) { var map = {"../core/jmPath.js":1691461582486}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582499, function(require, module, exports) {
 var __TEMP__ = require('../core/jmPath.js');var jmPath = __TEMP__['jmPath'];
 /**
  * 画棱形
@@ -3639,8 +3604,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmPrismatic
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmPrismatic', { enumerable: true, configurable: true, get: function() { return jmPrismatic; } });
-}, function(modId) { var map = {"../core/jmPath.js":1691024105118}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105132, function(require, module, exports) {
+}, function(modId) { var map = {"../core/jmPath.js":1691461582486}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582500, function(require, module, exports) {
 var __TEMP__ = require('../core/jmPath.js');var jmPath = __TEMP__['jmPath'];
 var __TEMP__ = require('./jmArc.js');var jmArc = __TEMP__['jmArc'];
 var __TEMP__ = require('./jmLine.js');var jmLine = __TEMP__['jmLine'];
@@ -3814,8 +3779,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmRect', { enumerable: true, configurable: true, get: function() { return jmRect; } });
 
-}, function(modId) { var map = {"../core/jmPath.js":1691024105118,"./jmArc.js":1691024105117,"./jmLine.js":1691024105130}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105133, function(require, module, exports) {
+}, function(modId) { var map = {"../core/jmPath.js":1691461582486,"./jmArc.js":1691461582485,"./jmLine.js":1691461582498}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582501, function(require, module, exports) {
 var __TEMP__ = require('./jmLine.js');var jmLine = __TEMP__['jmLine'];
 var __TEMP__ = require('./jmArrow.js');var jmArrow = __TEMP__['jmArrow'];
 /**
@@ -3853,8 +3818,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmArrowLine
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmArrowLine', { enumerable: true, configurable: true, get: function() { return jmArrowLine; } });
-}, function(modId) { var map = {"./jmLine.js":1691024105130,"./jmArrow.js":1691024105126}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105134, function(require, module, exports) {
+}, function(modId) { var map = {"./jmLine.js":1691461582498,"./jmArrow.js":1691461582494}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582502, function(require, module, exports) {
 var __TEMP__ = require('../core/jmControl.js');var jmControl = __TEMP__['jmControl'];
 /**
  * 图片控件，继承自jmControl
@@ -4052,8 +4017,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmImage
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmImage', { enumerable: true, configurable: true, get: function() { return jmImage; } });
-}, function(modId) { var map = {"../core/jmControl.js":1691024105119}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105135, function(require, module, exports) {
+}, function(modId) { var map = {"../core/jmControl.js":1691461582487}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582503, function(require, module, exports) {
 var __TEMP__ = require('../core/jmControl.js');var jmControl = __TEMP__['jmControl'];
 /**
  * 显示文字控件
@@ -4279,8 +4244,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmLabel
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmLabel', { enumerable: true, configurable: true, get: function() { return jmLabel; } });
-}, function(modId) { var map = {"../core/jmControl.js":1691024105119}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105136, function(require, module, exports) {
+}, function(modId) { var map = {"../core/jmControl.js":1691461582487}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582504, function(require, module, exports) {
 var __TEMP__ = require('./jmRect.js');var jmRect = __TEMP__['jmRect'];
 /**
  * 可拉伸的缩放控件
@@ -4556,8 +4521,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmResize
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmResize', { enumerable: true, configurable: true, get: function() { return jmResize; } });
-}, function(modId) { var map = {"./jmRect.js":1691024105132}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105137, function(require, module, exports) {
+}, function(modId) { var map = {"./jmRect.js":1691461582500}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582505, function(require, module, exports) {
 var __TEMP__ = require('./jmUtils.js');var jmUtils = __TEMP__['jmUtils'];
 var __TEMP__ = require('./jmList.js');var jmList = __TEMP__['jmList'];
 var __TEMP__ = require('./jmProperty.js');var jmProperty = __TEMP__['jmProperty'];
@@ -4660,11 +4625,19 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 		this.on('endDraw', function() {	
 			this.context.translate(-0.5, -0.5);		
 		});
-		
+
+		// devicePixelRatio初始化
+		let dpr = typeof window != 'undefined' && window.devicePixelRatio > 1? window.devicePixelRatio : 1;
+		if(this.isWXMiniApp) {
+			dpr = wx.getSystemInfoSync().pixelRatio || 1;
+		}		
+		this.devicePixelRatio = dpr;
+		// 为了解决锯齿问题，先放大canvas再缩放
+		this.dprScaleSize = this.devicePixelRatio > 1? this.devicePixelRatio : 2;
+
 		if(this.option.width > 0) this.width = this.option.width;
 		if(this.option.height > 0) this.height = this.option.height;	
-
-		this.resize();
+		this.resize();		
 
 		//绑定事件
 		this.eventHandler = new jmEvents(this, this.canvas.canvas || this.canvas);	
@@ -4679,25 +4652,19 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 
 	//  重置canvas大小，并判断高清屏，画图先放大二倍
 	resize(w, h) {
+		if(!this.canvas) return;
 
-		let scale = typeof window != 'undefined' && window.devicePixelRatio > 1? window.devicePixelRatio : 1;
-		if(this.isWXMiniApp) {
-			scale = wx.getSystemInfoSync().pixelRatio || 1;
-		}
-		else if (scale > 1) {
-		  this.__normalSize = this.__normalSize || { width: 0, height: 0};
-		  w = w || this.__normalSize.width || this.width, h = h || this.__normalSize.height || this.height;
+		this.__normalSize = this.__normalSize || { width: 0, height: 0};
+		w = w || this.__normalSize.width || this.width, h = h || this.__normalSize.height || this.height;
 
-		  if(w) this.__normalSize.width = w;
-		  if(h) this.__normalSize.height = h;
-		
-		  this.canvas.style && (this.canvas.style.width = w + "px");
-		  this.canvas.style && (this.canvas.style.height = h + "px");
-		  this.canvas.height = h * scale;
-		  this.canvas.width = w *scale;
-		  this.context.scale(scale, scale);
-		  this.devicePixelRatio = scale;
-		}
+		if(w) this.__normalSize.width = w;
+		if(h) this.__normalSize.height = h;
+	
+		this.css('width', w + "px");
+		this.css('height', h + "px");
+		this.canvas.height = h * this.dprScaleSize;
+		this.canvas.width = w * this.dprScaleSize;
+		this.context.scale(this.dprScaleSize, this.dprScaleSize);	
 	}
 
 	/**
@@ -4705,10 +4672,10 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 	 * @param {x, y} point 内部坐标
 	 */
 	pointToPixes(point) {
-		if(this.devicePixelRatio && this.devicePixelRatio !== 1) {
+		if(this.dprScaleSize && this.dprScaleSize !== 1) {
 			point = Object.assign({}, point, {
-				x: point.x / this.devicePixelRatio,
-				y: point.y / this.devicePixelRatio
+				x: point.x / this.dprScaleSize,
+				y: point.y / this.dprScaleSize
 			});
 		}
 		return point;
@@ -4720,13 +4687,13 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 	 * @type {number}
 	 */
 	get width() {
+		if(this.__normalSize && this.__normalSize.width) return this.__normalSize.width;
 		if(this.canvas) return this.canvas.width;
 		return 0;
 	}
 	set width(v) {
 		this.needUpdate = true;
 		if(this.canvas) {
-			this.canvas.width = v;	
 			this.resize(v);
 		}	
 		return v;
@@ -4738,13 +4705,13 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 	 * @type {number}
 	 */
 	get height() {
+		if(this.__normalSize && this.__normalSize.height) return this.__normalSize.height;
 		if(this.canvas) return this.canvas.height;
 		return 0;
 	}
 	set height(v) {
 		this.needUpdate = true;
 		if(this.canvas) {
-			this.canvas.height = v;
 			this.resize(0, v);
 		}
 		return v;
@@ -4768,8 +4735,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 	 */
 	getPosition() {
 		let p = jmUtils.getElementPosition(this.canvas.canvas || this.canvas);
-		p.width = this.canvas.width;
-		p.height = this.canvas.height;
+		p.width = this.width;
+		p.height = this.height;
 		p.right = p.left + p.width;
 		p.bottom = p.top + p.height;
 		return p;
@@ -4903,23 +4870,13 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 	 * @param {number} [h] 清除画布的高度
 	 */
 	clear(w, h) {
-		//this.canvas.width = this.canvas.width;
-		if(w && h) {
-			//this.zoomActual();//恢复比例缩放
-			this.canvas.width = w;
-			this.canvas.height = h;
-			//保留原有缩放比例
-			if(this.scaleSize) {
-				if(this.context.scale) this.context.scale(this.scaleSize.x,this.scaleSize.y);
-			}
-		}
-		else {
-			w = this.canvas.width;
-			h = this.canvas.height;
-			if(this.scaleSize) {
+		if(!w || !h) {
+			w = this.width;
+			h = this.height;
+			/*if(this.scaleSize) {
 				w = w / this.scaleSize.x;
 				h = h / this.scaleSize.y;
-			}
+			}*/
 		}
 		//如果有指定背景，则等到draw再全屏绘制一次，也同样达到清除画布的功能
 		if(this.style && this.style.fill) {
@@ -5064,12 +5021,15 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 				return;// 已销毁
 			}
 			if(self.needUpdate) self.redraw();
-			self.__requestAnimationFrameFunHandler && jmUtils.cancelAnimationFrame(self.__requestAnimationFrameFunHandler);
-			self.__requestAnimationFrameFunHandler = jmUtils.requestAnimationFrame(update);
+			// 触发刷新事件
+			self.emit('update');
+
+			self.__requestAnimationFrameFunHandler && self.cancelAnimationFrame(self.__requestAnimationFrameFunHandler);
+			self.__requestAnimationFrameFunHandler = self.requestAnimationFrame(update);
 			if(callback) callback();
 		}
-		self.__requestAnimationFrameFunHandler && jmUtils.cancelAnimationFrame(self.__requestAnimationFrameFunHandler);
-		self.__requestAnimationFrameFunHandler = jmUtils.requestAnimationFrame(update);
+		self.__requestAnimationFrameFunHandler && this.cancelAnimationFrame(self.__requestAnimationFrameFunHandler);
+		self.__requestAnimationFrameFunHandler = this.requestAnimationFrame(update);
 		return this;
 	}
 
@@ -5092,8 +5052,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 
 
 
-}, function(modId) { var map = {"./jmUtils.js":1691024105120,"./jmList.js":1691024105121,"./jmProperty.js":1691024105124,"./jmShadow.js":1691024105123,"./jmGradient.js":1691024105122,"./jmEvents.js":1691024105138,"./jmControl.js":1691024105119,"./jmPath.js":1691024105118}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691024105138, function(require, module, exports) {
+}, function(modId) { var map = {"./jmUtils.js":1691461582488,"./jmList.js":1691461582489,"./jmProperty.js":1691461582492,"./jmShadow.js":1691461582491,"./jmGradient.js":1691461582490,"./jmEvents.js":1691461582506,"./jmControl.js":1691461582487,"./jmPath.js":1691461582486}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691461582506, function(require, module, exports) {
 var __TEMP__ = require('./jmUtils.js');var jmUtils = __TEMP__['jmUtils'];
 /**
  * 事件模型
@@ -5364,8 +5324,8 @@ class jmKeyEvent {
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmEvents', { enumerable: true, configurable: true, get: function() { return jmEvents; } });
 
-}, function(modId) { var map = {"./jmUtils.js":1691024105120}; return __REQUIRE__(map[modId], modId); })
-return __REQUIRE__(1691024105116);
+}, function(modId) { var map = {"./jmUtils.js":1691461582488}; return __REQUIRE__(map[modId], modId); })
+return __REQUIRE__(1691461582484);
 })()
 //miniprogram-npm-outsideDeps=[]
 //# sourceMappingURL=index.js.map

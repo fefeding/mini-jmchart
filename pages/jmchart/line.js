@@ -170,7 +170,7 @@ Page({
       },
       addPointMark(point, serie, options) {
         const mark = serie.graph.createShape('circle', {
-            radius: 6 * serie.graph.devicePixelRatio,
+            radius: 6,
             style: {
                 fill: 'red',
                 zIndex: 18,
@@ -182,11 +182,11 @@ Page({
     },
         // 创建点的标注
     addPointMarkLabel(point, serie, options = {index:0}) {
-        const w = 40 * serie.graph.devicePixelRatio;
-        const h = 20 * serie.graph.devicePixelRatio;
-        const arrowOffset = 10 * serie.graph.devicePixelRatio;
+        const w = 40;
+        const h = 20;
+        const arrowOffset = 10;
         
-        const bottom = 20 * serie.graph.devicePixelRatio + (h + arrowOffset) * options.index;
+        const bottom = 20 + (h + arrowOffset) * options.index;
 
         // 标注图形左上角
         const p1 = {

@@ -8,7 +8,7 @@ exports.init = function (g) {
   };
   style.fill = 'radial-gradient(50% 50% 0 50% 50% 50%, green 0,blue 0.2, yellow 0.8, red 1)';
   style.shadow = g.createShadow(0, 0, 20, 'rgb(255,255,255)');
-  var arc = g.createShape('circle', { style: style, center: { x: '50%', y: '50%' }, width: 200, height: 200, start: 0, end: Math.PI * 2 });
+  var arc = g.createShape('circle', { style: style, center: { x: '50%', y: '50%' }, width: 100, height: 100, start: 0, end: Math.PI * 2 });
 
   g.children.add(arc);
 
@@ -55,7 +55,7 @@ exports.init = function (g) {
     }
     bluestop = bluedir == 0 ? bluestop + 0.01 : bluestop - 0.01;
 
-    arc.style.fill = 'radial-gradient(50% 50% 0 50% 50% 50%, green 0,blue ' + bluestop + ', yellow ' + yellowstop + ', red 1)';
+    arc.style.fill = 'radial-gradient(50% 50% 0 50% 50% 50%, green 0,blue ' + bluestop.toFixed(2) + ', yellow ' + yellowstop.toFixed(2) + ', red 1)';
     g.needUpdate = true;
     handler = setTimeout(arcAni, 50);
   }

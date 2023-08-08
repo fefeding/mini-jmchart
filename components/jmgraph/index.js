@@ -22,7 +22,7 @@ Component({
     },
 
     created() {
-        this.initGraph();    
+        //this.initGraph();    
     },
     detached() {
         this.data.graph && this.data.graph.destroy();
@@ -35,8 +35,9 @@ Component({
             if(this.data.graph) return this.data.graph;
             if(this.data.jmgraphPromise) return this.data.jmgraphPromise;
             return this.data.jmgraphPromise = new Promise((resolve) => {
-                const query = wx.createSelectorQuery().in(this);
+                
                 wx.nextTick(()=>{
+                    const query = wx.createSelectorQuery().in(this);
                     query.select('#jmgraph_canvas')
                     .fields({ node: true, size: true })
                     .exec((res) => {
@@ -45,9 +46,9 @@ Component({
                             style: {
                                 fill: '#000'
                             },
-                            width: this.data.width,
-                            height: this.data.height,
-                            autoRefresh: true
+                            width: res[0].width,
+                            height: res[0].height,
+                            autoRefresh: true,
                         }));  
                         console.log(graph);
                         resolve(graph);
