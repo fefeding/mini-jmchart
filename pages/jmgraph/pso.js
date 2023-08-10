@@ -13,7 +13,7 @@ exports.init = function (g) {
     //实时更新画布
     function update() {
         startPso(g, items);
-        setTimeout(()=>{
+        handler = setTimeout(()=>{
             g.requestAnimationFrame(update);
         }, 50);
     }
