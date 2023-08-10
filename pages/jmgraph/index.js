@@ -8,6 +8,7 @@ import progressPage from './progress.js';
 import ballPage from './ball.js';
 import cellPage from './cell.js';
 import sortPage from './sort.js';
+import psoPage from './pso.js';
 
 Page({
 
@@ -23,6 +24,7 @@ Page({
       { name: 'ball', value: '球', page: ballPage },
       { name: 'cell', value: '孢子', page: cellPage },
       { name: 'sort', value: '排序', page: sortPage },
+      { name: 'pso', value: 'PSO', page: psoPage },
     ],
     canvasHeight: 600,
     canvasWidth: 500
