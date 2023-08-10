@@ -44,7 +44,7 @@ Page({
     this.jmgraph = this.selectComponent('#jmgraph_component');
     var wxInfo = wx.getSystemInfoSync();//获取系统信息
     this.setData({
-      canvasHeight: wxInfo.windowHeight - 50,
+      canvasHeight: wxInfo.windowHeight * 0.9,
       canvasWidth: wxInfo.windowWidth
     }, ()=>{   
          this.changeShape('rect');
