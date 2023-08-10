@@ -4,8 +4,8 @@
   "description": "jmgraph jmchart 小程序示例",
   "main": "app.js",
   "dependencies": {
-    "jmchart": "^1.2.5",
-    "jmgraph": "^3.2.0"
+    "jmchart": "^1.2.7",
+    "jmgraph": "^3.2.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

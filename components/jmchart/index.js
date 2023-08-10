@@ -41,14 +41,16 @@ Component({
             return this.data.jmgraphPromise = new Promise((resolve) => {
                 const query = wx.createSelectorQuery().in(this);
                 wx.nextTick(()=>{
-                    query.select('#jmchart_canvas')
+                    query.selectAll('#jmchart_canvas,#jmchart_touch_canvas')
                     .fields({ node: true, size: true })
                     .exec((res) => {
-                        const canvas = res[0].node
+                        const canvas = res[0][0].node;
+                        const touchCanvas = res[0] && res[0][1]? res[0][1].node : null;
                         const chart = this.data.chart || (this.data.chart = new jmChart(canvas, {
-                            width: res[0].width,
-                            height: res[0].height,
+                            width: res[0][0].width,
+                            height: res[0][0].height,
                             autoRefresh: true,
+                            touchCanvas,
                             ...this.data.options
                         }));  
                         console.log(chart);
@@ -58,16 +60,16 @@ Component({
             });            
           },
           canvastouchstart(...args) {
-            return this.data.chart.eventHandler.touchStart(...args);
+            return (this.data.chart.touchGraph||this.data.chart).eventHandler.touchStart(...args);
           },
           canvastouchmove(...args) {
-            return this.data.chart.eventHandler.touchMove(...args);
+            return (this.data.chart.touchGraph||this.data.chart).eventHandler.touchMove(...args);
           },
           canvastouchend(...args) {
-            return this.data.chart.eventHandler.touchEnd(...args);
+            return (this.data.chart.touchGraph||this.data.chart).eventHandler.touchEnd(...args);
           },
           canvastouchcancel(...args) {
-            return this.data.chart.eventHandler.touchCancel(...args);
+            return (this.data.chart.touchGraph||this.data.chart).eventHandler.touchCancel(...args);
           }
     }
 })

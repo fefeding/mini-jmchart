@@ -2,14 +2,14 @@
 # yarn lockfile v1
 
 
-"jmchart@^1.2.5":
-  "integrity" "sha512-RI1JzfLmFboCEQAj2BzsLAAtsYjObG9MO40Dt4zeBrKbmaF5o3v377bPPf6r6wrwtLTgJMoDipf8jNKuwOR/pQ=="
-  "resolved" "https://npm.ciccjinteng.cn/jmchart/-/jmchart-1.2.5.tgz"
-  "version" "1.2.5"
+"jmchart@^1.2.7":
+  "integrity" "sha512-wldRtyBhYss4hU9wI4Ak79hfpzIKM9Qr2COt1x3SPhPCKjMi2ZHUtHZdONWSJLw4Nu0tQtez6vbBg+N/euqHsA=="
+  "resolved" "https://npm.ciccjinteng.cn/jmchart/-/jmchart-1.2.7.tgz"
+  "version" "1.2.7"
   dependencies:
-    "jmgraph" "^3.2.0"
+    "jmgraph" "^3.2.2"
 
-"jmgraph@^3.2.0":
-  "integrity" "sha512-hfyVEygUOHk4Xqowmu27xmHQ6CVOHWmgTwjidhH6y1mYSmchYoUru2I9vCA2cUxiyssbVtinadq9SvAyJDtmnA=="
-  "resolved" "https://npm.ciccjinteng.cn/jmgraph/-/jmgraph-3.2.0.tgz"
-  "version" "3.2.0"
+"jmgraph@^3.2.2":
+  "integrity" "sha512-JQXJtLJFEosENlLHxxNbQlRzzsSLJr2jgG4yDraX9X8bvoof0UJpMCQT+fa2Qc+svUdNA0ZGDIMA44jpmot6GQ=="
+  "resolved" "https://npm.ciccjinteng.cn/jmgraph/-/jmgraph-3.2.2.tgz"
+  "version" "3.2.2"

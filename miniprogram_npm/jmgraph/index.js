@@ -4,7 +4,7 @@ var __DEFINE__ = function(modId, func, req) { var m = { exports: {}, _tempexport
 var __REQUIRE__ = function(modId, source) { if(!__MODS__[modId]) return require(source); if(!__MODS__[modId].status) { var m = __MODS__[modId].m; m._exports = m._tempexports; var desp = Object.getOwnPropertyDescriptor(m, "exports"); if (desp && desp.configurable) Object.defineProperty(m, "exports", { set: function (val) { if(typeof val === "object" && val !== m._exports) { m._exports.__proto__ = val.__proto__; Object.keys(val).forEach(function (k) { m._exports[k] = val[k]; }); } m._tempexports = val }, get: function () { return m._tempexports; } }); __MODS__[modId].status = 1; __MODS__[modId].func(__MODS__[modId].req, m, m.exports); } return __MODS__[modId].m.exports; };
 var __REQUIRE_WILDCARD__ = function(obj) { if(obj && obj.__esModule) { return obj; } else { var newObj = {}; if(obj != null) { for(var k in obj) { if (Object.prototype.hasOwnProperty.call(obj, k)) newObj[k] = obj[k]; } } newObj.default = obj; return newObj; } };
 var __REQUIRE_DEFAULT__ = function(obj) { return obj && obj.__esModule ? obj.default : obj; };
-__DEFINE__(1691461582484, function(require, module, exports) {
+__DEFINE__(1691561832759, function(require, module, exports) {
 
 
 var __TEMP__ = require('./src/shapes/jmArc.js');var jmArc = __TEMP__['jmArc'];
@@ -101,8 +101,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 
 
 
-}, function(modId) {var map = {"./src/shapes/jmArc.js":1691461582485,"./src/shapes/jmArrow.js":1691461582494,"./src/shapes/jmBezier.js":1691461582495,"./src/shapes/jmCircle.js":1691461582496,"./src/shapes/jmHArc.js":1691461582497,"./src/shapes/jmLine.js":1691461582498,"./src/shapes/jmPrismatic.js":1691461582499,"./src/shapes/jmRect.js":1691461582500,"./src/shapes/jmArrowLine.js":1691461582501,"./src/shapes/jmImage.js":1691461582502,"./src/shapes/jmLabel.js":1691461582503,"./src/shapes/jmResize.js":1691461582504,"./src/core/jmGraph.js":1691461582505}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582485, function(require, module, exports) {
+}, function(modId) {var map = {"./src/shapes/jmArc.js":1691561832760,"./src/shapes/jmArrow.js":1691561832769,"./src/shapes/jmBezier.js":1691561832770,"./src/shapes/jmCircle.js":1691561832771,"./src/shapes/jmHArc.js":1691561832772,"./src/shapes/jmLine.js":1691561832773,"./src/shapes/jmPrismatic.js":1691561832774,"./src/shapes/jmRect.js":1691561832775,"./src/shapes/jmArrowLine.js":1691561832776,"./src/shapes/jmImage.js":1691561832777,"./src/shapes/jmLabel.js":1691561832778,"./src/shapes/jmResize.js":1691561832779,"./src/core/jmGraph.js":1691561832780}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832760, function(require, module, exports) {
 var __TEMP__ = require('../core/jmPath.js');var jmPath = __TEMP__['jmPath'];
 /**
  * 圆弧图型 继承自jmPath
@@ -255,8 +255,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmArc
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmArc', { enumerable: true, configurable: true, get: function() { return jmArc; } });
-}, function(modId) { var map = {"../core/jmPath.js":1691461582486}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582486, function(require, module, exports) {
+}, function(modId) { var map = {"../core/jmPath.js":1691561832761}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832761, function(require, module, exports) {
 var __TEMP__ = require('./jmControl.js');var jmControl = __TEMP__['jmControl'];
 /**
  * 基础路径,大部分图型的基类
@@ -293,8 +293,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmPath', { enumerable: true, configurable: true, get: function() { return jmPath; } });
 
-}, function(modId) { var map = {"./jmControl.js":1691461582487}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582487, function(require, module, exports) {
+}, function(modId) { var map = {"./jmControl.js":1691561832762}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832762, function(require, module, exports) {
 
 var __TEMP__ = require('./jmUtils.js');var jmUtils = __TEMP__['jmUtils'];
 var __TEMP__ = require('./jmList.js');var jmList = __TEMP__['jmList'];
@@ -1649,8 +1649,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmControl;
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmControl', { enumerable: true, configurable: true, get: function() { return jmControl; } });
-}, function(modId) { var map = {"./jmUtils.js":1691461582488,"./jmList.js":1691461582489,"./jmGradient.js":1691461582490,"./jmShadow.js":1691461582491,"./jmProperty.js":1691461582492}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582488, function(require, module, exports) {
+}, function(modId) { var map = {"./jmUtils.js":1691561832763,"./jmList.js":1691561832764,"./jmGradient.js":1691561832765,"./jmShadow.js":1691561832766,"./jmProperty.js":1691561832767}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832763, function(require, module, exports) {
 
 var __TEMP__ = require('./jmList.js');var jmList = __TEMP__['jmList'];
 
@@ -1714,9 +1714,13 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
             
             for(let k in source) {
                 if(k === 'constructor') continue;
+                const v = source[k];
+                // 不复制页面元素和class对象
+                if(v && (v.tagName || v.getContext)) continue;
+
                 // 如果不是对象和空，则采用target的属性
                 if(typeof target[k] === 'object' || typeof target[k] === 'undefined') {                    
-                    target[k] = this.clone(source[k], target[k], deep, copyHandler, deepIndex);
+                    target[k] = this.clone(v, target[k], deep, copyHandler, deepIndex);
                 }
             }
             return target;
@@ -2366,8 +2370,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
     }	
 };exports.default = jmUtils
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmUtils', { enumerable: true, configurable: true, get: function() { return jmUtils; } });
-}, function(modId) { var map = {"./jmList.js":1691461582489}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582489, function(require, module, exports) {
+}, function(modId) { var map = {"./jmList.js":1691561832764}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832764, function(require, module, exports) {
 /**
  * 自定义集合
  * 
@@ -2527,7 +2531,7 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmList', { enumerable: true, configurable: true, get: function() { return jmList; } });
 }, function(modId) { var map = {}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582490, function(require, module, exports) {
+__DEFINE__(1691561832765, function(require, module, exports) {
 var __TEMP__ = require('./jmUtils.js');var jmUtils = __TEMP__['jmUtils'];
 var __TEMP__ = require('./jmList.js');var jmList = __TEMP__['jmList'];
 
@@ -2739,8 +2743,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 
 
 
-}, function(modId) { var map = {"./jmUtils.js":1691461582488,"./jmList.js":1691461582489}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582491, function(require, module, exports) {
+}, function(modId) { var map = {"./jmUtils.js":1691561832763,"./jmList.js":1691561832764}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832766, function(require, module, exports) {
 var __TEMP__ = require('./jmUtils.js');var jmUtils = __TEMP__['jmUtils'];
 
 /**
@@ -2807,8 +2811,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmShadow
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmShadow', { enumerable: true, configurable: true, get: function() { return jmShadow; } });
-}, function(modId) { var map = {"./jmUtils.js":1691461582488}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582492, function(require, module, exports) {
+}, function(modId) { var map = {"./jmUtils.js":1691561832763}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832767, function(require, module, exports) {
 
 var __TEMP__ = require('./jmUtils.js');var jmUtils = __TEMP__['jmUtils'];
 var __TEMP__ = require('./jmObject.js');var jmObject = __TEMP__['jmObject'];
@@ -2905,8 +2909,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 
 
 
-}, function(modId) { var map = {"./jmUtils.js":1691461582488,"./jmObject.js":1691461582493}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582493, function(require, module, exports) {
+}, function(modId) { var map = {"./jmUtils.js":1691561832763,"./jmObject.js":1691561832768}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832768, function(require, module, exports) {
 
 var __TEMP__ = require('./jmList.js');var jmList = __TEMP__['jmList'];
 
@@ -3012,8 +3016,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmObject
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmObject', { enumerable: true, configurable: true, get: function() { return jmObject; } });
-}, function(modId) { var map = {"./jmList.js":1691461582489}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582494, function(require, module, exports) {
+}, function(modId) { var map = {"./jmList.js":1691561832764}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832769, function(require, module, exports) {
 var __TEMP__ = require('../core/jmPath.js');var jmPath = __TEMP__['jmPath'];
 var __TEMP__ = require('../core/jmUtils.js');var jmUtils = __TEMP__['jmUtils'];
 /**
@@ -3174,8 +3178,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmArrow
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmArrow', { enumerable: true, configurable: true, get: function() { return jmArrow; } });
-}, function(modId) { var map = {"../core/jmPath.js":1691461582486,"../core/jmUtils.js":1691461582488}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582495, function(require, module, exports) {
+}, function(modId) { var map = {"../core/jmPath.js":1691561832761,"../core/jmUtils.js":1691561832763}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832770, function(require, module, exports) {
 var __TEMP__ = require('../core/jmPath.js');var jmPath = __TEMP__['jmPath'];
 /**
  * 贝塞尔曲线,继承jmPath
@@ -3287,8 +3291,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmBezier
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmBezier', { enumerable: true, configurable: true, get: function() { return jmBezier; } });
-}, function(modId) { var map = {"../core/jmPath.js":1691461582486}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582496, function(require, module, exports) {
+}, function(modId) { var map = {"../core/jmPath.js":1691561832761}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832771, function(require, module, exports) {
 var __TEMP__ = require('./jmArc.js');var jmArc = __TEMP__['jmArc'];
 /**
  * 画规则的圆弧
@@ -3344,8 +3348,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmCircle', { enumerable: true, configurable: true, get: function() { return jmCircle; } });
 
-}, function(modId) { var map = {"./jmArc.js":1691461582485}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582497, function(require, module, exports) {
+}, function(modId) { var map = {"./jmArc.js":1691561832760}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832772, function(require, module, exports) {
 var __TEMP__ = require('./jmArc.js');var jmArc = __TEMP__['jmArc'];
 /**
  * 画空心圆弧,继承自jmPath
@@ -3456,8 +3460,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmHArc
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmHArc', { enumerable: true, configurable: true, get: function() { return jmHArc; } });
-}, function(modId) { var map = {"./jmArc.js":1691461582485}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582498, function(require, module, exports) {
+}, function(modId) { var map = {"./jmArc.js":1691561832760}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832773, function(require, module, exports) {
 var __TEMP__ = require('../core/jmPath.js');var jmPath = __TEMP__['jmPath'];
 /**
  * 画一条直线
@@ -3546,8 +3550,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmLine
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmLine', { enumerable: true, configurable: true, get: function() { return jmLine; } });
-}, function(modId) { var map = {"../core/jmPath.js":1691461582486}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582499, function(require, module, exports) {
+}, function(modId) { var map = {"../core/jmPath.js":1691561832761}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832774, function(require, module, exports) {
 var __TEMP__ = require('../core/jmPath.js');var jmPath = __TEMP__['jmPath'];
 /**
  * 画棱形
@@ -3604,8 +3608,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmPrismatic
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmPrismatic', { enumerable: true, configurable: true, get: function() { return jmPrismatic; } });
-}, function(modId) { var map = {"../core/jmPath.js":1691461582486}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582500, function(require, module, exports) {
+}, function(modId) { var map = {"../core/jmPath.js":1691561832761}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832775, function(require, module, exports) {
 var __TEMP__ = require('../core/jmPath.js');var jmPath = __TEMP__['jmPath'];
 var __TEMP__ = require('./jmArc.js');var jmArc = __TEMP__['jmArc'];
 var __TEMP__ = require('./jmLine.js');var jmLine = __TEMP__['jmLine'];
@@ -3779,8 +3783,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmRect', { enumerable: true, configurable: true, get: function() { return jmRect; } });
 
-}, function(modId) { var map = {"../core/jmPath.js":1691461582486,"./jmArc.js":1691461582485,"./jmLine.js":1691461582498}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582501, function(require, module, exports) {
+}, function(modId) { var map = {"../core/jmPath.js":1691561832761,"./jmArc.js":1691561832760,"./jmLine.js":1691561832773}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832776, function(require, module, exports) {
 var __TEMP__ = require('./jmLine.js');var jmLine = __TEMP__['jmLine'];
 var __TEMP__ = require('./jmArrow.js');var jmArrow = __TEMP__['jmArrow'];
 /**
@@ -3818,8 +3822,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmArrowLine
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmArrowLine', { enumerable: true, configurable: true, get: function() { return jmArrowLine; } });
-}, function(modId) { var map = {"./jmLine.js":1691461582498,"./jmArrow.js":1691461582494}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582502, function(require, module, exports) {
+}, function(modId) { var map = {"./jmLine.js":1691561832773,"./jmArrow.js":1691561832769}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832777, function(require, module, exports) {
 var __TEMP__ = require('../core/jmControl.js');var jmControl = __TEMP__['jmControl'];
 /**
  * 图片控件，继承自jmControl
@@ -4017,8 +4021,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmImage
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmImage', { enumerable: true, configurable: true, get: function() { return jmImage; } });
-}, function(modId) { var map = {"../core/jmControl.js":1691461582487}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582503, function(require, module, exports) {
+}, function(modId) { var map = {"../core/jmControl.js":1691561832762}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832778, function(require, module, exports) {
 var __TEMP__ = require('../core/jmControl.js');var jmControl = __TEMP__['jmControl'];
 /**
  * 显示文字控件
@@ -4244,8 +4248,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmLabel
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmLabel', { enumerable: true, configurable: true, get: function() { return jmLabel; } });
-}, function(modId) { var map = {"../core/jmControl.js":1691461582487}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582504, function(require, module, exports) {
+}, function(modId) { var map = {"../core/jmControl.js":1691561832762}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832779, function(require, module, exports) {
 var __TEMP__ = require('./jmRect.js');var jmRect = __TEMP__['jmRect'];
 /**
  * 可拉伸的缩放控件
@@ -4521,8 +4525,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 };exports.default = jmResize
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmResize', { enumerable: true, configurable: true, get: function() { return jmResize; } });
-}, function(modId) { var map = {"./jmRect.js":1691461582500}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582505, function(require, module, exports) {
+}, function(modId) { var map = {"./jmRect.js":1691561832775}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832780, function(require, module, exports) {
 var __TEMP__ = require('./jmUtils.js');var jmUtils = __TEMP__['jmUtils'];
 var __TEMP__ = require('./jmList.js');var jmList = __TEMP__['jmList'];
 var __TEMP__ = require('./jmProperty.js');var jmProperty = __TEMP__['jmProperty'];
@@ -4572,6 +4576,7 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 		if(typeof wx != 'undefined' && wx.canIUse && wx.canIUse('canvas')) {			
 			if(typeof canvas === 'string') canvas = wx.createSelectorQuery().select('#' + canvas);
 			this.isWXMiniApp = true;// 微信小程序平台
+			this.container = canvas;
 		}
 		else {
 			if(typeof canvas === 'string' && typeof document != 'undefined') {
@@ -5052,8 +5057,8 @@ if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: t
 
 
 
-}, function(modId) { var map = {"./jmUtils.js":1691461582488,"./jmList.js":1691461582489,"./jmProperty.js":1691461582492,"./jmShadow.js":1691461582491,"./jmGradient.js":1691461582490,"./jmEvents.js":1691461582506,"./jmControl.js":1691461582487,"./jmPath.js":1691461582486}; return __REQUIRE__(map[modId], modId); })
-__DEFINE__(1691461582506, function(require, module, exports) {
+}, function(modId) { var map = {"./jmUtils.js":1691561832763,"./jmList.js":1691561832764,"./jmProperty.js":1691561832767,"./jmShadow.js":1691561832766,"./jmGradient.js":1691561832765,"./jmEvents.js":1691561832781,"./jmControl.js":1691561832762,"./jmPath.js":1691561832761}; return __REQUIRE__(map[modId], modId); })
+__DEFINE__(1691561832781, function(require, module, exports) {
 var __TEMP__ = require('./jmUtils.js');var jmUtils = __TEMP__['jmUtils'];
 /**
  * 事件模型
@@ -5324,8 +5329,8 @@ class jmKeyEvent {
 
 if (!exports.__esModule) Object.defineProperty(exports, "__esModule", { value: true });Object.defineProperty(exports, 'jmEvents', { enumerable: true, configurable: true, get: function() { return jmEvents; } });
 
-}, function(modId) { var map = {"./jmUtils.js":1691461582488}; return __REQUIRE__(map[modId], modId); })
-return __REQUIRE__(1691461582484);
+}, function(modId) { var map = {"./jmUtils.js":1691561832763}; return __REQUIRE__(map[modId], modId); })
+return __REQUIRE__(1691561832759);
 })()
 //miniprogram-npm-outsideDeps=[]
 //# sourceMappingURL=index.js.map

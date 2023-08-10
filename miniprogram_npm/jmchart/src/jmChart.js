@@ -134,40 +134,44 @@ export default class jmChart extends jmGraph  {
 		if(container && container.tagName === 'CANVAS') {
 			container = container.parentElement;
 		}
-		container && (container.style.position = 'relative');
-
-		options = this.utils.clone(options, {
-			autoRefresh: true
-		}, true);
+		container && container.style && (container.style.position = 'relative');
+		// 要先从选项中取出canvas，否则clone过滤掉
+		let cn = options.touchCanvas;
 
 		// 生成图层, 当图刷新慢时，需要用一个操作图层来进行滑动等操作重绘
 		// isWXMiniApp 非微信小程序下才能创建
-		if(!this.isWXMiniApp && container && options.touchGraph) {
-			let cn = document.createElement('canvas');
-			cn.width = container.offsetWidth||container.clientWidth;
-			cn.height = container.offsetHeight||container.clientHeight;
-			cn.style.position = 'absolute';
-			cn.style.top = 0;
-			cn.style.left = 0;
+		if(container && (options.touchGraph || cn)) {
+			if(!cn && !this.isWXMiniApp) {
+				cn = document.createElement('canvas');
+				cn.width = container.offsetWidth||container.clientWidth;
+				cn.height = container.offsetHeight||container.clientHeight;
+				cn.style.position = 'absolute';
+				cn.style.top = 0;
+				cn.style.left = 0;
+				container.appendChild(cn);
+			}
+			if(cn) {
+				options = this.utils.clone(options, {
+					autoRefresh: true
+				}, true);
+				
+				this.touchGraph = new jmGraph(cn, options);
+				this.touchGraph.chartGraph = this;
 
-			this.touchGraph = new jmGraph(cn, options);
-			
-			container.appendChild(cn);
-
-			this.touchGraph.chartGraph = this;
-
-			this.on('propertyChange', (name, args) => {
-				if(['width', 'height'].includes(name)) {
-					this.touchGraph[name] = args.newValue;
-				}
-			});
-			// 把上层canvse事件传递给绘图层对象
-			this.touchGraph.on('mousedown touchstart mousemove touchmove mouseup touchend touchcancel touchleave', (args) => {
-				const eventName = args.event.eventName || args.event.type;
-				if(eventName) {
-					this.emit(eventName, args);
-				}
-			});
+				this.on('propertyChange', (name, args) => {
+					if(['width', 'height'].includes(name)) {
+						this.touchGraph[name] = args.newValue;
+					}
+				});
+				// 把上层canvse事件传递给绘图层对象
+				this.touchGraph.on('mousedown touchstart mousemove touchmove mouseup touchend touchcancel touchleave', (args) => {
+					const eventName = args.event.eventName || args.event.type;
+					if(eventName) {
+						this.emit(eventName, args);
+						args.event.stopPropagation && args.event.stopPropagation();	
+					}
+				});
+			}
 		}
 		// 初始化标线
 		this.markLine = new jmMarkLineManager(this);
