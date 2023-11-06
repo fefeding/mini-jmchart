@@ -60,6 +60,12 @@ function getAuthCode(callback) {
   }); //重新登录
 }
 
+// 获取系统信息
+function getSystemInfo() {
+    const systemInfo = wx.getSystemInfoSync();
+    return systemInfo;
+}
+
 //获取用户详情信息
 function getUserInfo(callback) {
   // 查看是否授权
@@ -91,59 +97,7 @@ function getUserInfo(callback) {
   });
 }
 
-//请求服务器
-//每次请求都带上session_id
-function request(cmd, data, callback) {
-  let session = wx.getStorageSync('my_session')||{};
-  data = data||{};
-  data.session_id = session.session_id||'';
-  let url = this.serverConfig.url + cmd;
-  console.log('req:' + url);
-  console.log(data);
-  return wx.request({
-    url: url,
-    data: data,
-    header: {
-      'content-type': 'application/json', // 默认值
-      'session_id': session.session_id || ''
-    },
-    success: function (res) {
-      if (res.statusCode == 200 && res.data.ret == 0) {
-        callback && callback(null, res.data);
-      }
-      else {
-        callback && callback({
-          errMsg: res.statusCode + ':' + (res.data.msg||'服务器请求异常，请稍候再试')
-        }, res.data);
-      }
-      console.log(res);
-    },
-    fail: function (err) {
-      callback && callback({
-        errMsg: (err.message || '服务器请求异常，请稍候再试')
-      });
-      console.log(err);
-    },
-    complete: function () {
-      
-    }
-  });
-}
 
-//生成请求的header
-//需要在header中带上cookie
-const getRequestHeader = (header) => {
-  let info = wx.getStorageSync('my_session');
-  if (info) {
-    let cookie = '';
-    for (var key in info) {
-      if (key == 'userName') continue;
-      cookie += (key + '=' + info[key] + ';')
-    }
-    header['cookie'] = cookie;
-  }
-  return header;
-}
 
 
 module.exports = {
@@ -151,7 +105,7 @@ module.exports = {
   checkLogin: checkLogin,
   getUserInfo: getUserInfo,
   getAuthCode: getAuthCode,
-  request: request,
+  getSystemInfo,
   serverConfig: {
     appid: 'wx0ee68cb48a2a96f8',
     host: 'www.jmdraw.com',

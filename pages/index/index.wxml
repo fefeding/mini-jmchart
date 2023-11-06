@@ -10,17 +10,18 @@
     </view>
 <view class="page-section tc">
     <view class="btn-area">
-    <!-- 需要使用 button 来授权登录 -->
+    <!-- 需要使用 button 来授权登录
      <button wx:if="{{canIUse}}" style="display:{{getUserInfoButtonDisplay}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button>      
-      <view wx:else>请升级微信版本</view>
+      <view wx:else>请升级微信版本</view> -->
       <!-- <button wx:if="{{canIPlay}}" type="primary" loading="{{mylive_loading}}" class="weui-btn" plain=""
         disabled="{{mylive_disabled}}" bindtap="startLive"> 我要直播 </button>
       <button wx:if="{{canIView}}" type="primary" disabled="{{mylive_disabled}}" loading="{{mylivelist_loading}}" class="weui-btn" plain="true" bindtap="bindViewLive"> 查看直播 </button>
 -->
-      <button bindtap="bindGojmChart" type="">jmChart</button>
-      <button bindtap="bindGojmGraph" type="primary" style="margin-top: 10px;">jmGraph</button>
-      <text href="https://github.com/jiamao/jmgraph">https://github.com/jiamao/jmgraph</text>
-      <button bindtap="bindGoVideo" class="hide" type="primary">video</button>
+      <button bindtap="bindGojmChart" type="" wx:if="{{!isWXWork}}">jmChart</button>
+      <button bindtap="bindGojmGraph" type="primary" wx:if="{{!isWXWork}}" style="margin-top: 10px;">jmGraph</button>
+      <text href="https://github.com/jiamao/jmgraph" wx:if="{{!isWXWork}}">https://github.com/jiamao/jmgraph</text>
+      <button bindtap="bindGoVideo" class="hide" type="primary" wx:if="{{!isWXWork}}">video</button>
+      <button bindtap="bindGovHuman" type="primary" wx:if="{{isWXWork}}">数智人</button>
     </view>
 </view>
 </view>

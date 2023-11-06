@@ -1,0 +1,1 @@
+<live-player src="{{playerUrl}}" mode="RTC" enable-casting="true" autoplay bindstatechange="player_statechange" binderror="player_error" style="width: 100%; height: 1200rpx;" />

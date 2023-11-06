@@ -1,101 +1,115 @@
-const util = require('./util');
 
-//通过CODE去后台获取登录态
-exports.getLoginSession = function(wxInfo, callback) {
-  if(typeof wxInfo == 'function') {
-    callback = wxInfo;
-    wxInfo = {};
-  }
-  try {
-    let info = this.getSession();
-    //不存在，则重新登录 //现在强制登录
-    if (!info || !info.session_id) {
-      return;
-      util.getAuthCode(function (res) {
-        util.request('service=wx&method=get_session', {
-          code: res.code,
-          appid: util.serverConfig.appid,
-          wx_name: wxInfo.nickName || '',
-          wx_header: wxInfo.avatarUrl || ''
-        }, function (err, data) {
-          if (!err&&data) {            
-            wx.setStorageSync('my_session', data.data);
-            callback && callback(null, data.data);
-          }
-          else {
-            console.error && console.error(err);
-            callback && callback(err, data);
-          }
-        });
-      });      
-    }
-    else {
-      callback && callback(null, info);
-      return info;
-    }
-  } catch (e) {
-    callback && callback(e, null);
-  }  
-}
+const LoginSessionKey = 'session';
+const app = getApp();
 
-//检 查登录信息，如果没有则去获取code,再从后台生成登录信息
-exports.check = function (wxInfo, callback) {
-  if (typeof wxInfo == 'function') {
-    callback = wxInfo;
-    wxInfo = {};
-  }
-  try {
-    let info = this.getSession();
-    console.log(info);
-    //不存在，则重新登录 //现在强制登录
-    if (!info || !info.session_id) {
-      this.getLoginSession(wxInfo, callback);
-    }
-    else {
-      //检查session是否还有效，有效直接返回
-      util.checkLogin(function(res) {
-        if(res === 1) {
-          //更新一个用户权限
-          getUserAuth(info, callback);
-        }
-        else {
-          //删除session,重新走验证流程
-          wx.removeStorageSync('my_session');
-          exports.check(wxInfo, callback);
-        }
-      });      
-      return info;
-    }
-  } catch (e) {
-    callback && callback(e, null);
-  }
-}
-
-
-exports.getSession = function() {
-  try {
-    let info = wx.getStorageSync('my_session');
-    //不存在，则重新登录
+function getLoginInfo() {
+    const info = wx.getStorageSync(LoginSessionKey);
+    console.log('getLoginInfo', info);
     return info;
-  } catch (e) {
-    return null;
-  }
 }
 
-//请求后台，获取用户auth
-function getUserAuth(info, callback) {
-  util.request('user/get_auth', {
-  }, function (err, data) {
-    if (!err && data.data) {
-      info.auth = data.data.auth;
-      if (data.data.wx_name) info.wx_name = data.data.wx_name;
-      if (data.data.nickname) info.nickname = data.data.nickname;
-      wx.setStorageSync('my_session', info);
-      callback && callback(null, info);
-    }
-    else {
-      console.error && console.error(err);
-      callback && callback(null, info);
-    }
-  });
+function setLoginInfo(data) {
+    wx.setStorageSync(LoginSessionKey, data);
+    return data;
+}
+
+// 检查登陆态
+async function check() {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let info = getLoginInfo();
+            if(!info) {
+                info = await login();
+                resolve(info);
+            }
+            else {
+                // 如果是企业微信下工作
+                (wx.qy||wx).checkSession({
+                    success() {
+                        resolve(info);
+                    },
+                    async fail() {
+                        console.log('session timeout, relogin');
+                        info = await login();
+                        resolve(info);
+                    }
+                });
+            }
+        }
+        catch(e) {
+            console.error(e);
+            resolve(false);
+        }
+    });
+}
+
+async function login() {
+    return new Promise((resolve, reject)=>{
+        wx.showLoading({
+          title: '登陆中...',
+        });
+        (wx.qy || wx).login({
+            async success(res) {
+                if(res.code) {
+                    const info = await code2Session(res.code);
+                    if(info && info.ret === 0 && info.data) {
+                        setLoginInfo(info.data);
+                        resolve(info.data);
+                    }
+                    else {
+                        console.log('登录失败！', res, info);
+                        resolve(false);
+                    }
+                }
+                else {
+                    console.log('登录失败！' + res.errMsg);
+                    resolve(false);
+                }
+            },
+            fail() {
+                resolve(false);
+            },
+            complete() {
+                wx.hideLoading();
+            }
+        });
+    });    
+}
+// 转换成登陆session
+async function code2Session(code) {
+    console.log('code2Session', app.globalData.loginApi, code);
+    return new Promise((resolve, reject) => {
+        wx.request({
+          url: app.globalData.loginApi,
+          data: {
+                code,
+                appId: app.globalData.appId,
+                isMiniProgram: true
+            },
+          success: function (res) {
+            if (res.statusCode == 200 && res.data) {
+              resolve && resolve(res.data);
+            }
+            else {
+              reject && reject({
+                message: res.statusCode + ':' + (res.data.msg||'服务器请求异常，请稍候再试')
+              }, res.data);
+            }
+            console.log(res);
+          },
+          fail: function (err) {
+              reject && reject({
+                  message: (err.message || '服务器请求异常，请稍候再试')
+            });
+            console.log(err);
+          },
+        });
+    });
+}
+
+module.exports = {
+    check,
+    login,
+    getLoginInfo,
+    setLoginInfo
 }

@@ -6,7 +6,8 @@
         "pages/jmchart/line",
         "pages/jmchart/bar",
         "pages/jmchart/pie",
-        "pages/jmchart/radar"
+        "pages/jmchart/radar",
+        "pages/vHuman/index"
     ],
     "window": {
         "backgroundTextStyle": "light",

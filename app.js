@@ -1,30 +1,14 @@
 //app.js
 App({
   onLaunch: function () {
-    //调用API从本地缓存中获取数据
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
-  },
-  getUserInfo:function(cb){
-    var that = this
-    if(this.globalData.userInfo){
-      typeof cb == "function" && cb(this.globalData.userInfo)
-    }else{
-      //调用登录接口
-      wx.login({
-        success: function () {
-          wx.getUserInfo({
-            success: function (res) {
-              that.globalData.userInfo = res.userInfo
-              typeof cb == "function" && cb(that.globalData.userInfo)
-            }
-          })
-        }
-      })
-    }
+    this.globalData.systemInfo = wx.getSystemInfoSync();
+    this.globalData.isWXWork = this.globalData.systemInfo.environment === 'wxwork';
+    console.log('isWXWork', this.globalData.isWXWork, this.globalData.systemInfo.environment);
   },
   globalData:{
-    userInfo:null
+    userInfo: null,
+    // 企业内部应用ID
+    appId: 91,
+    loginApi: 'https://sso.ciccjinteng.com/account/api/login/loginByWeWork'
   }
 })

@@ -3,9 +3,9 @@ var curPos = {x: 100, y: 100};
 
 exports.init = function (g) {
     curPos = {x: 100, y: 100};
-    const items = createItems(g, 100); 
+    const items = createItems(g, 500); 
 
-    g.on('touchmove mousemove', (e) => {
+    g.on('touchstart touchmove mousemove', (e) => {
         curPos.x = e.position.x;
         curPos.y = e.position.y;
     });
@@ -29,19 +29,19 @@ const pso = {
     c2: 2,
     w: 0.6,
     velocity:function (pBest, gBest, present, velocity) {
-        let v = velocity||{x:0,y:0};
+        const v = velocity||{x:0,y:0};
         v.x = this.w*v.x + this.c1*Math.random()*(pBest.x - present.x) + this.c2*Math.random()*(gBest.x - present.x);
         v.y = this.w*v.y + this.c1*Math.random()*(pBest.y - present.y) + this.c2*Math.random()*(gBest.y - present.y);
         return v;
     },
     present:function ( velocity,present) {
-        let p = present||{x:0,y:0};
+        const p = present||{x:0,y:0};
         p.x = p.x + velocity.x;
         p.y = p.y + velocity.y;
         return p;
     },
     gBest:function (arr,goal) {
-        let gBest = {
+        const gBest = {
             x: Number.POSITIVE_INFINITY,
             y: Number.POSITIVE_INFINITY
         };
@@ -68,15 +68,15 @@ function startPso(graph, items) {
 }
 
 function createItems(graph, count) {
-    var style = {				
+    const style = {				
         lineWidth:1,
         close:true,
         //stroke:'#fff',
         fill:'#05a2e2'
     };		
-    let radius = 2;
+    const radius = 1;
             
-    let items = [];
+    const items = [];
     for(let i=0; i<count; i++) {
 
         var styletmp = graph.util.clone(style);
@@ -94,7 +94,7 @@ function createItems(graph, count) {
                 x: Math.random() * graph.width,
                 y: Math.random() * graph.height
             };
-        let shape = graph.createShape('arc',{style: styletmp, center: pos, radius: radius, anticlockwise:true});
+        let shape = graph.createShape('circle',{style: styletmp, center: pos, radius: radius, anticlockwise:true});
         graph.children.add(shape);
         items.push({
             velocity:{
