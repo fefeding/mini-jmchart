@@ -11,11 +11,13 @@ Page({
     getUserInfoButtonDisplay: 'none', //是否显示授权按钮
     mylive_disabled: true, //默认直播入口禁用
     mylivelist_loading: false, //默认直播loading不显示
-    userInfo: {}
+    userInfo: {},
+    version: ''
   },
   onLoad: function (option) {
       this.setData({
-        isWXWork: app.globalData.isWXWork
+        isWXWork: app.globalData.isWXWork,
+        version: app.globalData.version
       });
     // 企微环境，直接跳虚拟人
     if(option.err !== '1' && (app.globalData.isWXWork || option.jvSessionKey)) {
@@ -25,9 +27,11 @@ Page({
                 id: option.jvSessionKey
             });
         }
-        wx.redirectTo({
-          url: '/pages/vHuman/index',
-        });
+        //setTimeout(()=>{
+        //    wx.redirectTo({
+         //       url: '/pages/vHuman/index',
+         //     });
+        //}, 500);
     }
   },
   onReady: async function(){
@@ -80,6 +84,11 @@ Page({
   bindGovHuman() {
     wx.navigateTo({
         url: '/pages/vHuman/index'
+      });
+  },
+  bindGothreejs() {
+    wx.navigateTo({
+        url: '/pages/threejs/index'
       });
   },
   onShow: function() {

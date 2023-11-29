@@ -43,3 +43,11 @@
   height: 40px;
   margin: 5px auto;
 }
+.verson-info {
+    width: 100%;
+    position: fixed;
+    bottom: 60rpx;
+    color: rgba(0, 0, 0, 0.4);
+    text-align: center;
+    font-size: 10px;
+  }

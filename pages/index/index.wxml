@@ -8,7 +8,7 @@
     <!--<live-pusher url="rtmp://www.jm47.com/live/1" mode="RTC" autopush bindstatechange="statechange" style="width: 100px; height: 100px;" />
     <live-player src="http://www.jm47.com:8000/live/27.flv" mode="RTC" bindstatechange="statechange" binderror="error" autoplay style="width: 300px; height: 225px;" />-->
     </view>
-<view class="page-section tc">
+    <view class="page-section tc">
     <view class="btn-area">
     <!-- 需要使用 button 来授权登录
      <button wx:if="{{canIUse}}" style="display:{{getUserInfoButtonDisplay}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button>      
@@ -19,9 +19,12 @@
 -->
       <button bindtap="bindGojmChart" type="" wx:if="{{!isWXWork}}">jmChart</button>
       <button bindtap="bindGojmGraph" type="primary" wx:if="{{!isWXWork}}" style="margin-top: 10px;">jmGraph</button>
+      <button bindtap="bindGothreejs" type="primary" wx:if="{{!isWXWork}}" style="margin-top: 10px;">threejs</button>
       <text href="https://github.com/jiamao/jmgraph" wx:if="{{!isWXWork}}">https://github.com/jiamao/jmgraph</text>
       <button bindtap="bindGoVideo" class="hide" type="primary" wx:if="{{!isWXWork}}">video</button>
       <button bindtap="bindGovHuman" type="primary" wx:if="{{isWXWork}}">数智人</button>
     </view>
+    
+    <view wx:if="version" class="verson-info">{{version}}</view>
 </view>
 </view>

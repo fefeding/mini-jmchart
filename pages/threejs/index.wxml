@@ -1,0 +1,3 @@
+<view>
+<threejs id="threejs_component" width="{{canvasWidth}}" height="{{canvasHeight}}"></threejs>
+</view>

@@ -7,7 +7,8 @@
         "pages/jmchart/bar",
         "pages/jmchart/pie",
         "pages/jmchart/radar",
-        "pages/vHuman/index"
+        "pages/vHuman/index",
+        "pages/threejs/index"
     ],
     "window": {
         "backgroundTextStyle": "light",
