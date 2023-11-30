@@ -46,10 +46,18 @@ Component({
                 
                 wx.nextTick(()=>{
                     const query = wx.createSelectorQuery().in(this);
-                    query.select('#webgl_canvas')
+                    query.selectAll('#webgl_canvas,#texture_canvas')
                     .fields({ node: true, size: true })
                     .exec((res) => {
-                        const canvas = this.data.canvas = new THREE.global.registerCanvas(res[0].node);
+                        let canvas = null;
+                        if(Array.isArray(res[0])) {
+                            canvas = this.data.canvas = new THREE.global.registerCanvas(res[0][0].node);
+                            this.data.textureCanvas = res[0][1].node;
+                        }
+                        else {
+                            canvas = this.data.canvas = new THREE.global.registerCanvas(res[0].node);
+                        }
+                        
                         const clock = new THREE.Clock();
                         option.width = option.width || canvas.width;
                         option.height = option.height || canvas.height;
@@ -107,8 +115,8 @@ Component({
                             }
                         }
                     
-                        canvas.requestAnimationFrame(()=>{
-                            this.render();
+                        canvas.requestAnimationFrame((time)=>{
+                            this.render(time);
                         });
 
                         this.data.threejsApp = app;
@@ -118,10 +126,10 @@ Component({
                 });                
             });            
           },
-        render() {
+        render(time) {
             if(!this.data.canvas || !this.data.threejsApp) return;
-            this.data.canvas.requestAnimationFrame(()=>{
-                this.render();
+            this.data.canvas.requestAnimationFrame((time)=>{
+                this.render(time);
             });
 
             this.data.threejsApp.animations.forEach((cb)=>{
@@ -238,9 +246,31 @@ Component({
             const arrowHelper = new THREE.ArrowHelper(point2.normalize(), point1, arrowLength, arrowColor);
             scene.add(arrowHelper);
 
-            //const m = drawText(txt, color);
-            //m.position.set(...p1);
-            //scene.add(m);
+            const m = this.drawText(txt, color);
+            m.position.set(...p1);
+            scene.add(m);
+        },
+        drawText(txt, color) {
+            const canvas = this.data.textureCanvas;
+            
+            const context = canvas.getContext('2d', {
+                willReadFrequently: true
+            });
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.font = '60px Microsoft YaHei';
+            context.textAlign = 'center';
+            context.fillStyle = color;
+            const textWidth =  context.measureText(txt).width
+            context.fillText(txt, (canvas.width-textWidth) / 2, 80);
+            const data = context.getImageData(0, 0, canvas.width, canvas.height);
+            const texture = new THREE.CanvasTexture(data, canvas.width, canvas.height);
+            texture.needsUpdate = true;
+            
+            const textSprit = new THREE.Sprite(new THREE.SpriteMaterial({map: texture, color: color}));            
+            
+            textSprit.scale.set(0.8, 0.8, 0.8);
+            textSprit.rotateZ(Math.PI);
+            return textSprit;
         }
     }
 })

@@ -40,6 +40,29 @@ Page({
                 gltf.scene.position.set(-10, -11, -10);
                 threeApp.scene.add(gltf.scene);
             });
+
+            const stacy_txt = new threeApp.THREE.TextureLoader().load('https://jt-ai-draw-1301270551.cos.ap-guangzhou.myqcloud.com/obj/football.jpg');
+            stacy_txt.flipY = false; // we flip the texture so that its the right way up
+            const stacy_mtl = new threeApp.THREE.MeshPhongMaterial({
+                map: stacy_txt,
+                color: 0xffffff,
+                skinning: true
+            });
+            // 创建一个球体几何体
+            const ballGeometry = new threeApp.THREE.SphereGeometry(5, 25, 25);
+            
+            // 使用几何体和材质创建球体
+            const sphere = new threeApp.THREE.Mesh(ballGeometry, stacy_mtl);
+            sphere.position.set(-10, 20, 10);
+            // 将球体添加到场景中
+            threeApp.scene.add(sphere);
+
+            threeApp.bindAnimation((time) => {
+                const rx = time / 5000;
+                const ry = time / 2000;
+                sphere.rotation.y = ry;
+                sphere.rotation.x = rx;
+            });
         });
     },
 
