@@ -1,4 +1,4 @@
 <view>
-    <canvas type="webgl" style="width: {{width}}px; height: {{height}}px;" id="webgl_canvas" bindtouchstart="canvastouchstart" bindtouchmove="canvastouchmove" bindtouchend="canvastouchend" bindtouchcancel="canvastouchcancel"></canvas>
+    <canvas type="webgl" style="width: {{width}}px; height: {{height}}px;" id="webgl_canvas" catchtouchstart="canvastouchstart" catchtouchmove="canvastouchmove" catchtouchend="canvastouchend" bindtouchcancel="canvastouchcancel"></canvas>
     <canvas type="2d" style="width: 100px; height: 100px; display: none;" id="texture_canvas"></canvas>
 </view>

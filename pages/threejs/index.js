@@ -29,11 +29,11 @@ Page({
             const threeApp = await this.threejs.initTHREE();
             threeApp.addFloor();
             threeApp.addLights();
-            threeApp.drawCoord({
+            /*threeApp.drawCoord({
                 x: 4,
                 y: -5,
                 z: 35
-            }, 1);
+            }, 1);*/
 
             threeApp.loadObj('https://jt-ai-draw-1301270551.cos.ap-guangzhou.myqcloud.com/obj/yz.glb', (gltf)=>{
                 gltf.scene.scale.set(15, 15, 15);
@@ -54,6 +54,7 @@ Page({
             // 使用几何体和材质创建球体
             const sphere = new threeApp.THREE.Mesh(ballGeometry, stacy_mtl);
             sphere.position.set(-10, 20, 10);
+            sphere.castShadow = true;
             // 将球体添加到场景中
             threeApp.scene.add(sphere);
 

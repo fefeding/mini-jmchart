@@ -139,16 +139,40 @@ Component({
             this.data.threejsApp.renderer.render( this.data.threejsApp.scene, this.data.threejsApp.camera );
         },
         canvastouchstart(e) {
-            THREE.global.touchEventHandlerFactory('canvas', 'touchstart')(e)
+            try {
+                THREE.global.touchEventHandlerFactory('canvas', 'touchstart')(e);
+                return false;
+            }
+            catch(ex) {
+                console.error(ex);
+            }
           },
           canvastouchmove(e) {
-            THREE.global.touchEventHandlerFactory('canvas', 'touchmove')(e)
+            try {
+                THREE.global.touchEventHandlerFactory('canvas', 'touchmove')(e)
+                return false;
+            }
+            catch(ex) {
+                console.error(ex);
+            }
           },
           canvastouchend(e) {
-            THREE.global.touchEventHandlerFactory('canvas', 'touchend')(e)
+            try {
+                THREE.global.touchEventHandlerFactory('canvas', 'touchend')(e)
+                return false;
+            }
+            catch(ex) {
+                console.error(ex);
+            }
           },
           canvastouchcancel(e) {
-            THREE.global.touchEventHandlerFactory('canvas', 'touchcancel')(e)
+            try {
+                THREE.global.touchEventHandlerFactory('canvas', 'touchcancel')(e)
+                return false;
+            }
+            catch(ex) {
+                console.error(ex);
+            }
           },
         // 添加光源
         addLights(scene=this.data.threejsApp.scene, option={}) {
