@@ -1,3 +1,4 @@
 <view>
 <threejs id="threejs_component" width="{{canvasWidth}}" height="{{canvasHeight}}"></threejs>
+<button wx:if="{{currentAudioData}}" class="mini-btn" type="primary" size="mini" style="position: fixed; bottom: 10px; left: 45%;" bind:tap="onTalk">Ëµ»°</button>
 </view>
