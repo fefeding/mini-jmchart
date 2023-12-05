@@ -76,17 +76,7 @@ Page({
             sphere.position.set(-10, 20, 10);
             sphere.castShadow = true;
             // 将球体添加到场景中
-            threeApp.scene.add(sphere);
-
-            //画频谱能量图
-            this.data.soundBox = new threeApp.THREE.Mesh(new threeApp.THREE.BoxGeometry(0.5, 0.5, 0.5), new threeApp.THREE.MeshNormalMaterial({
-                // color: 0xff0000,
-                opacity: 0.7,
-                transparent: true
-            }));
-            this.data.soundBox.castShadow = true;
-            this.data.soundBox.position.set(-5,  this.data.floorY, 25);
-            threeApp.scene.add(this.data.soundBox);
+            threeApp.scene.add(sphere);           
 
             threeApp.bindAnimation((time) => {
                 const rx = time / 5000;
@@ -96,6 +86,7 @@ Page({
 
                 this.drawAnalyserData();
             });
+            this.threeApp = threeApp;
         });
     },
 
@@ -119,7 +110,7 @@ Page({
                 useWebAudioImplement: true
             });
             this.data.audioContext.onstatechange = function(e) {
-                console.log(e);
+                console.log('onstatechange', e);
             }
         }
         console.log('解码中...');
@@ -140,23 +131,26 @@ Page({
         }
         this.data.audioBufferSouceNode = this.data.audioContext.createBufferSource();	
 
+        this.data.currentPlayedBuffer = buffer;
+
         this.data.audioBufferSouceNode.onended = (e) => {
             console.log('play end', e);
+            delete this.data.currentPlayedBuffer;
             this.data.isTalking = false;
         }
-        this.data.audioBufferSouceNode.addEventListener('play', (e)=>{
+        this.data.audioBufferSouceNode.addEventListener && this.data.audioBufferSouceNode.addEventListener('play', (e)=>{
             console.log('play', e);
         });
 
         this.data.audioBufferSouceNode.buffer = buffer;
         ////连接到扬声器
-        //audioBufferSouceNode.connect(audioContext.destination);
+        this.data.audioBufferSouceNode.connect(this.data.audioContext.destination);
         //处理频谱
         this.createAnalyser(this.data.audioBufferSouceNode);
         //开始播放
         this.data.audioBufferSouceNode.start(0);
         this.data.isTalking = true;
-
+        console.log('play start');
         if(this.data.myTalkingAction) this.data.myTalkingAction.reset();
     },
 
@@ -182,27 +176,56 @@ Page({
     },
 
     drawAnalyserData() {
-        if(!this.data.analyser) return;
+        if(!this.data.analyser || !this.threeApp || !this.data.isTalking) return;
         //获取频率能量值
         var array = new Uint8Array(this.data.analyser.frequencyBinCount);
         this.data.analyser.getByteFrequencyData(array);
         
-        const sum = array.reduce((a, b) => a + b, 0);
-        const average = sum / array.length;
+        let average = 0;
 
         //const hasHuman = detectHumanVoice(analyser, array);
+        
+        var arrper = 10;
+        var count = Math.floor(array.length / arrper);
+        //每个柱子的宽度
+        var w = 1.4;
+        var perh = 1;
+        this.data.boxList = this.data.boxList || [];
+        for(var i=0;i<count; i++) {
+            var start = i*arrper;
+            var end = start + arrper;
+            var arr = array.slice(start, end);
+            var arrsum = 0;
+            arr.forEach(p=>arrsum+=p);
+            average += arrsum;
+            
+            var h = perh * arrsum/arr.length/255*40;
+            var bar = this.data.boxList[i];
+
+            if(!bar)  {
+                var x = i * w - 26;
+                //画频谱能量图
+                bar = new this.threeApp.THREE.Mesh(new this.threeApp.THREE.BoxGeometry(1, 1, 1), new this.threeApp.THREE.MeshNormalMaterial({
+                    // color: 0xff0000,
+                    opacity: 0.7,
+                    transparent: true
+                }));
+                bar.castShadow = true;
+                bar.position.set(x,  this.data.floorY, -28);
+                this.threeApp.scene.add(bar);
+                this.data.boxList[i] = bar;
+            }
+            bar.scale.y = h;
+            bar.position.y = h/2 +  this.data.floorY;
+        }
         if(this.data.myTalkingAction) {
+            average = average / count;
             if(average > 25 && this.data.isTalking) {
                 this.data.myTalkingAction.play();
             }
             else {
                 this.data.myTalkingAction.stop();
             }
-        }
-
-        if(this.data.soundBox) {
-            this.data.soundBox.scale.y = average/255*50;
-            this.data.soundBox.position.y = this.data.soundBox.scale.y/2 +  this.data.floorY;
         }
     },
 
