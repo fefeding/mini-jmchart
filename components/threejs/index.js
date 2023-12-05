@@ -175,7 +175,7 @@ Component({
             }
           },
         // 添加光源
-        addLights(scene=this.data.threejsApp.scene, option={}) {
+        addLights(option={}, scene=this.data.threejsApp.scene) {
             const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.61);
             hemiLight.position.set(0, 50, 0);
             // Add hemisphere light to scene
@@ -198,7 +198,7 @@ Component({
         },
 
         // 添加一个地板
-        addFloor(scene=this.data.threejsApp.scene, option={}) {
+        addFloor(option={}, scene=this.data.threejsApp.scene) {
             // Floor
             const floorGeometry = new THREE.PlaneGeometry(option.width||100, option.height||100, option.widthSegments||300, option.heightSegments||300);
             const floorMaterial = new THREE.MeshPhongMaterial({
@@ -270,9 +270,9 @@ Component({
             const arrowHelper = new THREE.ArrowHelper(point2.normalize(), point1, arrowLength, arrowColor);
             scene.add(arrowHelper);
 
-            const m = this.drawText(txt, color);
-            m.position.set(...p1);
-            scene.add(m);
+            //const m = this.drawText(txt, color);
+            //m.position.set(...p1);
+            //scene.add(m);
         },
         drawText(txt, color) {
             const canvas = this.data.textureCanvas;

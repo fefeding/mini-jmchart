@@ -6,7 +6,8 @@ Page({
      */
     data: {
         canvasHeight: 600,
-        canvasWidth: 500
+        canvasWidth: 500,
+        floorY: -11
     },
 
     /**
@@ -32,23 +33,29 @@ Page({
           canvasWidth: wxInfo.windowWidth
         }, async ()=>{   
             const threeApp = await this.threejs.initTHREE();
-            threeApp.addFloor();
+            threeApp.addFloor({
+                position: {
+                    x: 0,
+                    y: this.data.floorY,
+                    z: 0
+                }
+            });
             threeApp.addLights();
-            /*threeApp.drawCoord({
+            threeApp.drawCoord({
                 x: 4,
                 y: -5,
                 z: 35
-            }, 1);*/
+            }, 1);
 
             threeApp.loadObj('https://jt-ai-draw-1301270551.cos.ap-guangzhou.myqcloud.com/obj/yz.glb', (gltf)=>{
                 gltf.scene.scale.set(15, 15, 15);
-                gltf.scene.position.set(-10, -11, -10);
+                gltf.scene.position.set(-10,  this.data.floorY, -10);
                 threeApp.scene.add(gltf.scene);
             });
-
-            /*threeApp.loadObj('https://jt-ai-draw-1301270551.cos.ap-guangzhou.myqcloud.com/obj/kevin.glb', (gltf)=>{
-                gltf.scene.scale.set(15, 15, 15);
-                gltf.scene.position.set(0, -11, 5);
+/*
+            threeApp.loadObj('https://jt-ai-draw-1301270551.cos.ap-guangzhou.myqcloud.com/obj/kevin.glb', (gltf)=>{
+                //gltf.scene.scale.set(15, 15, 15);
+                gltf.scene.position.set(0,  this.data.floorY, 5);
                 threeApp.scene.add(gltf.scene);
             }, (e) => {
                 console.log(e);
@@ -77,7 +84,8 @@ Page({
                 opacity: 0.7,
                 transparent: true
             }));
-            this.data.soundBox.position.set(-5, -11, 25);
+            this.data.soundBox.castShadow = true;
+            this.data.soundBox.position.set(-5,  this.data.floorY, 25);
             threeApp.scene.add(this.data.soundBox);
 
             threeApp.bindAnimation((time) => {
@@ -194,7 +202,7 @@ Page({
 
         if(this.data.soundBox) {
             this.data.soundBox.scale.y = average/255*50;
-            this.data.soundBox.position.y = -11;
+            this.data.soundBox.position.y = this.data.soundBox.scale.y/2 +  this.data.floorY;
         }
     },
 
