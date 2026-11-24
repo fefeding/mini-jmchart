@@ -26,6 +26,8 @@ Component({
     },
     detached() {
         this.data.graph && this.data.graph.destroy();
+        this.data.graph = null;
+        this.data.jmgraphPromise = null;
     },
     /**
      * 组件的方法列表
@@ -56,17 +58,22 @@ Component({
                 });                
             });            
           },
+          handleTouch(name, ...args) {
+            const eventHandler = this.data.graph && this.data.graph.eventHandler;
+            if(!eventHandler) return;
+            return eventHandler[name](...args);
+          },
           canvastouchstart(...args) {
-            return this.data.graph.eventHandler.touchStart(...args);
+            return this.handleTouch('touchStart', ...args);
           },
           canvastouchmove(...args) {
-            return this.data.graph.eventHandler.touchMove(...args);
+            return this.handleTouch('touchMove', ...args);
           },
           canvastouchend(...args) {
-            return this.data.graph.eventHandler.touchEnd(...args);
+            return this.handleTouch('touchEnd', ...args);
           },
           canvastouchcancel(...args) {
-            return this.data.graph.eventHandler.touchCancel(...args);
+            return this.handleTouch('touchCancel', ...args);
           }
     }
 })

@@ -1,7 +1,8 @@
 //app.js
+const util = require('./utils/util.js');
 App({
   onLaunch: function () {
-    this.globalData.systemInfo = wx.getSystemInfoSync();
+    this.globalData.systemInfo = util.getSystemInfo();
     this.globalData.isWXWork = this.globalData.systemInfo.environment === 'wxwork';
     const accInfo = wx.getAccountInfoSync();      
     if(accInfo && accInfo.miniProgram ) this.globalData.version = accInfo.miniProgram.version || accInfo.miniProgram.envVersion || '';

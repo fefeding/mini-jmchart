@@ -1,4 +1,6 @@
 
+const util = require('../../utils/util.js');
+
 var balls = [];
 var state = 0;
 var handler = 0;
@@ -235,7 +237,7 @@ function createPosition(radius, i, g) {
 
 function resize(g) {
   if (g) {
-    var info = wx.getSystemInfoSync();
+    var info = util.getSystemInfo();
     g.width = info.windowWidth - 2;
     g.height = info.windowHeight - 100;
   }

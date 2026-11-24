@@ -60,10 +60,20 @@ function getAuthCode(callback) {
   }); //重新登录
 }
 
-// 获取系统信息
+// 获取系统信息（优先使用新版拆分 API，避免 getSystemInfoSync 废弃告警）
 function getSystemInfo() {
-    const systemInfo = wx.getSystemInfoSync();
-    return systemInfo;
+    if(wx.getWindowInfo && wx.getDeviceInfo && wx.getAppBaseInfo) {
+        const info = Object.assign({},
+            wx.getWindowInfo(),
+            wx.getDeviceInfo(),
+            wx.getAppBaseInfo()
+        );
+        if(wx.getSystemSetting) Object.assign(info, wx.getSystemSetting());
+        // 企微环境暂无新版接口返回 environment，用 wx.qy 命名空间兜底
+        if(!info.environment && wx.qy) info.environment = 'wxwork';
+        return info;
+    }
+    return wx.getSystemInfoSync();
 }
 
 //获取用户详情信息

@@ -9,6 +9,7 @@ import ballPage from './ball.js';
 import cellPage from './cell.js';
 import sortPage from './sort.js';
 import psoPage from './pso.js';
+const util = require('../../utils/util.js');
 
 Page({
 
@@ -42,7 +43,7 @@ Page({
    */
   onReady: function () {
     this.jmgraph = this.selectComponent('#jmgraph_component');
-    var wxInfo = wx.getSystemInfoSync();//获取系统信息
+    var wxInfo = util.getSystemInfo();//获取系统信息
     this.setData({
       canvasHeight: wxInfo.windowHeight * 0.9,
       canvasWidth: wxInfo.windowWidth

@@ -1,4 +1,6 @@
 
+const util = require('../../utils/util.js');
+
 Page({
 
     /**
@@ -23,7 +25,7 @@ Page({
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function () {
-        const wxInfo = wx.getSystemInfoSync();//获取系统信息
+        const wxInfo = util.getSystemInfo();//获取系统信息
         this.setData({
           canvasHeight: wxInfo.windowHeight * 0.5,
           canvasWidth: wxInfo.windowWidth,

@@ -1,0 +1,32 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      jmchart:
+        specifier: 1.2.22
+        version: 1.2.22
+      jmgraph:
+        specifier: 3.3.1
+        version: 3.3.1
+
+packages:
+
+  jmchart@1.2.22:
+    resolution: {integrity: sha512-bSWp+/BMQU0I2Qma+HaNYMlZJ9S+AK64Ticd4LSRSzvceV6DnjUnps1QomzCIS6kO1BPDajnxPvV2zwqEd2r9Q==}
+
+  jmgraph@3.3.1:
+    resolution: {integrity: sha512-3NozqdE0eyejWeV11XV3ipU2E44a2yaeI183cta4lXBg2mdlZO/WOiLGpLN7DoaxUDc87m2VR6zNN0xTYINADg==}
+
+snapshots:
+
+  jmchart@1.2.22:
+    dependencies:
+      jmgraph: 3.3.1
+
+  jmgraph@3.3.1: {}

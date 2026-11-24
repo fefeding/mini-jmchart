@@ -1,5 +1,5 @@
-// components/jmchart/index.js\
-import jmChart from "jmchart/dist/jmchart.esm";
+// components/jmchart/index.js
+import jmChart from "jmchart";
 Component({
     /**
      * 组件的属性列表
@@ -29,7 +29,9 @@ Component({
         //this.initChart();    
     },
     detached() {
-        this.data.graph && this.data.graph.destroy();
+        this.data.chart && this.data.chart.destroy();
+        this.data.chart = null;
+        this.data.jmgraphPromise = null;
     },
     /**
      * 组件的方法列表
@@ -59,17 +61,24 @@ Component({
                 });                
             });            
           },
+          handleTouch(name, ...args) {
+            const chart = this.data.chart;
+            if(!chart) return;
+            const eventHandler = (chart.touchGraph && chart.touchGraph.eventHandler) || chart.eventHandler;
+            if(!eventHandler) return;
+            return eventHandler[name](...args);
+          },
           canvastouchstart(...args) {
-            return (this.data.chart.touchGraph||this.data.chart).eventHandler.touchStart(...args);
+            return this.handleTouch('touchStart', ...args);
           },
           canvastouchmove(...args) {
-            return (this.data.chart.touchGraph||this.data.chart).eventHandler.touchMove(...args);
+            return this.handleTouch('touchMove', ...args);
           },
           canvastouchend(...args) {
-            return (this.data.chart.touchGraph||this.data.chart).eventHandler.touchEnd(...args);
+            return this.handleTouch('touchEnd', ...args);
           },
           canvastouchcancel(...args) {
-            return (this.data.chart.touchGraph||this.data.chart).eventHandler.touchCancel(...args);
+            return this.handleTouch('touchCancel', ...args);
           }
     }
 })

@@ -1,4 +1,6 @@
 // pages/threejs/index.js
+const util = require('../../utils/util.js');
+
 Page({
 
     /**
@@ -27,7 +29,7 @@ Page({
      */
     async onReady() {
         this.threejs = this.selectComponent('#threejs_component');
-        var wxInfo = wx.getSystemInfoSync();//获取系统信息
+        var wxInfo = util.getSystemInfo();//获取系统信息
         this.setData({
           canvasHeight: wxInfo.windowHeight * 0.95,
           canvasWidth: wxInfo.windowWidth

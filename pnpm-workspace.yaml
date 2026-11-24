@@ -1,0 +1,3 @@
+minimumReleaseAgeExclude:
+  - jmchart@1.2.22
+  - jmgraph@3.3.1

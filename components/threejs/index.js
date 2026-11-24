@@ -1,6 +1,7 @@
 import * as THREE from '../../utils/threejs/libs/three.weapp';
 import gLTF from '../../utils/threejs/jsm/loaders/GLTFLoader';
 import { OrbitControls } from '../../utils/threejs/jsm/controls/OrbitControls';
+const util = require('../../utils/util.js');
 const GLTFLoader = gLTF(THREE);
 
 Component({
@@ -78,7 +79,7 @@ Component({
                         renderer.setSize( option.width, option.height );
                         // 人物对象能投射阴影
                         renderer.shadowMap.enabled = true;
-                        renderer.setPixelRatio(option.devicePixelRatio || wx.getSystemInfoSync().pixelRatio);
+                        renderer.setPixelRatio(option.devicePixelRatio || util.getSystemInfo().pixelRatio);
                     
                         const control = new OrbitControls(camera, renderer.domElement);
                         control.update();

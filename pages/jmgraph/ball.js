@@ -1,4 +1,6 @@
 
+const util = require('../../utils/util.js');
+
 var handler = 0;
 exports.init = function(g) {
   resize(g);
@@ -143,7 +145,7 @@ exports.init = function(g) {
 
 function resize(g) {
   if (g) {
-    var info = wx.getSystemInfoSync();
+    var info = util.getSystemInfo();
     g.width = info.windowWidth - 2;
     g.height = info.windowHeight - 100;
   }
