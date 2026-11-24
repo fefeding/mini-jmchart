@@ -68,42 +68,44 @@ function startPso(graph, items) {
 }
 
 function createItems(graph, count) {
-    const style = {				
-        lineWidth:1,
-        close:true,
-        //stroke:'#fff',
-        fill:'#05a2e2'
-    };		
     const radius = 1;
-            
+    // 500 个粒子复用少量样式与渐变，避免每帧绘制时重复分配/解析大量渐变
+    const stylePool = [];
+    for(let s = 0; s < 8; s++) {
+        const style = {
+            lineWidth: 1,
+            close: true,
+            fill: graph.createRadialGradient(radius, radius, 0, radius, radius, radius)
+        };
+        const rr1 = Math.floor(Math.random() * 255);
+        const gg1 = Math.floor(Math.random() * 255);
+        const bb1 = Math.floor(Math.random() * 255);
+        const rr2 = Math.floor(Math.random() * 255);
+        const gg2 = Math.floor(Math.random() * 255);
+        const bb2 = Math.floor(Math.random() * 255);
+        style.fill.addStop(0, graph.util.toColor(rr1, gg1, bb1));
+        style.fill.addStop(1, graph.util.toColor(rr2, gg2, bb2));
+        stylePool.push(style);
+    }
+
     const items = [];
-    for(let i=0; i<count; i++) {
-
-        var styletmp = graph.util.clone(style);
-        styletmp.fill = graph.createRadialGradient(radius, radius, 0, radius, radius, radius);
-        var rr1 = Math.floor(Math.random() * 255);
-        var gg1 = Math.floor(Math.random() * 255);
-        var bb1 = Math.floor(Math.random() * 255);
-        var rr2 = Math.floor(Math.random() * 255);
-        var gg2 = Math.floor(Math.random() * 255);
-        var bb2 = Math.floor(Math.random() * 255);
-        styletmp.fill.addStop(0, graph.util.toColor(rr1,gg1,bb1));
-        styletmp.fill.addStop(1, graph.util.toColor(rr2,gg2,bb2));
-
-        let pos = {
-                x: Math.random() * graph.width,
-                y: Math.random() * graph.height
-            };
-        let shape = graph.createShape('circle',{style: styletmp, center: pos, radius: radius, anticlockwise:true});
+    for(let i = 0; i < count; i++) {
+        const pos = {
+            x: Math.random() * graph.width,
+            y: Math.random() * graph.height
+        };
+        const shape = graph.createShape('circle', {
+            style: stylePool[i % stylePool.length],
+            center: pos,
+            radius: radius,
+            anticlockwise: true
+        });
         graph.children.add(shape);
         items.push({
-            velocity:{
-                x:0,
-                y:0
-            },
+            velocity: { x: 0, y: 0 },
             present: pos,
             shape: shape
         });
-    } 
-    return items;       
+    }
+    return items;
 }

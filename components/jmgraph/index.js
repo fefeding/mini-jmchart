@@ -52,7 +52,6 @@ Component({
                             height: res[0].height,
                             autoRefresh: true,
                         }));  
-                        console.log(graph);
                         resolve(graph);
                     });
                 });                

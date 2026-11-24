@@ -11,6 +11,18 @@ import sortPage from './sort.js';
 import psoPage from './pso.js';
 const util = require('../../utils/util.js');
 
+// 示例模块只放在逻辑层，避免随 setData 序列化到视图层
+const shapePages = {
+  rect: rectPage,
+  bezier: bezierPage,
+  resize: resizePage,
+  progress: progressPage,
+  ball: ballPage,
+  cell: cellPage,
+  sort: sortPage,
+  pso: psoPage
+};
+
 Page({
 
   /**
@@ -18,14 +30,14 @@ Page({
    */
   data: {
     shapes: [
-      { name: 'rect', value: 'base', checked: 'true', page: rectPage},
-      { name: 'bezier', value: 'bezier', page: bezierPage  },
-      { name: 'resize', value: 'resize', page: resizePage },
-      { name: 'progress', value: '动画', page: progressPage },
-      { name: 'ball', value: '球', page: ballPage },
-      { name: 'cell', value: '孢子', page: cellPage },
-      { name: 'sort', value: '排序', page: sortPage },
-      { name: 'pso', value: 'PSO', page: psoPage },
+      { name: 'rect', value: 'base', checked: 'true' },
+      { name: 'bezier', value: 'bezier' },
+      { name: 'resize', value: 'resize' },
+      { name: 'progress', value: '动画' },
+      { name: 'ball', value: '球' },
+      { name: 'cell', value: '孢子' },
+      { name: 'sort', value: '排序' },
+      { name: 'pso', value: 'PSO' },
     ],
     canvasHeight: 600,
     canvasWidth: 500
@@ -54,7 +66,6 @@ Page({
   
 
   radioChange: function(e) {
-    console.log(e);
     //切换示例
     this.changeShape(e.detail.value);
   },
@@ -64,13 +75,8 @@ Page({
         this.destory(graph);
     
         //切换示例
-        let shape = null;
-        for(const o of this.data.shapes) {
-            if(o.name === s) shape = o;
-        }
-        console.log('require', shape);
-        this.graphShape = shape.page;
-        this.graphShape.init(graph);
+        this.graphShape = shapePages[s];
+        if(this.graphShape) this.graphShape.init(graph);
   },
 
   destory(graph) {

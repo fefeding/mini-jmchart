@@ -43,19 +43,16 @@ Component({
             return this.data.jmgraphPromise = new Promise((resolve) => {
                 const query = wx.createSelectorQuery().in(this);
                 wx.nextTick(()=>{
-                    query.selectAll('#jmchart_canvas,#jmchart_touch_canvas')
+                    query.select('#jmchart_canvas')
                     .fields({ node: true, size: true })
                     .exec((res) => {
-                        const canvas = res[0][0].node;
-                        const touchCanvas = res[0] && res[0][1]? res[0][1].node : null;
+                        const canvas = res[0].node;
                         const chart = this.data.chart || (this.data.chart = new jmChart(canvas, {
-                            width: res[0][0].width,
-                            height: res[0][0].height,
+                            width: res[0].width,
+                            height: res[0].height,
                             autoRefresh: true,
-                            touchCanvas,
                             ...this.data.options
                         }));  
-                        console.log(chart);
                         resolve(chart);
                     });
                 });                
@@ -64,7 +61,7 @@ Component({
           handleTouch(name, ...args) {
             const chart = this.data.chart;
             if(!chart) return;
-            const eventHandler = (chart.touchGraph && chart.touchGraph.eventHandler) || chart.eventHandler;
+            const eventHandler = chart.eventHandler;
             if(!eventHandler) return;
             return eventHandler[name](...args);
           },

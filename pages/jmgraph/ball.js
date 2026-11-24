@@ -138,7 +138,7 @@ exports.init = function(g) {
       b1.y(y);
     }
     g.needUpdate = true;
-    handler = setTimeout(animate, 1);
+    handler = setTimeout(animate, 16);
   };
   animate();		
 }

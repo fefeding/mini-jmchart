@@ -134,6 +134,7 @@ exports.init = function(g) {
       arr.end = mbezierpath.points[mbezierpath.points.length - 1];
     }
     t = dir == 0 ? (t + speed) : (t - speed);
+    g.needUpdate = true;
     handler=setTimeout(handlerFun, 50);
   }
   handlerFun();
